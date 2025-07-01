@@ -1,0 +1,84 @@
+﻿@model ContactUsViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<!-- breadcrumb Start-->
+<div class="page-notification page-notification2">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="index.html">Anasayfa</a></li>
+                        <li class="breadcrumb-item"><a href="#">İletişim</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb End-->
+ <!-- Hero Area End-->
+        <!--?  Contact Area start  -->
+        <section class="contact-section">
+            <div class="container">
+               
+                <div class="row">
+                    <div class="col-12">
+                <h2 class="contact-title">
+                    İletişime Geçin
+                </h2>
+                    </div>
+                    <div class="col-lg-8">
+                <form method="post" class="form-contact contact_form" action="/Contact/Index"  novalidate="novalidate">
+                            <div class="row">
+                                <div class="col-12">
+                            <div class="form-group ">
+                                <label>Mesaj  <span class="text-danger"> * </span></label>
+                                <textarea class="form-control w-100 " asp-for="ContentMessage" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'En Fazla 300 Karakter Giriniz'" placeholder="En Fazla 300 Karakter Giriniz"></textarea>
+                                <span class="text-danger small" asp-validation-for="ContentMessage"></span> <br />
+                                    </div>
+                                </div>
+                        <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                <label>İsim <span class="text-danger"> * </span></label>
+                                <input class="form-control " asp-for="SenderName" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'İsminizi Girin'" placeholder="">
+                                <span class="text-danger small" asp-validation-for="SenderName"> </span> <br />
+                                    </div>
+                                </div>
+                        <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                <label>Mail  <span class="text-danger"> * </span></label>
+                                <input class="form-control " asp-for="SenderMail" type="email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mail adresinizi girin'" placeholder="">
+                                <span class="text-danger small" asp-validation-for="SenderMail" ></span><br>
+                                    </div>
+                                </div>
+                        <div class="col-12 ">
+                                    <div class="form-group">
+                                <label>Konu</label>
+                                <input class="form-control" asp-for="Subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'En Fazla 200 Karakter Giriniz'" placeholder="
+En Fazla 200 Karakter Giriniz">
+                                <span class="text-danger small" asp-validation-for="Subject" ></span><br />
+                                    </div>
+                                </div>
+                            
+                                
+
+                            </div>
+                            <div class="form-group mt-3">
+                        <div asp-validation-summary="ModelOnly"></div>
+                                <button class="button button-contactForm boxed-btn">Gönder</button>
+                            </div>
+                    <span class="text-success"> @TempData["notice"]</span>
+                        </form>
+                    </div>
+
+
+            @await Html.PartialAsync("/Views/Contact/_ContactInformation.cshtml")
+            
+                </div>
+            </div>
+        </section>
+        <!-- Contact Area End -->

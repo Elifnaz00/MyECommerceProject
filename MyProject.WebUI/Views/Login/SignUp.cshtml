@@ -1,0 +1,105 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using MyProject.Entity.Entities
+@model UserRegisterViewModeL
+@inject SignInManager<AppUser> SignInManager
+
+@{
+    ViewData["Title"] = "SignUp";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+
+@Html.AntiForgeryToken()
+
+@if(SignInManager.IsSignedIn(User))
+{
+    <div class="alert alert-success" role="alert">
+        <strong>Başarılı!</strong> @ViewBag.Success
+    </div>
+}
+
+
+<section class="vh-100">
+    
+
+
+    <div class="container py-5 d-flex justify-content-center my-4">
+       
+        <div class="card" style="width: 100rem;">
+            <div class="row g-0 d-flex justify-content-center align-items-center h-100">
+                <!-- Resim Alanı -->
+                <div class="col-md-4 col-sm-12 d-none d-md-block ">
+                    <img class= "card-img-top"
+                         src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
+                         style="object-fit: cover;"
+                         alt="Login Image" />
+                </div>
+                <!-- Form Alanı -->
+                <div class="col-md-8 col-sm-12 d-flex align-items-center justify-content-center" >
+
+                    <form class="row w-100 px-3" asp-controller="Login" asp-action="SignUp">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                      
+                            <div class="col-md-12 my-4">
+                                <h4 class="fw-normal" >@Html.LabelFor(model => model.NameSurname) </h4>
+                                <input type="text" asp-for="NameSurname" class="form-control" name="NameSurname" style="height: 35px;" />
+                                <span class="text-danger small" asp-validation-for="NameSurname"></span>
+                            </div>
+                            <div class="col-md-12 my-4">
+                            <h4 class="fw-normal"> @Html.LabelFor(model => model.UserName) <span class="text-danger"> *</span></h4>
+                                <input type="text" asp-for="UserName" name="UserName" class="form-control" style="height: 35px;" />
+                            <span class="text-danger small"  asp-validation-for="UserName"></span>
+                            </div>
+
+                            <div class="col-md-12 my-4">
+                            <h4 class="fw-normal"> @Html.LabelFor(model => model.Email)  <span class="text-danger">*</span> </h4>
+                                <input type="email" asp-for="Email" class="form-control" name="Email" style="height: 35px;" />
+                                <span class="text-danger small" asp-validation-for="Email"></span>
+                            </div>
+                            <div class="col-12 my-4">
+                            <h4 class="fw-normal">
+                                @Html.LabelFor(model => model.Password)  <span class="text-danger">*</span> <br />
+                               
+                            </h4>
+                            <div>
+                                <label> <small>
+                                       
+                                        Şifre en az 1 rakam içermelidir. ('0'-'9'). <br />
+                                        Şifre en az 1 büyük harf içermelidir.('A'-'Z'). <br />
+                                        Şifre en az 1 özel karakter içermelidir. <br />
+                                </small></label>
+                            </div>
+                         
+                                <input type="password" asp-for="Password" class="form-control" name="Password" placeholder="En az 6 karakter girin" style="height: 35px;" />
+                                <span class="text-danger small" asp-validation-for="Password"></span>
+
+                            </div>
+                   
+                            <div class="d-flex mt-3">
+                                <div class="">
+                                    <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
+                                </div>
+                                <div class="">
+                                    <label class="" for="btncheck3"> <span class="small"> Teklif ve promosyonlar da dahil olmak üzere ticari elektronik ileti (e-posta ve SMS gibi) almayı ve  kişisel verilerimi aynı amaçla işlemesini kabul ediyorum.</span></label>
+                                </div>
+
+                            </div>
+                            <div class="col-12 mt-5">
+                                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-lg btn-block" type="submit">Kayıt Ol</button>
+                            </div>
+                            <div class="mt-5">
+                                <p>Zaten bir hesabınız var mı ? <a class="link-offset-1" style="color:blueviolet;" href="/Login/Index">Giriş Yap</a></p>
+                            </div>
+
+                        
+                    </form>
+
+                    
+                   
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,286 @@
+﻿@model IEnumerable<ProductListViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+
+<main>
+    <!-- breadcrumb Start-->
+    <div class="page-notification">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="index.html">Anasayfa</a></li>
+                            <li class="breadcrumb-item"><a href="#">Ürünler</a></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- listing Area Start -->
+    <div class="category-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-7 col-lg-8 col-md-10">
+                    <div class="section-tittle mb-50">
+                        <h4> Ürünlerimiz</h4>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!--? Left content -->
+                <div class="col-xl-3 col-lg-3 col-md-4 ">
+                    <!-- Job Category Listing start -->
+                    <div class="category-listing mb-50">
+                        <!-- single one -->
+                        <div class="single-listing">
+                            <!-- Select City items start -->
+                          
+                                <div class="select-job-items2">
+                                    <select name="select2" id="categorySelect">
+                                        <option value="">Category </option>
+                                        <option value="Pantalon">Pantalon</option>
+                                        <option value="Kazak">Kazak</option>
+                                        <option value="Ceket">Ceket</option>
+                                        <option value="Elbise">Elbise</option>
+                                    </select>
+                                </div>
+                                <!--  Select City items End-->
+                                <!-- Select State items start -->
+                                <div class="select-job-items2">
+                                    <select name="select3" id="sizeSelect">
+                                        <option value="">Beden</option>
+                                        <option value="S">S</option>
+                                        <option value="M">M</option>
+                                        <option value="L">L</option>
+                                        <option value="XL">XL</option>
+                                    </select>
+                                </div>
+                                <!--  Select State items End-->
+                                <!-- Select km items start -->
+                              
+                                <!--  Select km items End-->
+                                <!-- Select km items start -->
+                                <div class="select-job-items2">
+                                <select name="select4" id="colorSelect">
+                                        <option value="">Renk</option>
+                                        <option value="Beyaz">Beyaz</option>
+                                        <option value="Siyah">Siyah</option>
+                                        <option value="Mor">Mor</option>
+                                        <option value="Kırmızı">Kırmızı</option>
+                                        
+                                    </select>
+                                </div>
+
+                            <!--  Select km items End-->
+                            <!-- Select km items start -->
+                            <div class="select-job-items2">
+                                <select name="select5" id="priceSelect">
+                                    <option value="">Fiyat Aralığı</option>
+                                    <option value="10">$10 to $20</option>
+                                    <option value="20">$20 to $30</option>
+                                    <option value="30">$50 to $80</option>
+                                    <option value="100">$100 to $120</option>
+                                    <option value="150">$200 to $300</option>
+                                    <option value="180">$500 to $600</option>
+                                </select>
+                            </div>
+                            <!--  Select km items End-->
+                        </div>
+                        <button id="btnfilteredlist" class="btn default btn-xs red" >
+                             Ürünleri Filtrele
+                        </button>
+                      
+                    </div>
+                    <!-- Job Category Listing End -->
+                </div>
+                <!--?  Right content -->
+              
+                    <div class="col-xl-9 col-lg-9 col-md-8 ">
+                        <!--? New Arrival Start -->
+                        <div class="new-arrival new-arrival2">
+                            <div class="row">
+                                @foreach (var item in Model)
+                                {
+                                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                                        <div class="single-new-arrival mb-50 text-center">
+                                            <div class="popular-img">
+                                               
+                                                    <img src="@item.ImageUrl" class="img-fluid" alt="" />
+                                                    <div class="favorit-items">
+                                                        <img src="~/Themes/shionhouse-master/assets/img/gallery/favorit-card.png" alt="">
+                                                    </div>
+                                               
+                                            </div>
+                                            <div class="popular-caption">
+                                            <a asp-controller="Shop" asp-action="ProductDetails" asp-route-id="@item.Id"><h3>@item.Title</h3></a>
+                                           
+                                                <div class="rating mb-10">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                </div>
+                                                <span>@item.Price</span>
+                                               
+                                            </div>
+                                          
+                                          
+                                           
+                                                <button class="add-to-cart-btn btn btn-primary" type="submit" data-product-id="@item.Id" >Sepete Ekle</button>
+                                           
+                                            
+                                               
+                                          
+                                       
+                                        </div>
+                                        
+                                    </div>
+
+                                }
+
+
+
+                            </div>
+                        </div>
+                        <!--? New Arrival End -->
+                    </div>
+              
+            
+               
+            </div>
+        </div>
+    </div>
+    <!-- listing-area Area End -->
+   
+    <!--? Services Start -->
+
+    @await Html.PartialAsync("~/Views/Shared/_BrandServices.cshtml")
+   
+    <!--? Services End -->
+</main>
+
+
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+           $(document).on('click', '.add-to-cart-btn', function (e) {
+                e.preventDefault();
+
+                var productId = $(this).data('product-id');
+
+                var isAuthenticated = '@User.Identity.IsAuthenticated'.toLowerCase() === 'true';
+
+       
+
+                if (!isAuthenticated) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Giriş Yapmalısınız!',
+                        text: 'Sepete ürün eklemek için lütfen giriş yapınız.',
+                        confirmButtonText: 'Giriş Yap',
+                        showCancelButton: true,
+                        cancelButtonText: 'İptal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '/Login/Index'; // Giriş sayfan burasıysa
+                        }
+                    });
+                } else {
+                    // AJAX ile sepete ekle
+                    $.ajax({
+                        type: "POST",
+                        url: "/Shop/ShopProductList",
+                        data: { productId: productId },
+                       
+                        success: function (response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarılı!',
+                                text: 'Ürün sepete eklendi.'
+                            });
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Hata!',
+                                text: 'Ürün sepete eklenirken bir hata oluştu.'
+                            });
+                        }
+                    });
+                }
+            });
+                   
+
+            $("#btnfilteredlist").click(function () {
+                var _category = $("#categorySelect").val();
+                var _size = $("#sizeSelect").val();
+                var _color = $("#colorSelect").val();
+                var _price = parseInt($("#priceSelect").val()) ;// Seçim yapılmadıysa varsayılan 0
+                
+                $.ajax({
+                    type: "GET",
+
+                    url: "@Url.Action("GetFilteredProducts" , "Shop")",
+                    contentType: "application/json; charset=utf-8",
+                    data: {
+                        category: _category,
+                        size: _size,
+                        color: _color,
+                        price: _price
+
+
+                    },
+                                   success: function (data) {
+            let html = '';
+            $.each(data, function (index, item) {
+                html += `
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                        <div class="single-new-arrival mb-50 text-center">
+                            <div class="popular-img">
+                                <a href="/Shop/ProductDetails/${item.id}">
+                                    <img src="${item.imageUrl}" class="img-fluid" alt="" />
+                                </a>
+                                <div class="favorit-items">
+                                    <img src="/Themes/shionhouse-master/assets/img/gallery/favorit-card.png" alt="">
+                                </div>
+                            </div>
+                            <div class="popular-caption">
+                                <h3><a href="/Shop/ProductDetails/${item.id}">${item.title}</a></h3>
+                                <div class="rating mb-10">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>${item.price}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            $('.new-arrival .row').html(html); // Eski içerik temizlenip yeni içerik eklenir.
+        }
+                })
+     
+            
+        });      
+         });
+
+    </script>
+    
+      
+
+
+    
+}
+ 

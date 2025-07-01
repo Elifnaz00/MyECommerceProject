@@ -1,0 +1,19 @@
+﻿@model CreateEntranceViewModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Create Entrance";
+}
+
+<form asp-route="CreateEntrance" method="post">
+    <input type="text" name="Title1" value="" />
+    <input type="text" name="Description1" value="" />
+    <input type="text" name="Description2" value="" />
+    <input type="text" name="Description3" value="" />
+    <input name="IsChecked" type="checkbox" value="true" />
+   
+    <input name="IsChecked" type="hidden" value="false" />
+    <button type="submit">Submit</button>
+</form>

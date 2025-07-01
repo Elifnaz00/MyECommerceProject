@@ -1,0 +1,46 @@
+﻿@model IEnumerable<EntranceListViewModel>
+
+
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+@*
+    <p>Hello from our View Template!</p>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Title1)</th>
+            <th>@Html.DisplayNameFor(model => model.Description1)</th>
+            <th>@Html.DisplayNameFor(model => model.Description2)</th>
+            <th>@Html.DisplayNameFor(model=> model.Description3)</th>
+        </tr>Html
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+
+                <td>@Html.DisplayFor(modelItem=> item.Title1)</td>
+                <td>@Html.DisplayFor(modelItem=> item.Description1)</td>
+                <td>@Html.DisplayFor(modelItem=> item.Description2)</td>
+                <td>@Html.DisplayFor(modelItem=> item.Description3)</td>
+
+
+
+                <td>
+                    <a class="btn btn-sm btn-primary" href="@Url.Action("EditEntrance","Entrance", new { id = item.Id })">Düzenle</a>
+                    <a class="btn btn-sm btn-primary" href="@Url.Action("DeleteEntrance","Entrance", new { id = item.Id })">Sil</a>
+                </td>
+            </tr>
+
+        }
+
+
+    </tbody>
+</table>
+
+*@
+

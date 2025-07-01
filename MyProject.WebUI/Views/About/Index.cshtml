@@ -1,0 +1,57 @@
+﻿@model IEnumerable<AboutListViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+
+    <!-- breadcrumb Start-->
+    <div class="page-notification">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="index.html">Anasayfa</a></li>
+                            <li class="breadcrumb-item"><a href="#">Hakkımızda</a></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb End-->
+    <!-- About Area Start -->
+    <div class="about-area">
+        <div class="container">
+            <div class="row justify-content-center">
+                @foreach(var item in Model)
+                {
+                <div class="col-lg-10">
+                    <div class="section-tittle mb-60 text-center pt-10">
+                        <h2>@item.AboutTitle</h2>
+                        <p class="pera">@item.AboutContent1</p>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="about-img pb-bottom">
+                        <img src=@item.AboutImage alt="" class="w-100">
+                    </div>
+                </div>
+                }
+               
+            </div>
+         
+        </div>
+    </div>
+    <!-- About Area End -->
+    <!--? Popular Items Start -->
+    @await Component.InvokeAsync("CategoryList")
+    <!-- Popular Items End -->
+    <!--? Services Area Start -->
+ 
+    @await Html.PartialAsync("_BrandServices")
+    <!--? Services Area End -->
+
+

@@ -1,0 +1,23 @@
+﻿@model EntranceEditViewModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "Edit Entrance";
+}
+<form asp-controller="Entrance" asp-action="EditEntrance">
+    <input type="text" asp-for="Title1" />
+    <input type="text" asp-for="Description1" />
+    <input type="text" asp-for="Description2" />
+    <input type="text" asp-for="Description3" />
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit">Değişiklikleri Kaydet</button>
+</form>
+
+
+
+
+

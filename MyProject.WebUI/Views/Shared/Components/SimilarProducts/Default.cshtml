@@ -1,0 +1,110 @@
+﻿@model IEnumerable<ProductListViewModel>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div style="height: 100px"> </div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Benzer <b>Ürünler</b></h2>
+			<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="0">
+				<!-- Carousel indicators -->
+				<ol class="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					<li data-target="#myCarousel" data-slide-to="1"></li>
+					
+				</ol>
+				<!-- Wrapper for carousel items -->
+				
+				
+				
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+
+						<div class="row">
+							
+									@foreach(var item in Model.Take(4))
+									{
+						
+							
+										<div class="col-sm-3">
+											<div class="thumb-wrapper">
+												<div class="img-box">
+											
+												<img src="@item.ImageUrl" class="img-fluid" alt="" />
+												</div>
+												<div class="thumb-content">
+											<h4> <a href="@Url.Action("ProductDetails", "Shop", new { id = item.Id })"></a> @item.Title</h4>
+													<p class="item-price"><strike>$400.00</strike> <span>@item.Price </span></p>
+													<div class="star-rating">
+														<ul class="list-inline">
+															<li class="list-inline-item"><i class="fa fa-star"></i></li>
+															<li class="list-inline-item"><i class="fa fa-star"></i></li>
+															<li class="list-inline-item"><i class="fa fa-star"></i></li>
+															<li class="list-inline-item"><i class="fa fa-star"></i></li>
+															<li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+														</ul>
+													</div>
+													<a href="#" class="btn btn-primary">Add to Cart</a>
+												</div>
+											</div>
+										</div>
+										
+					
+									}
+						</div>
+									
+								
+				    </div>
+					<div class="carousel-item">
+						<div class="row">
+							@foreach (var item in Model.TakeLast(4))
+							{
+									
+												<div class="col-sm-3">
+													<div class="thumb-wrapper">
+														<div class="img-box">
+															<img src=@item.ImageUrl class="img-fluid" alt="">
+														</div>
+														<div class="thumb-content">
+															<h4>@item.Title</h4>
+															<p class="item-price"><strike>$289.00</strike> <span>@item.Price</span></p>
+															<div class="star-rating">
+																<ul class="list-inline">
+																	<li class="list-inline-item"><i class="fa fa-star"></i></li>
+																	<li class="list-inline-item"><i class="fa fa-star"></i></li>
+																	<li class="list-inline-item"><i class="fa fa-star"></i></li>
+																	<li class="list-inline-item"><i class="fa fa-star"></i></li>
+																	<li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+																</ul>
+															</div>
+															<a href="#" class="btn btn-primary">Add to Cart</a>
+														</div>
+													</div>
+												</div>
+											
+									
+
+							}
+						</div>
+								
+							
+						</div>
+					</div>
+							
+							
+				<!-- Carousel controls -->
+				<a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+					<i class="fa fa-angle-left"></i>
+				</a>
+				<a class="carousel-control-next" href="#myCarousel" data-slide="next">
+					<i class="fa fa-angle-right"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
