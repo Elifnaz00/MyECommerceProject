@@ -1,0 +1,2 @@
+# MyECommerceProject
+.Net Core
