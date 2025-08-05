@@ -115,7 +115,7 @@ namespace MyProject.Api.Controllers
         {
             if (await _entranceRepository.GetByIdAsync(id) != null)
             {
-                _entranceRepository.Delete(id);
+                await _entranceRepository.DeleteAsync(id);
                 return NoContent();
             }
 

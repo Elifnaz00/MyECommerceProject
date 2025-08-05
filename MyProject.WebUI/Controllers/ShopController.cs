@@ -56,24 +56,28 @@ namespace MyProject.WebUI.Controllers
                                             {
                                                 ProductId = productId,   
                                             }), Encoding.UTF8, "application/json"  );
-            if(!User.Identity.IsAuthenticated)
-            {
-                TempData["LoginWarning"] = "Sepete ürün eklemek için giriş yapmalısınız.";
-                return RedirectToAction("ShopProductList", "Shop"); 
-               
-            }
+           
 
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("token"));
             var response= await client.PostAsync(client.BaseAddress + "/BasketItem/AddToBasket", content);
+            if(!response.IsSuccessStatusCode)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Ürün sepete eklenemedi."
+                });
 
-            var responseContent =await response.Content.ReadFromJsonAsync<AddToBasketItemViewModel>();
-            
-            TempData["AddToBasketMessage"] = responseContent?.Message;
-          
-            return RedirectToAction("ShopProductList", "Shop");
+            }
+            return Json(new
+            {
+                success = true,
+                message = "Ürün sepete eklendi."
+            });
+
+
+           
         }
-
-
 
 
 

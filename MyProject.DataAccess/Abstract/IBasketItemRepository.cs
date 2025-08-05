@@ -11,8 +11,7 @@ namespace MyProject.DataAccess.Abstract
     {
         Task<BasketItem> GetByUserIdBasketItemAsync(Guid basketId, Guid productId);
         Task<BasketItem> AddItemBasketAsync(BasketItem basketItem);
-
-        
+        Task<bool> DeleteItemBasketAsync(Guid itemId, string userId);
 
 
     }

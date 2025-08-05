@@ -202,11 +202,22 @@
                         data: { productId: productId },
                        
                         success: function (response) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Başarılı!',
-                                text: 'Ürün sepete eklendi.'
-                            });
+							if(response.success) {
+								// Sepete ekleme başarılıysa
+								Swal.fire({
+									icon: 'success',
+									title: 'Başarılı!',
+									text: response.message,
+								});
+							} else {
+								// Sepete ekleme başarısızsa
+								Swal.fire({
+									icon: 'error',
+									title: 'Hata!',
+									text: response.message
+								});
+							}
+                           
                         },
                         error: function () {
                             Swal.fire({

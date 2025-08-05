@@ -7,8 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CQRS\AppUsers\Queries\**" />
+    <Compile Remove="CQRS\Categories\Handlers\CommandHandlers\**" />
     <Compile Remove="CQRS\Products\Handlers\CommandHandlers\**" />
+    <EmbeddedResource Remove="CQRS\AppUsers\Queries\**" />
+    <EmbeddedResource Remove="CQRS\Categories\Handlers\CommandHandlers\**" />
     <EmbeddedResource Remove="CQRS\Products\Handlers\CommandHandlers\**" />
+    <None Remove="CQRS\AppUsers\Queries\**" />
+    <None Remove="CQRS\Categories\Handlers\CommandHandlers\**" />
     <None Remove="CQRS\Products\Handlers\CommandHandlers\**" />
   </ItemGroup>
 
@@ -34,10 +40,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQRS\AppUsers\Queries\" />
+    <Folder Include="CQRS\BasketItem\Queries\Request\" />
     <Folder Include="CQRS\BasketItem\Queries\Response\" />
-    <Folder Include="CQRS\Baskets\Queries\Response\" />
-    <Folder Include="CQRS\Categories\Handlers\CommandHandlers\" />
   </ItemGroup>
 
 </Project>

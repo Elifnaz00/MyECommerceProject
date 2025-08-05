@@ -21,10 +21,10 @@ namespace MyProject.DataAccess.Abstract
         Task<T?> GetByIdAsync(Guid id);
        
         Task<T> AddAsync(T entity);  
-        void AddRangeAsync(List<T> entities);
+        Task AddRangeAsync(List<T> entities);
         bool Update(T entity);
 
-        bool Delete(Guid id);
+        Task<bool> DeleteAsync(Guid id);
 
 
 

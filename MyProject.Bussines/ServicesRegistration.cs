@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using MyProject.Bussines.Services;
+using MyProject.Bussines.CQRS.Contacts.Validators;
 
 namespace MyProject.Bussines
 {
@@ -36,21 +37,13 @@ namespace MyProject.Bussines
             services.AddScoped<IAboutRepository, AboutRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IBasketItemRepository, BasketItemRepository>();
-
             services.AddScoped<IBasketItemService, BasketItemService>();
             services.AddScoped<IBasketService, BasketService>();
-
             services.AddScoped<ITokenHandler, TokenHandler>();
-
             services.AddScoped<IValidator<ContactUsCommandRequest>, CreateContactCommandValidator>();
-
             services.AddValidatorsFromAssemblyContaining<CreateContactCommandValidator>();
-
-
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
             services.AddAutoMapper(typeof(MapProfile));
-
             services.AddMediatR(typeof(GetAllCategoryQueryHandler).Assembly);
 
           

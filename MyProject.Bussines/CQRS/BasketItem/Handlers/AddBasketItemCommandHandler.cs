@@ -1,8 +1,14 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using MyProject.Bussines.CQRS.BasketItem.Queries.Request;
+using MyProject.Bussines.CQRS.BasketItem.Commands.Request;
+using MyProject.Bussines.CQRS.BasketItem.Commands.Response;
 using MyProject.Bussines.Services;
 using MyProject.DTO.DTOs.BasketItemDTOs;
 using MyProject.DTO.Models.BasketItemViewModel;
@@ -10,14 +16,14 @@ using MyProject.Entity.Entities;
 
 namespace MyProject.Bussines.CQRS.BasketItem.Handlers
 {
-    public class AddBasketItemQueryHandler : IRequestHandler<AddBasketItemQueryRequest, AddBasketItemQueryResponse>
+    public class AddBasketItemCommandHandler : IRequestHandler<AddBasketItemCommandRequest, AddBasketItemCommandResponse>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IBasketItemService _basketItemService;
         private readonly IBasketService _basketService;
         private readonly IMapper _mapper;
-       
-        public AddBasketItemQueryHandler(IHttpContextAccessor httpContextAccessor, IMapper mapper, IBasketItemService basketItemService, IBasketService basketService)
+
+        public AddBasketItemCommandHandler(IHttpContextAccessor httpContextAccessor, IMapper mapper, IBasketItemService basketItemService, IBasketService basketService)
         {
             _httpContextAccessor = httpContextAccessor;
             _basketItemService = basketItemService;
@@ -26,7 +32,7 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
 
         }
 
-        public async Task<AddBasketItemQueryResponse> Handle(AddBasketItemQueryRequest request, CancellationToken cancellationToken)
+        public async Task<AddBasketItemCommandResponse> Handle(AddBasketItemCommandRequest request, CancellationToken cancellationToken)
         {
             // Kullanıcının kimliğini HttpContext üzerinden al
             var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -42,7 +48,7 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
 
             var basketByUser = await _basketService.GetBasketByUserServiceAsync(userId); // Kullanıcının sepetini alır. Eğer sepet yoksa yeni bir sepet oluşturur.  
 
-            if (basketByUser == null)
+            if (basketByUser is null)
             {
                 var newBasket = new Basket
                 {
@@ -52,7 +58,7 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
 
                 var newBasketAdded = await _basketService.AddBasketAsync(newBasket);
 
-               
+
                 AddBasketItemViewModel newBasketAddedModel = new()
                 {
                     ProductId = request.ProductId,
@@ -62,7 +68,7 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
 
 
                 var addedItem = await _basketItemService.AddBasketItemAsync(newBasketAddedModel); // Sepete yeni ürün ekler.  
-                if (addedItem == null)
+                if (addedItem is null)
                 {
                     return new()
                     {
@@ -91,9 +97,9 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
                 };
 
                 var addedItem = await _basketItemService.AddBasketItemAsync(value7);
-                if(addedItem == null)
+                if (addedItem is null)
                 {
-                    return new AddBasketItemQueryResponse
+                    return new AddBasketItemCommandResponse
                     {
                         IsSuccess = false,
                         Message = "Ürün sepete eklenemedi."
@@ -101,9 +107,9 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
                 }
 
 
-                return new AddBasketItemQueryResponse
+                return new AddBasketItemCommandResponse
                 {
-                    BasketItem= _mapper.Map<BasketItemDto>(value7),
+                    BasketItem = _mapper.Map<BasketItemDto>(addedItem),
                     IsSuccess = true,
                     Message = "Ürün sepetinize eklendi."
                 };
@@ -116,7 +122,7 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
             };
 
             var updateSuccess = await _basketItemService.UpdateQuantityAsync(updateItemModel);
-            return new AddBasketItemQueryResponse
+            return new AddBasketItemCommandResponse
             {
                 IsSuccess = updateSuccess,
                 Message = updateSuccess ? "Ürün sepete eklendi." : "Ürün miktarı güncellenemedi."
@@ -124,6 +130,6 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
 
         }
 
+      
     }
 }
-

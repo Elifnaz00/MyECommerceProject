@@ -73,33 +73,26 @@ namespace MyProject.DataAccess.Concrate
 
 
 
-        public void AddRangeAsync(List<T> entities)
+        public async Task AddRangeAsync(List<T> entities)
         {
-            this.entity.AddRangeAsync(entities);
+            await this.entity.AddRangeAsync(entities);
+            await _myProjectContext.SaveChangesAsync();
 
 
         }
 
 
-        public bool Delete(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             try
             {
-                var value= this.entity.FirstOrDefault(x => x.Id == id);
+                var value= await this.entity.FirstOrDefaultAsync(x => x.Id == id);
+                if (value is null) return false;
                
-                if (value == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    EntityEntry<T> entityEntry = this.entity.Remove(value);
-                    _myProjectContext.SaveChangesAsync();
-                    return entityEntry.State== EntityState.Deleted;
-                    
-                    
-                }  
-
+                EntityEntry<T> entityEntry = this.entity.Remove(value);
+                await _myProjectContext.SaveChangesAsync();
+                return entityEntry.State== EntityState.Deleted;
+                  
             }
             catch (Exception ex)
             {

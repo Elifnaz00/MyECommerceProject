@@ -30,6 +30,7 @@ namespace MyProject.Bussines.Services
             {
                 var entity = _mapper.Map<BasketItem>(addBasketItemViewModel);
                 var addedEntity = await _basketItemRepository.AddItemBasketAsync(entity);
+                
 
                 return addedEntity?.Id != Guid.Empty ? addedEntity : null;
             }
@@ -37,7 +38,6 @@ namespace MyProject.Bussines.Services
             {
                 return null;
             }
-
 
         }
 
@@ -54,15 +54,19 @@ namespace MyProject.Bussines.Services
             var existingItem = await _basketItemRepository.GetByIdAsync(updateBasketItemViewModel.Id);
             if (existingItem == null) return false;
 
-            existingItem.Quantity += 1; // iş kuralı burada uygulanır.
+            existingItem.Quantity += 1; 
 
             return _basketItemRepository.Update(existingItem);
            
         }
 
-        public Task RemoveBasketItem(Guid basketItemId)
+
+        public async Task<bool> RemoveBasketItemAsync(Guid basketItemId, string userId)
         {
-            throw new NotImplementedException();
+             return await _basketItemRepository.DeleteItemBasketAsync(basketItemId, userId);
+               
         }
+
+     
     }
 }

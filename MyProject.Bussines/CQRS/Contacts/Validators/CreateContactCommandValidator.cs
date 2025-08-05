@@ -1,19 +1,19 @@
-﻿using FluentValidation;
-using MyProject.Bussines.CQRS.Contacts.Commands.Request;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation;
+using MyProject.Bussines.CQRS.Contacts.Commands.Request;
 
-namespace MyProject.Bussines.CQRS.Contacts
+namespace MyProject.Bussines.CQRS.Contacts.Validators
 {
-    public class CreateContactCommandValidator: AbstractValidator<ContactUsCommandRequest>
+    public class CreateContactCommandValidator : AbstractValidator<ContactUsCommandRequest>
     {
-        public CreateContactCommandValidator() 
+        public CreateContactCommandValidator()
         {
             RuleFor(p => p.ContentMessage)
-                
+
                 .NotNull().NotEmpty().WithMessage("Lütfen Mesaj alanını boş bırakmayınız.")
                 .MaximumLength(300).WithMessage("Mesaj içeriği en fazla 300 karakter olabilir");
 
@@ -24,7 +24,7 @@ namespace MyProject.Bussines.CQRS.Contacts
             RuleFor(p => p.Subject)
                 .MaximumLength(200).WithMessage("Konu içeriği en fazla 200 karakter olabilir");
 
-            
+
         }
     }
 }

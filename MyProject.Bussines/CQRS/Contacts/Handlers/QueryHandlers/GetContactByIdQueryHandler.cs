@@ -7,11 +7,9 @@ using AutoMapper;
 using MediatR;
 using MyProject.Bussines.CQRS.Contacts.Queries.Request;
 using MyProject.DataAccess.Abstract;
-using MyProject.Bussines.CQRS.Abouts.Queries.Response;
 using MyProject.DTO.DTOs.ContactDTOs;
-using MyProject.Entity.Entities;
 
-namespace MyProject.Bussines.CQRS.Contacts.Handlers.CommandHandlers
+namespace MyProject.Bussines.CQRS.Contacts.Handlers.QueryHandlers
 {
     public class GetContactByIdQueryHandler : IRequestHandler<GetContactByIdQueryRequest, GetContactByIdQueryResponse>
     {
@@ -26,14 +24,14 @@ namespace MyProject.Bussines.CQRS.Contacts.Handlers.CommandHandlers
 
         public async Task<GetContactByIdQueryResponse> Handle(GetContactByIdQueryRequest request, CancellationToken cancellationToken)
         {
-            var  contactValue = await  _contactRepository.GetByIdAsync(request.Id);
-            var mappingContactValue= _mapper.Map<ContactDto>(contactValue);
+            var contactValue = await _contactRepository.GetByIdAsync(request.Id);
+            var mappingContactValue = _mapper.Map<ContactDto>(contactValue);
             return new GetContactByIdQueryResponse
             {
                 ContactDto = mappingContactValue,
-                
+
             };
-           
+
         }
     }
 }

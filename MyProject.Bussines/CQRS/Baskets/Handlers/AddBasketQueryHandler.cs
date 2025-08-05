@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using MyProject.Bussines.CQRS.Baskets.Queries.Request;
+using MyProject.Bussines.CQRS.Baskets.Queries.Response;
 using MyProject.DataAccess.Abstract;
 using MyProject.DTO.DTOs.BasketDTOs;
 using MyProject.Entity.Entities;

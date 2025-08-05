@@ -6,7 +6,7 @@ using MyProject.Bussines.CQRS.Abouts.Queries.Request;
 
 namespace MyProject.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    
     [Route("api/v1/[controller]")]
     [ApiController]
     public class AboutController : ControllerBase

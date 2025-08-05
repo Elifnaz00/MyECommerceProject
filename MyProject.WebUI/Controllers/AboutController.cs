@@ -25,13 +25,7 @@ namespace MyProject.WebUI.Controllers
         public async Task<IActionResult> Index()
         {
            
-
             var client = _httpClientFactory.CreateClient("ApiService1");
-
-            var token = HttpContext.Session.GetString("token");
-
-            client.DefaultRequestHeaders.Authorization =
-        new AuthenticationHeaderValue("Bearer", token);
 
             HttpResponseMessage httpResponseMessage = await client.GetAsync(client.BaseAddress + "/About");
             if (httpResponseMessage.IsSuccessStatusCode)
@@ -43,8 +37,6 @@ namespace MyProject.WebUI.Controllers
             else
                 httpResponseMessage.EnsureSuccessStatusCode();
 
-
-           
             return View();
 
         }

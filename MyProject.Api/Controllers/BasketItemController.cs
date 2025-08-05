@@ -3,7 +3,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MyProject.Bussines.CQRS.BasketItem.Queries.Request;
+using MyProject.Bussines.CQRS.BasketItem.Commands;
+using MyProject.Bussines.CQRS.BasketItem.Commands.Request;
 using MyProject.Bussines.CQRS.Baskets.Queries.Request;
 using MyProject.DTO.DTOs.BasketItemDTOs;
 using MyProject.Entity.Entities;
@@ -27,7 +28,6 @@ namespace MyProject.Api.Controllers
         [HttpGet("GetBasketItems")]
         public async Task<IActionResult> GetBasketItems()
         {
-            // Logic to get basket items
             return Ok();
         }
 
@@ -37,19 +37,28 @@ namespace MyProject.Api.Controllers
         public async Task<IActionResult> AddToBasket([FromBody] AddBasketItemDto addBasketItemDto)
         {
             
-            var response= await _mediator.Send(new AddBasketItemQueryRequest
+            var response= await _mediator.Send(new AddBasketItemCommandRequest
             {
                 ProductId = addBasketItemDto.ProductId,
 
             });
-            if (!response.IsSuccess) {
-             
-                return BadRequest(response);
-                
-            }
-            return Ok(response);
+            return response.IsSuccess
+                ? Ok(response)
+                : BadRequest(response);
 
+        }
 
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> DeleteToBasket([FromRoute]Guid Id)
+        {
+            var response= await _mediator.Send(new DeleteBasketItemCommandRequest
+            {
+                Id = Id
+            });
+            
+            return response.IsSuccess
+                ? Ok(response)
+                : BadRequest(response);
 
 
         }

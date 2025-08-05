@@ -46,11 +46,27 @@ namespace MyProject.WebUI.Controllers
 
             HttpResponseMessage httpResponse = await client.GetAsync(client.BaseAddress + "/Basket/GetBasket");
             var response = await httpResponse.Content.ReadFromJsonAsync<ShoppingCartViewModel>();
+
+
+            return response.BasketStatus switch
+            {
+                Entity.Enums.BasketStatus.NotFound => await HandleNotFoundAsync(),  // boş sepet görünümü
+                Entity.Enums.BasketStatus.Empty => View(response),  // ürün yok ama sepet var
+                Entity.Enums.BasketStatus.HasItems => View(response),  // sepet dolu
+                _ => View()  // varsayılan olarak boş sepet görünümü
+            };
+            async Task<ViewResult> HandleNotFoundAsync()
+            {
+                await client.PostAsync(client.BaseAddress + "/Basket/AddBasket", null);
+                return View(); // boş sepet görünümü
+            }
+
+
+            /*
             if (response.BasketStatus == Entity.Enums.BasketStatus.NotFound)
             {
                 var value= await client.PostAsync(client.BaseAddress + "/Basket/AddBasket", null);
                 return View();  //// boş sepet görünümü
-
 
             }
 
@@ -64,7 +80,9 @@ namespace MyProject.WebUI.Controllers
             {
                 return View(response);
             }
+           
             return View(); 
+            */
         }
 
 
@@ -77,5 +95,16 @@ namespace MyProject.WebUI.Controllers
             await client.PostAsync(client.BaseAddress + "/BasketItem/AddBasketToBasketItem", httpContent);
             return View();
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveCartItem(Guid id)
+        {
+            HttpClient client = _httpClientFactory.CreateClient("ApiService1");
+            HttpResponseMessage response = await client.DeleteAsync(client.BaseAddress + $"/BasketItem/DeleteBasketItem/{id}");
+            return View();
+        }
+
+
     }
 }

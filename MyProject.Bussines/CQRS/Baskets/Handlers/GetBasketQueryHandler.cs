@@ -8,6 +8,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using MyProject.Bussines.CQRS.Baskets.Queries.Request;
+using MyProject.Bussines.CQRS.Baskets.Queries.Response;
 using MyProject.DataAccess.Abstract;
 using MyProject.DTO.DTOs.BasketItemDTOs;
 using MyProject.DTO.DTOs.ProductDTOs;
@@ -35,7 +36,7 @@ namespace MyProject.Bussines.CQRS.Baskets.Handlers
            
             var basketItems= await _basketRepository.GetActiveBasketItemsByUserIdAsync(request.UserId);
             
-            if (basketItems == null)
+            if (basketItems is null)
             {
                 return new GetBasketQueryResponse
                 {
@@ -66,7 +67,7 @@ namespace MyProject.Bussines.CQRS.Baskets.Handlers
                
 
             };
-
+            
 
         }
     }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MediatR;
+using MyProject.Bussines.CQRS.Baskets.Queries.Response;
 using MyProject.DTO.DTOs.BasketDTOs;
 using MyProject.Entity.Entities;
 
@@ -19,10 +20,5 @@ namespace MyProject.Bussines.CQRS.Baskets.Queries.Request
 
     }
 
-    public class AddBasketQueryResponse
-    {
-        public AddBasketDto AddBasketDto { get; set; }
-        public string Message { get; set; }
-        public bool IsSuccess { get; set; }
-    }
+  
 }
