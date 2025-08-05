@@ -1,4 +1,5 @@
-﻿@model ShoppingCartViewModel
+﻿
+@model ShoppingCartViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -20,7 +21,7 @@
 
 	<link rel="stylesheet" href="~/Themes/winkel-master/css/owl.carousel.min.css">
 	<link rel="stylesheet" href="~/Themes/winkel-master/css/owl.theme.default.min.css">
-	<link rel="stylesheet" href="~/Themes/winkel-master/css/magnific-popup.cs" />
+	<link rel="stylesheet" href="~/Themes/winkel-master/css/magnific-popup.css" />
 
 	<link rel="stylesheet" href="~/Themes/winkel-master/css/aos.css">
 
@@ -67,7 +68,10 @@
 										<tr class="text-center">
 
 
-											<td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
+												<td class="product-remove"><a class="remove-item" href="#"><span class="ion-ios-close"></span></a></td>
+												<td style="display:none;">
+													<span class="basket-item-id">@item.Id</span>
+												</td>
 											<td class="image-prod"><div class="img" style="background-image:url(images/product-3.jpg);"></div></td>
 											<td class="product-name">
 												<h3> @item.Product.Title</h3>
@@ -136,53 +140,74 @@
 	<script src="~/Themes/winkel-master/js/main.js"></script>
 
 	<script>
-		$(document).ready(function(){
+		$(document).ready(function () {
 
-		var quantitiy=0;
-		   $('.quantity-right-plus').click(function(e){
+			var quantitiy = 0;
 
-				// Stop acting like a button
+			$('.quantity-right-plus').click(function (e) {
 				e.preventDefault();
-				// Get the field name
 				var quantity = parseInt($('#quantity').val());
-
-				// If is not undefined
-
-					$('#quantity').val(quantity + 1);
-
-
-					// Increment
-
+				$('#quantity').val(quantity + 1);
 			});
 
-			 $('.quantity-left-minus').click(function(e){
-				// Stop acting like a button
+			$('.quantity-left-minus').click(function (e) {
 				e.preventDefault();
-				// Get the field name
 				var quantity = parseInt($('#quantity').val());
-
-				// If is not undefined
-
-					// Increment
-					if(quantity>0){
+				if (quantity > 0) {
 					$('#quantity').val(quantity - 1);
+				}
+			});
+
+			$("table tbody").on("click", ".remove-item", function (e) {
+				e.preventDefault();
+				console.log("Silme butonuna tıklandı");
+
+
+				var token = '@(Context.Session.GetString("token") ?? "")';
+
+				if (!token) {
+					alert("Kullanıcı oturum bilgisi eksik.");
+					return;
+				}
+
+				var $row = $(this).closest("tr");
+				var basketItemId = $row.find(".basket-item-id").text();
+				 console.log("BasketItemId:", basketItemId);
+
+				if (!basketItemId) {
+					alert("Sepet öğesi ID'si bulunamadı.");
+					return;
+				}
+
+				if (!confirm("Bu ürünü silmek istediğinize emin misiniz?")) return;
+				 console.log("Ajax çağrısı yapılacak");
+
+				$.ajax({
+					url: '/api/v1/BasketItem/' + basketItemId,
+					type: 'DELETE',
+					beforeSend: function (xhr) {
+					// Token varsa Authorization header'a ekle
+					if (token) {
+						xhr.setRequestHeader("Authorization", "Bearer " + token);
 					}
+				},
+					success: function (response) {
+						if (response.IsSuccess) {
+							$row.remove();
+							alert("Ürün başarıyla silindi.");
+						} else {
+							alert("Silme işlemi başarısız: " + response.message);
+						}
+					},
+							error: function(xhr, status, error) {
+				alert("Bir hata oluştu: " + error + "\nDetay: " + xhr.responseText);
+		}
+				});
 			});
-			
-
-	    	$( ".ion-ios-close" ).on( "click", function() {
-						$(".text-center").remove();
-							   $.ajax({
-								  url: "test.html",
-								  global: false,
-								  // ...
-		});
-			});
-
-
 
 		});
 	</script>
+
 
 </body>
 </html>

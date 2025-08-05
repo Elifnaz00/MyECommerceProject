@@ -42,8 +42,6 @@ namespace MyProject.DataAccess.Concrate
         }
 
 
-
-
         public async Task<bool> DeleteItemBasketAsync(Guid itemId, string userId) //sileceğin ürünün id si gerçekten o kullanıcıya mı ait? kontrol et
         {
             var item= await _myProjectContext.BasketItems.Include(x=> x.Basket).FirstOrDefaultAsync(x => x.Id == itemId);
@@ -51,8 +49,11 @@ namespace MyProject.DataAccess.Concrate
                 return false;
 
             EntityEntry<BasketItem> entityEntry = _myProjectContext.BasketItems.Remove(item);
+            var entityEntryValue = entityEntry.State == EntityState.Deleted;
             await _myProjectContext.SaveChangesAsync();
-            return entityEntry.State == EntityState.Deleted;
+
+            return entityEntryValue;
+            
 
 
 

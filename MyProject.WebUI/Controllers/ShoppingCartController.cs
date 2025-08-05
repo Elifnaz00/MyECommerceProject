@@ -97,13 +97,6 @@ namespace MyProject.WebUI.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> RemoveCartItem(Guid id)
-        {
-            HttpClient client = _httpClientFactory.CreateClient("ApiService1");
-            HttpResponseMessage response = await client.DeleteAsync(client.BaseAddress + $"/BasketItem/DeleteBasketItem/{id}");
-            return View();
-        }
 
 
     }

@@ -10,7 +10,7 @@ namespace MyProject.DTO.DTOs.BasketItemDTOs
 {
     public class BasketItemDto
     {
-        public Guid BasketId { get; set; }  
+        public Guid Id { get; set; }  
         public int Quantity { get; set; }
         public ProductDto Product { get; set; }
     }
