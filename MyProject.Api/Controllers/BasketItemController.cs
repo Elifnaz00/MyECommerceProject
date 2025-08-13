@@ -48,17 +48,15 @@ namespace MyProject.Api.Controllers
 
         }
 
-        [HttpDelete("{Id}")]
+        [HttpDelete("DeleteBasketItems/{Id}")]
         public async Task<IActionResult> DeleteToBasket([FromRoute]Guid Id)
         {
             var response= await _mediator.Send(new DeleteBasketItemCommandRequest
             {
                 Id = Id
             });
-            
-            return response.IsSuccess
-                ? Ok(response)
-                : BadRequest(response);
+
+            return Ok(response);
 
 
         }

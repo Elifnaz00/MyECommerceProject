@@ -48,16 +48,11 @@ namespace MyProject.DataAccess.Concrate
             if(item is null || item.Basket.AppUserId != userId)
                 return false;
 
-            EntityEntry<BasketItem> entityEntry = _myProjectContext.BasketItems.Remove(item);
-            var entityEntryValue = entityEntry.State == EntityState.Deleted;
+            _myProjectContext.BasketItems.Remove(item);
             await _myProjectContext.SaveChangesAsync();
 
-            return entityEntryValue;
+            return true;
             
-
-
-
-
         }
 
       

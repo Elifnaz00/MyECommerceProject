@@ -18,17 +18,23 @@ services.AddSwaggerGen();
 services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 services.AddHttpContextAccessor();
 
+services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost7122",
+        policy => policy.WithOrigins("https://localhost:7122")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+});
 
 // Add services to the container.
 
-builder.Services.AddDbContext<MyProjectContext>(options =>
+services.AddDbContext<MyProjectContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"), options => {
       options.EnableRetryOnFailure(); }
   ));
 
- 
 
-builder.Services.AddIdentity<AppUser, AppRole>(
+services.AddIdentity<AppUser, AppRole>(
     options =>
     {
         // Password settings
@@ -43,11 +49,7 @@ builder.Services.AddIdentity<AppUser, AppRole>(
     }).AddEntityFrameworkStores<MyProjectContext>()
     .AddDefaultTokenProviders().AddErrorDescriber<CustomIdentityErrorDescriber>();
 
-
-
-
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
     options.TokenValidationParameters = new()
@@ -70,9 +72,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 
 ServicesRegistration.AddServices(builder.Services);
-
-builder.Services.AddControllers();
-builder.Services.AddAuthorization();
+services.AddControllers();
+services.AddAuthorization();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 var app = builder.Build();
@@ -88,6 +89,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseRouting();
+app.UseCors("AllowLocalhost7122");
 app.UseAuthorization();
 
 app.MapControllers();

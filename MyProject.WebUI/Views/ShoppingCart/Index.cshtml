@@ -80,11 +80,21 @@
 
 											<td class="price">$@item.Product.Price</td>
 
-											<td class="quantity">
-												<div class="input-group mb-3">
-													<input type="text" name="quantity" class="quantity form-control input-number" value="@item.Quantity"  min="1" max="100">
-												</div>
-											</td>
+												<td class="quantity">
+													<div class="input-group mb-3">
+														<div class="input-group-prepend">
+															<button type="button" class="quantity-left-minus btn btn-outline-secondary" data-type="minus" data-field="">
+																<i class="ion-ios-remove"></i>
+															</button>
+														</div>
+														<input type="text" name="quantity" class="form-control input-number" value="@item.Quantity" min="1" max="100">
+														<div class="input-group-append">
+															<button type="button" class="quantity-right-plus btn btn-outline-secondary" data-type="plus" data-field="">
+																<i class="ion-ios-add"></i>
+															</button>
+														</div>
+													</div>
+												</td>
 
 
 										</tr>	
@@ -142,26 +152,26 @@
 	<script>
 		$(document).ready(function () {
 
-			var quantitiy = 0;
-
 			$('.quantity-right-plus').click(function (e) {
-				e.preventDefault();
-				var quantity = parseInt($('#quantity').val());
-				$('#quantity').val(quantity + 1);
-			});
+			e.preventDefault();
+			var $input = $(this).closest('.input-group').find('input');
+			var quantity = parseInt($input.val());
+			if (quantity < parseInt($input.attr('max'))) {
+				$input.val(quantity + 1);
+			}
+		});
 
-			$('.quantity-left-minus').click(function (e) {
-				e.preventDefault();
-				var quantity = parseInt($('#quantity').val());
-				if (quantity > 0) {
-					$('#quantity').val(quantity - 1);
-				}
-			});
-
+		$('.quantity-left-minus').click(function (e) {
+			e.preventDefault();
+			var $input = $(this).closest('.input-group').find('input');
+			var quantity = parseInt($input.val());
+			if (quantity > parseInt($input.attr('min'))) {
+				$input.val(quantity - 1);
+			}
+		});
 			$("table tbody").on("click", ".remove-item", function (e) {
 				e.preventDefault();
 				console.log("Silme butonuna tıklandı");
-
 
 				var token = '@(Context.Session.GetString("token") ?? "")';
 
@@ -171,8 +181,7 @@
 				}
 
 				var $row = $(this).closest("tr");
-				var basketItemId = $row.find(".basket-item-id").text();
-				 console.log("BasketItemId:", basketItemId);
+				var basketItemId = $row.find(".basket-item-id").text().trim();
 
 				if (!basketItemId) {
 					alert("Sepet öğesi ID'si bulunamadı.");
@@ -180,34 +189,33 @@
 				}
 
 				if (!confirm("Bu ürünü silmek istediğinize emin misiniz?")) return;
-				 console.log("Ajax çağrısı yapılacak");
+				
 
 				$.ajax({
-					url: '/api/v1/BasketItem/' + basketItemId,
+					url: 'https://localhost:7177/api/v1/BasketItem/DeleteBasketItems/' + basketItemId,
 					type: 'DELETE',
 					beforeSend: function (xhr) {
-					// Token varsa Authorization header'a ekle
-					if (token) {
-						xhr.setRequestHeader("Authorization", "Bearer " + token);
-					}
-				},
-					success: function (response) {
-						if (response.IsSuccess) {
-							$row.remove();
-							alert("Ürün başarıyla silindi.");
-						} else {
-							alert("Silme işlemi başarısız: " + response.message);
+						if (token) {
+							xhr.setRequestHeader("Authorization", "Bearer " + token);
 						}
 					},
-							error: function(xhr, status, error) {
-				alert("Bir hata oluştu: " + error + "\nDetay: " + xhr.responseText);
-		}
+					success: function (response) {
+					
+						if (response.isSuccess) {
+							$row.remove();
+							alert(response.Message || "Ürün başarıyla silindi.");
+						} else {
+							alert(response.Message || "Silme işlemi başarısız.");
+						}
+					},
+					error: function (xhr, status, error) {
+						alert("Bir hata oluştu: " + error + "\nDetay: " + xhr.responseText);
+					}
 				});
 			});
 
-		});
+		}); 
 	</script>
-
 
 </body>
 </html>
