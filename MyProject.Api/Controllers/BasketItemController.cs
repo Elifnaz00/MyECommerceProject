@@ -17,12 +17,12 @@ namespace MyProject.Api.Controllers
     public class BasketItemController : Controller
     {
         readonly IMediator _mediator;
-        
+
 
         public BasketItemController(IMediator mediator)
         {
             _mediator = mediator;
-          
+
         }
 
         [HttpGet("GetBasketItems")]
@@ -36,8 +36,8 @@ namespace MyProject.Api.Controllers
         [HttpPost("AddToBasket")]
         public async Task<IActionResult> AddToBasket([FromBody] AddBasketItemDto addBasketItemDto)
         {
-            
-            var response= await _mediator.Send(new AddBasketItemCommandRequest
+
+            var response = await _mediator.Send(new AddBasketItemCommandRequest
             {
                 ProductId = addBasketItemDto.ProductId,
 
@@ -49,9 +49,9 @@ namespace MyProject.Api.Controllers
         }
 
         [HttpDelete("DeleteBasketItems/{Id}")]
-        public async Task<IActionResult> DeleteToBasket([FromRoute]Guid Id)
+        public async Task<IActionResult> DeleteToBasket([FromRoute] Guid Id)
         {
-            var response= await _mediator.Send(new DeleteBasketItemCommandRequest
+            var response = await _mediator.Send(new DeleteBasketItemCommandRequest
             {
                 Id = Id
             });
@@ -59,6 +59,19 @@ namespace MyProject.Api.Controllers
             return Ok(response);
 
 
+        }
+
+
+        [HttpPatch("UpdateBasketItem/{Id}")]
+        public async Task<IActionResult> UpdateBasketItem([FromRoute] Guid Id, [FromBody] UpdateBasketItemDto updateBasketItemDto)
+        {
+            /*
+            var response = await _mediator.Send(new UpdateBasketItemCommandRequest
+            {
+                Id = Id,
+                Quantity = updateBasketItemDto.Quantity
+            }); */
+            return Ok();
         }
     }
 }

@@ -40,6 +40,7 @@ namespace MyProject.Bussines.Mapping
             CreateMap<Basket, AddBasketItemDto>().ReverseMap();
             CreateMap<BasketItem, BasketItemDto>().ReverseMap();
             CreateMap<Basket, AddBasketDto>().ReverseMap();
+            CreateMap<BasketItem, UpdateBasketItemDto>();
 
             CreateMap<Order, CreateOrderCommandRequest>().ReverseMap();
             CreateMap<Category, GetAllCategoriesQueryResponse>().ReverseMap();
