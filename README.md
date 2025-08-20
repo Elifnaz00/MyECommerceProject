@@ -4,15 +4,14 @@ Bu proje, **ASP.NET Core 8** kullanılarak geliştirilmiş, katmanlı mimariye s
 Amaç, modern yazılım geliştirme pratiklerini uygulayarak öğrenmek ve gerçek hayata yakın bir sistem tasarlamaktır.  
 
 ---
- # 🛒 ÖZET
-  -Site içinde ürünler listelenmektedir. Kullanıcı seçimine göre(renk-kategori-beden-fiyat) ürünler listelenebilir. 
-  -Ürün sepete eklenmek istenirse "Giriş Yapınız" uyarısı alınır.(Burada kullanıcının Authantice olup olmadığı kontrol edilir). 
-  -Giriş yapmamış kullanıcı Giriş/ Kayıt ekranına yönlendirilir.
-  -Kullanıcı adı ve şifresiyle giriş yapan kullanıcı sepetini görüntülemek istediğinde;
-    aktif sepeti yoksa => sepet oluşturulur. Status durumu true atanır. Kullanıcı ürün ekledikçe kullanıcıya özel oluşan sepete ürünü eklenir. 
-    aktif sepeti varsa => Sepet sayfasında mevcutta bulunan ürünleri listelenir ve yeni seçtiği ürün eklenir/güncellenir.(AJAX)
-    (Sepet Status durumu Enum ile tutulmaktadır.)
-  -
+
+# 🛒 Özet
+
+- Site içerisinde ürünler listelenmektedir ve kullanıcı seçimine göre **renk, kategori, beden ve fiyat** filtreleme yapılabilir.  
+- Ürün sepete eklenmek istendiğinde, kullanıcı **giriş yapmamışsa** "Giriş Yapınız" uyarısı alınır ve kullanıcı **Giriş / Kayıt ekranına yönlendirilir**.  
+- Giriş yapan kullanıcı sepetini görüntülemek istediğinde:  
+  - **Aktif sepet yoksa:** Yeni sepet oluşturulur, **Status** durumu `true` atanır ve kullanıcı ürün ekledikçe sepete eklenir.  
+  - **Aktif sepet varsa:** Sepet sayfasında mevcut ürünler listelenir; kullanıcı yeni ürün eklediğinde **mevcut ürün güncellenir veya eklenir**. Bu işlemler **AJAX ile senkronize** şekilde yapılır.  
 
 
 ## 🛠️ Kullanılan Teknolojiler
@@ -47,6 +46,7 @@ Amaç, modern yazılım geliştirme pratiklerini uygulayarak öğrenmek ve gerç
 - `MyProject.DTO` → DTO sınıfları  
 
 ---
+
 
 
 
