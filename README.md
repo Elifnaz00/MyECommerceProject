@@ -11,7 +11,19 @@ Amaç, modern yazılım geliştirme pratiklerini uygulayarak öğrenmek ve gerç
 - Ürün sepete eklenmek istendiğinde, kullanıcı **giriş yapmamışsa** "Giriş Yapınız" uyarısı alınır ve kullanıcı **Giriş / Kayıt ekranına yönlendirilir**.  
 - Giriş yapan kullanıcı sepetini görüntülemek istediğinde:  
   - **Aktif sepet yoksa:** Yeni sepet oluşturulur, **Status** durumu `true` atanır ve kullanıcı ürün ekledikçe sepete eklenir.  
-  - **Aktif sepet varsa:** Sepet sayfasında mevcut ürünler listelenir; kullanıcı yeni ürün eklediğinde **mevcut ürün güncellenir veya eklenir**. Bu işlemler **AJAX ile senkronize** şekilde yapılır.  
+  - **Aktif sepet varsa:** Sepet sayfasında mevcut ürünler listelenir; kullanıcı yeni ürün eklediğinde **mevcut ürün güncellenir veya eklenir**. Bu işlemler **AJAX ile senkronize** şekilde yapılır.
+- Sipariş Durumu ve Ödeme Durumu Takibi yapılmaktadır.
+
+
+    ## 🛒 Sipariş & Ödeme Akışı
+
+| Rol      | İşlem                           | OrderStatus (Sipariş Durumu)     | PaymentStatus (Ödeme Durumu) |
+|----------|---------------------------------|----------------------------------|------------------------------|
+| Kullanıcı | **Siparişi Tamamla**            | Awaiting Payment (Ödeme Bekleniyor) | Pending (Bekleniyor)        |
+| Kullanıcı | **Ödemeyi Tamamla**             | Processing (İşleniyor)             | Paid (Ödendi)               |
+| Admin    | **Siparişi Kargoya Ver**         | Shipped (Kargoya Verildi)          | Paid (Ödendi)               |
+| Admin    | **Teslimatı Onayla** *(opsiyonel)* | Completed (Tamamlandı)             | Paid (Ödendi)               |
+  
 
 
 ## 🛠️ Kullanılan Teknolojiler
@@ -46,6 +58,7 @@ Amaç, modern yazılım geliştirme pratiklerini uygulayarak öğrenmek ve gerç
 - `MyProject.DTO` → DTO sınıfları  
 
 ---
+
 
 
 
