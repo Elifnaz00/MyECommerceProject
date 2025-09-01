@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -6,6 +8,7 @@ using MyProject.Bussines.CQRS.AppUsers.Commands.Request;
 
 namespace MyProject.Api.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -33,7 +36,6 @@ namespace MyProject.Api.Controllers
                 else
                 return BadRequest(response.Message);
             
-            
         }
 
 
@@ -57,8 +59,6 @@ namespace MyProject.Api.Controllers
             return Ok(new { Message = "Başarıyla Çıkış Yapıldı" });
             
         }
-
-
 
     }
 }
