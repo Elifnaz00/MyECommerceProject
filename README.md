@@ -15,15 +15,16 @@ Amaç, modern yazılım geliştirme pratiklerini uygulayarak öğrenmek ve gerç
 - Sipariş Durumu ve Ödeme Durumu Takibi yapılmaktadır.
 
 
-    ## 🛒 Sipariş & Ödeme Akışı
+### 📊 Sipariş & Ödeme Durumları  
 
-| Rol      | İşlem                           | OrderStatus (Sipariş Durumu)     | PaymentStatus (Ödeme Durumu) |
-|----------|---------------------------------|----------------------------------|------------------------------|
-| Kullanıcı | **Siparişi Tamamla**            | Awaiting Payment (Ödeme Bekleniyor) | Pending (Bekleniyor)        |
-| Kullanıcı | **Ödemeyi Tamamla**             | Processing (İşleniyor)             | Paid (Ödendi)               |
-| Admin    | **Siparişi Kargoya Ver**         | Shipped (Kargoya Verildi)          | Paid (Ödendi)               |
-| Admin    | **Teslimatı Onayla** *(opsiyonel)* | Completed (Tamamlandı)             | Paid (Ödendi)               |
-  
+| **Aksiyon**                  | **OrderStatus**        | **PaymentStatus**       |
+|-------------------------------|------------------------|--------------------------|
+| Kullanıcı siparişi tamamlar   | Await Payment (Ödeme Bekleniyor) | Pending (Bekleniyor)    |
+| Kullanıcı ödemeyi yapar       | Processing (İşleniyor) | Paid (Ödendi)           |
+| Admin siparişi kargolar       | Shipped (Kargolandı)   | Paid (Ödendi)           |
+| Sipariş teslim edilir         | Delivered (Teslim Edildi) | Paid (Ödendi)        |
+| Sipariş iptal edilir          | Cancelled (İptal Edildi) | Pending / Paid (Duruma göre) |
+| Admin ödeme iadesi yapar      | Cancelled / Delivered (Duruma göre) | Refunded (İade Edildi) |
 
 
 ## 🛠️ Kullanılan Teknolojiler
@@ -58,6 +59,7 @@ Amaç, modern yazılım geliştirme pratiklerini uygulayarak öğrenmek ve gerç
 - `MyProject.DTO` → DTO sınıfları  
 
 ---
+
 
 
 
