@@ -54,8 +54,6 @@ namespace MyProject.DataAccess.Concrate
             return true;
             
         }
-
-      
     }
     
 }

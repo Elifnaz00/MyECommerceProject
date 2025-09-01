@@ -28,7 +28,6 @@ namespace MyProject.WebUI.Controllers
         }
 
 
-        
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -61,39 +60,14 @@ namespace MyProject.WebUI.Controllers
                 return View(); // boş sepet görünümü
             }
 
-
-            /*
-            if (response.BasketStatus == Entity.Enums.BasketStatus.NotFound)
-            {
-                var value= await client.PostAsync(client.BaseAddress + "/Basket/AddBasket", null);
-                return View();  //// boş sepet görünümü
-
-            }
-
-            if(response.BasketStatus == Entity.Enums.BasketStatus.Empty)
-            {
-                return View(response);  // ürün yok ama sepet var
-
-            }
-
-            if(response.BasketStatus == Entity.Enums.BasketStatus.HasItems)
-            {
-                return View(response);
-            }
-           
-            return View(); 
-            */
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> CartSubmit(ShoppingCartSubmitViewModel shoppingCartSubmitViewModel)
+        public async Task<IActionResult> Index(ShoppingCartSubmitViewModel shoppingCartSubmitViewModel)
         {
-            HttpClient client = _httpClientFactory.CreateClient("ApiService1");
-            string requestBody = JsonConvert.SerializeObject(shoppingCartSubmitViewModel);
-            using StringContent httpContent = new StringContent(requestBody, Encoding.UTF8, "application/json");
-            await client.PostAsync(client.BaseAddress + "/BasketItem/AddBasketToBasketItem", httpContent);
-            return View();
+     
+            return RedirectToAction("Index","Order", shoppingCartSubmitViewModel);
         }
 
 

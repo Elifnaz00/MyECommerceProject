@@ -73,10 +73,7 @@ namespace MyProject.WebUI.Controllers
             {
                 success = true,
                 message = "Ürün sepete eklendi."
-            });
-
-
-           
+            });        
         }
 
 
@@ -129,10 +126,6 @@ namespace MyProject.WebUI.Controllers
                     return StatusCode(500, "Ürün detayları alınamadı.");
                 }
 
-                // Tekil nesneyi liste haline getir
-                //var products = new List<ProductDetailViewModel> { product };
-                
-                // View'a gönder
                 return View(product);
             }
             catch (HttpRequestException ex)

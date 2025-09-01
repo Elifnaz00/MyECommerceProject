@@ -17,7 +17,6 @@ namespace MyProject.Entity.Entities
 
     
 
-       
         public BaseEntity()
         {
             Id = Guid.NewGuid();

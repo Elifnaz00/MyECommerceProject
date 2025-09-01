@@ -10,6 +10,7 @@ namespace MyProject.DTO.Models.BasketItemViewModel
     public class UpdateBasketItemViewModel
     {
         public Guid Id { get; set; }
-       
+        public int Quantity { get; set; }
+
     }
 }

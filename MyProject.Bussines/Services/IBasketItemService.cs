@@ -17,5 +17,6 @@ namespace MyProject.Bussines.Services
         Task<bool> RemoveBasketItemAsync(Guid basketItemId, string userId);
 
         Task<bool> UpdateQuantityAsync(UpdateBasketItemViewModel UpdateBasketItemViewModel);
+
     }
 }

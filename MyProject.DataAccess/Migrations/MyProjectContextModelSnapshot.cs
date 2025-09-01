@@ -360,43 +360,6 @@ namespace MyProject.DataAccess.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("MyProject.Entity.Entities.Entrance", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description3")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsChecked")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Title1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Entrances");
-                });
-
             modelBuilder.Entity("MyProject.Entity.Entities.Gallery", b =>
                 {
                     b.Property<Guid>("Id")
@@ -420,10 +383,75 @@ namespace MyProject.DataAccess.Migrations
             modelBuilder.Entity("MyProject.Entity.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Addres")
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("BasketId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("OrderStatusId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValue(new Guid("22222222-2222-2222-2222-222222222222"));
+
+                    b.Property<string>("PaymentMethod")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PaymentStatusId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValue(new Guid("11111111-1111-1111-1111-111111111111"));
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShippingAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShippingCity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShippingCountry")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShippingPostalCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("BasketId")
+                        .IsUnique();
+
+                    b.HasIndex("OrderStatusId");
+
+                    b.HasIndex("PaymentStatusId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("MyProject.Entity.Entities.OrderStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -431,12 +459,92 @@ namespace MyProject.DataAccess.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Piece")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("OrderStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
+                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(4401),
+                            IsDeleted = false,
+                            Name = "Await Payment"
+                        },
+                        new
+                        {
+                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(4407),
+                            IsDeleted = false,
+                            Name = "Processing"
+                        },
+                        new
+                        {
+                            Id = new Guid("66666666-6666-6666-6666-666666666666"),
+                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(4409),
+                            IsDeleted = false,
+                            Name = "Shipped"
+                        },
+                        new
+                        {
+                            Id = new Guid("77777777-7777-7777-7777-777777777777"),
+                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(4411),
+                            IsDeleted = false,
+                            Name = "Delivered"
+                        },
+                        new
+                        {
+                            Id = new Guid("88888888-8888-8888-8888-888888888888"),
+                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(4413),
+                            IsDeleted = false,
+                            Name = "Cancelled"
+                        });
+                });
+
+            modelBuilder.Entity("MyProject.Entity.Entities.PaymentStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(3943),
+                            IsDeleted = false,
+                            Name = "Pending"
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
+                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(3957),
+                            IsDeleted = false,
+                            Name = "Paid"
+                        },
+                        new
+                        {
+                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
+                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(3959),
+                            IsDeleted = false,
+                            Name = "Failed"
+                        });
                 });
 
             modelBuilder.Entity("MyProject.Entity.Entities.Product", b =>
@@ -650,13 +758,35 @@ namespace MyProject.DataAccess.Migrations
 
             modelBuilder.Entity("MyProject.Entity.Entities.Order", b =>
                 {
+                    b.HasOne("MyProject.Entity.Entities.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
                     b.HasOne("MyProject.Entity.Entities.Basket", "Basket")
                         .WithOne("Order")
-                        .HasForeignKey("MyProject.Entity.Entities.Order", "Id")
+                        .HasForeignKey("MyProject.Entity.Entities.Order", "BasketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MyProject.Entity.Entities.OrderStatus", "OrderStatus")
+                        .WithMany("Orders")
+                        .HasForeignKey("OrderStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyProject.Entity.Entities.PaymentStatus", "PaymentStatus")
+                        .WithMany("Orders")
+                        .HasForeignKey("PaymentStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
                     b.Navigation("Basket");
+
+                    b.Navigation("OrderStatus");
+
+                    b.Navigation("PaymentStatus");
                 });
 
             modelBuilder.Entity("MyProject.Entity.Entities.Product", b =>
@@ -686,6 +816,16 @@ namespace MyProject.DataAccess.Migrations
             modelBuilder.Entity("MyProject.Entity.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("MyProject.Entity.Entities.OrderStatus", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("MyProject.Entity.Entities.PaymentStatus", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("MyProject.Entity.Entities.Product", b =>

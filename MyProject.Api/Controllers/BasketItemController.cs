@@ -57,21 +57,8 @@ namespace MyProject.Api.Controllers
             });
 
             return Ok(response);
-
-
         }
 
 
-        [HttpPatch("UpdateBasketItem/{Id}")]
-        public async Task<IActionResult> UpdateBasketItem([FromRoute] Guid Id, [FromBody] UpdateBasketItemDto updateBasketItemDto)
-        {
-            /*
-            var response = await _mediator.Send(new UpdateBasketItemCommandRequest
-            {
-                Id = Id,
-                Quantity = updateBasketItemDto.Quantity
-            }); */
-            return Ok();
-        }
     }
 }

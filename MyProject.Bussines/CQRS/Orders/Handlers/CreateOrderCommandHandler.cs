@@ -28,10 +28,18 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers
         public async Task<CreateOrderCommandResponse> Handle(CreateOrderCommandRequest request, CancellationToken cancellationToken)
         {
             var mappingValue=_mapper.Map<Order>(request.CreateOrderDto);
-            var addedOrderValue= await _orderRepository.AddAsync(mappingValue);
+            if (mappingValue.PaymentStatusId == Guid.Empty)
+                mappingValue.PaymentStatusId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+
+            if (mappingValue.OrderStatusId == Guid.Empty)
+                mappingValue.OrderStatusId = Guid.Parse("22222222-2222-2222-2222-222222222222");
+
+            await _orderRepository.AddAsync(mappingValue);
+
             return new CreateOrderCommandResponse
             {
-                OrderDto = _mapper.Map<OrderDto>(addedOrderValue)
+                OrderDto = _mapper.Map<OrderDto>(mappingValue),
+                Message= "Siparişiniz başarıyla oluşturuldu."
             };
         }
     }
