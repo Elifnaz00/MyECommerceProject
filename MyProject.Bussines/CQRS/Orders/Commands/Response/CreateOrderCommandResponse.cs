@@ -13,7 +13,5 @@ namespace MyProject.Bussines.CQRS.Orders.Commands.Response
         public OrderDto OrderDto { get; set; }
         public string Message { get; set; }
 
-        public bool IsSuccess { get; set; } = true;
-
     }
 }
