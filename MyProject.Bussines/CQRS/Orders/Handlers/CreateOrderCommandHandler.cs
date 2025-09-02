@@ -48,6 +48,8 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers
 
             var mappingValue = _mapper.Map<Order>(request.CreateOrderDto);
 
+            mappingValue.AppUserId = userId;
+
             if (mappingValue.PaymentStatusId == Guid.Empty)
                 mappingValue.PaymentStatusId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
@@ -59,7 +61,7 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers
             return new CreateOrderCommandResponse
             {
                 IsSuccess = true,
-                OrderDto = _mapper.Map<OrderDto>(mappingValue),
+                CreatedOrderDto = _mapper.Map<CreatedOrderDto>(mappingValue),
                 Message = "Siparişiniz başarıyla oluşturuldu."
             };
         }

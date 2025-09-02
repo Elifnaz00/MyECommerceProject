@@ -59,7 +59,6 @@ namespace MyProject.WebUI.Controllers
                 await client.PostAsync(client.BaseAddress + "/Basket/AddBasket", null);
                 return View(); // boş sepet görünümü
             }
-
         }
 
 
@@ -69,9 +68,6 @@ namespace MyProject.WebUI.Controllers
      
             return RedirectToAction("Index","Order", shoppingCartSubmitViewModel);
         }
-
-
-
 
     }
 }

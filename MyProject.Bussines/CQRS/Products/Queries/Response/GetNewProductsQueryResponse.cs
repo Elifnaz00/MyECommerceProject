@@ -16,13 +16,5 @@ namespace MyProject.Bussines.CQRS.Products.Queries.Response
         public long? Price { get; set; }
         public string? ImageUrl { get; set; }
        
-        //public DateTime CreatedDate { get; set; }
-
-
-
-
-
-
-
     }
 }

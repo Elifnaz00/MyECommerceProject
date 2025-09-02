@@ -16,8 +16,6 @@ namespace MyProject.Bussines.CQRS.Products.Queries.Response
         public string? ImageUrl { get; set; }
         public string? ProductCode { get; set; }
 
-
-
         public Guid CategoryId { get; set; }
 
         

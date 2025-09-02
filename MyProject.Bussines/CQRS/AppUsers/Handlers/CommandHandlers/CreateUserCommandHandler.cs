@@ -35,13 +35,13 @@ namespace MyProject.Bussines.CQRS.AppUsers.Handlers.CommandHandlers
                 return result.Succeeded
            ? new CreateUserCommandResponse
            {
-               Succeeded= true ,
+               IsSuccess= true ,
                Message = "Kayıt işlemi başarılı"
            }
 
            : new CreateUserCommandResponse
            {
-               Succeeded = false ,
+               IsSuccess = false ,
                Message = string.Join(", ", result.Errors.Select(e => e.Description))
                
            };

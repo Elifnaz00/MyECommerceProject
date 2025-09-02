@@ -8,7 +8,7 @@ using MyProject.Bussines.CQRS.AppUsers.Commands.Request;
 
 namespace MyProject.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
+   
     [Route("api/v1/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -28,7 +28,7 @@ namespace MyProject.Api.Controllers
            
                 var response= await _mediator.Send(createUserCommandRequest);
 
-                if(response.Succeeded== true)
+                if(response.IsSuccess== true)
                 {
                    
                     return StatusCode(201, response.Message);

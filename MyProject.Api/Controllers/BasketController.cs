@@ -67,11 +67,8 @@ namespace MyProject.Api.Controllers
                
             });
 
-            //return Ok(response.Basket);
             return CreatedAtAction("GetBasket", new { id = userId}, response);
         }
-
-
 
     }
 }

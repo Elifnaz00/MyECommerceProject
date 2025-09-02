@@ -36,7 +36,7 @@ namespace MyProject.Bussines.Mapping
             CreateMap<Product, AddProductDto>().ReverseMap();
             CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<Contact,ContactDto>().ReverseMap();
-            CreateMap<Order,OrderDto>().ReverseMap();
+            CreateMap<Order,CreatedOrderDto>().ReverseMap();
             CreateMap<Basket, AddBasketItemDto>().ReverseMap();
             CreateMap<BasketItem, BasketItemDto>().ReverseMap();
             CreateMap<Basket, AddBasketDto>().ReverseMap();

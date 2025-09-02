@@ -23,7 +23,23 @@ namespace MyProject.Api.Controllers
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDto crateOrderDto)
         {
             var response= await _mediator.Send(new CreateOrderCommandRequest() { CreateOrderDto = crateOrderDto});
-            return Ok(response);
+            return CreatedAtAction(nameof(GetByIdOrder), new {id= response.CreatedOrderDto.Id}, response);
+           
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdOrder([FromRoute] Guid id)
+        {
+            return Ok("merhaba");
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllOrder()
+        {
+            return Ok();
+        }
+
+
     }
 }

@@ -12,11 +12,7 @@ namespace MyProject.DTO.DTOs.ContactDTOs
         public DateTime CreateDate { get; set; }
         public string? ContentMessage { get; set; }
         public string? SenderName { get; set; }
-
-
         public string? SenderMail { get; set; }
-
-
         public string? Subject { get; set; }
 
     }

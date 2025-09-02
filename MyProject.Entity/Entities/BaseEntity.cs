@@ -12,7 +12,6 @@ namespace MyProject.Entity.Entities
         
         public Guid Id { get; init; } 
         public DateTime CreateDate { get; set; } 
-
         public bool IsDeleted { get; set; } = false;
 
     

@@ -33,16 +33,13 @@ namespace MyProject.WebUI.Controllers
             _httpClientFactory = httpClientFactory;
             _httpContextAccessor = httpContextAccessor;
 
-
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            
             return View();
         }
-
 
 
 
@@ -51,17 +48,12 @@ namespace MyProject.WebUI.Controllers
         public async Task<IActionResult> Index(UserLoginViewModel userLoginViewModel)
         {
             if(!ModelState.IsValid)
-            {
                 return View(userLoginViewModel);
 
-            }
             
-                
              HttpClient client = _httpClientFactory.CreateClient("ApiService1");
 
              var response = await client.PostAsJsonAsync(client.BaseAddress + "/User/Login", userLoginViewModel);
-
-            
 
             if (response.IsSuccessStatusCode)
             {
@@ -89,8 +81,6 @@ namespace MyProject.WebUI.Controllers
                     // Token'ı session'da tut (API isteklerinde kullanılabilir)
                     _httpContextAccessor?.HttpContext?.Session.SetString("token", userToken);
                 }
-               
-
                 return RedirectToAction("Index", "Home");
             }
 
@@ -101,10 +91,7 @@ namespace MyProject.WebUI.Controllers
 
                 ModelState.AddModelError(string.Empty, apiResponseMessage);
                     return View(userLoginViewModel);
-                }
-
-     
-        }
+                }}
 
 
 
@@ -116,21 +103,14 @@ namespace MyProject.WebUI.Controllers
 
 
 
-
-
-
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> SignUp(UserRegisterViewModeL userRegisterViewModel)
         {
             if (!ModelState.IsValid)
-            {
                 return View(userRegisterViewModel);
                
 
-            }
-
-            
                 HttpClient client = _httpClientFactory.CreateClient("ApiService1");
 
                 var response = await client.PostAsJsonAsync(client.BaseAddress + "/User/Register", userRegisterViewModel);
@@ -146,17 +126,7 @@ namespace MyProject.WebUI.Controllers
                     ModelState.AddModelError(string.Empty, $"Kayıt işlemi başarısız: {errorMessage}");
             }
             
-         
-           
-
-            
-            return View(userRegisterViewModel);
-
-
-
-
-
-        }
+            return View(userRegisterViewModel);}
 
 
         [HttpPost("Logout")]
