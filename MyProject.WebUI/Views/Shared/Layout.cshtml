@@ -140,7 +140,7 @@
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="userDropdown">
                                                     <li><a asp-area="Products" asp-controller="Product" asp-action="Index" class="dropdown-item" >Profil Bilgileri</a></li>
-                                                    <li><a class="dropdown-item" href="#">Sipariş Bilgileri</a></li>
+                                                    <li><a class="dropdown-item" asp-controller="Order" asp-action="Index" href="#">Sipariş Bilgileri</a></li>
                                                    
                                                     <li>
                                                         <button type="submit" class="dropdown-item text-danger">Çıkış Yap</button>

@@ -33,10 +33,20 @@ namespace MyProject.Api.Controllers
             return Ok("merhaba");
         }
 
+         
 
-        [HttpGet]
+        [HttpGet("user-orders")]
+        public async Task<IActionResult> GetUserOrder()
+        {
+
+            return Ok();
+        }
+
+
+        [HttpGet("all-orders-admin")]
         public async Task<IActionResult> GetAllOrder()
         {
+
             return Ok();
         }
 

@@ -20,13 +20,13 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
-        private readonly IHttpContextAccessor _httpContextAccessor; // Add this field
+        private readonly IHttpContextAccessor _httpContextAccessor; 
 
         public CreateOrderCommandRequestHandler(IOrderRepository orderRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor) // Update constructor
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
-            _httpContextAccessor = httpContextAccessor; // Assign the injected dependency
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<CreateOrderCommandResponse> Handle(CreateOrderCommandRequest request, CancellationToken cancellationToken)
