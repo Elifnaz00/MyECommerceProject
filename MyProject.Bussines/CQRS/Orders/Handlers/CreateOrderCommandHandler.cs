@@ -11,6 +11,8 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace MyProject.Bussines.CQRS.Orders.Handlers
 {
@@ -18,16 +20,34 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor; // Add this field
 
-        public CreateOrderCommandRequestHandler(IOrderRepository orderRepository, IMapper mapper)
+        public CreateOrderCommandRequestHandler(IOrderRepository orderRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor) // Update constructor
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor; // Assign the injected dependency
         }
 
         public async Task<CreateOrderCommandResponse> Handle(CreateOrderCommandRequest request, CancellationToken cancellationToken)
         {
-            var mappingValue=_mapper.Map<Order>(request.CreateOrderDto);
+            if (request.CreateOrderDto == null)
+            {
+                return new() { IsSuccess = false, Message = "Sipariş bilgileri eksik." };
+            }
+
+            var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return new()
+                {
+                    IsSuccess = false,
+                    Message = "Kullanıcı kimliği bulunamadı."
+                };
+            }
+
+            var mappingValue = _mapper.Map<Order>(request.CreateOrderDto);
+
             if (mappingValue.PaymentStatusId == Guid.Empty)
                 mappingValue.PaymentStatusId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
@@ -38,8 +58,9 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers
 
             return new CreateOrderCommandResponse
             {
+                IsSuccess = true,
                 OrderDto = _mapper.Map<OrderDto>(mappingValue),
-                Message= "Siparişiniz başarıyla oluşturuldu."
+                Message = "Siparişiniz başarıyla oluşturuldu."
             };
         }
     }

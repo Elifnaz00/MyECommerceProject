@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Bussines.CQRS.Orders.Commands.Request;
@@ -6,7 +7,7 @@ using MyProject.DTO.DTOs.OrderDTOs;
 
 namespace MyProject.Api.Controllers
 {
-    
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
