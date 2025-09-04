@@ -14,10 +14,7 @@ namespace MyProject.DataAccess.Abstract
     {
         IQueryable<Product> GetProductByCategory(Guid id);
         //Task<Product?> GetProductIncludeCategory(Guid id);
-
-
         IQueryable<Product> GetNewArrivalProducts();
-
         IQueryable<Product> GetFilteredProduct(FilteredProductDto filtered);
 
 

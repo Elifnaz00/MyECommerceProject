@@ -42,6 +42,7 @@
   <ItemGroup>
     <Folder Include="CQRS\BasketItem\Queries\Request\" />
     <Folder Include="CQRS\BasketItem\Queries\Response\" />
+    <Folder Include="CQRS\Orders\Handlers\QueryHandlers\" />
   </ItemGroup>
 
 </Project>

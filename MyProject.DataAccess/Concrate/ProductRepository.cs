@@ -46,15 +46,12 @@ namespace MyProject.DataAccess.Concrate
             }
             
            return query;
-
-            
         
         }
 
         public IQueryable<Product> GetNewArrivalProducts()
         {
-            var value = _context.Products.OrderByDescending(x => x.CreateDate).Take(8);
-           
+            var value = _context.Products.OrderByDescending(x => x.CreateDate).Take(8);   
             return value;
         }
 

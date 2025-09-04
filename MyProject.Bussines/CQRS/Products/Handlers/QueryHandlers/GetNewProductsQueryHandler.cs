@@ -28,8 +28,6 @@ namespace MyProject.Bussines.CQRS.Products.Handlers.QueryHandlers
             var value =   _productRepository.GetNewArrivalProducts();
             var products = await value.ToListAsync();
 
-
-
             var result= _mapper.Map<IList<GetNewProductsQueryResponse>>(products);
             return result;
 

@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using MyProject.Bussines.CQRS.Orders.Queries.Request;
 using MyProject.Bussines.CQRS.Orders.Queries.Response;
 using MyProject.DataAccess.Abstract;
+using MyProject.DTO.DTOs.OrderDTOs;
 
 namespace MyProject.Bussines.CQRS.Orders.Handlers
 {
@@ -27,19 +28,30 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public Task<GetUserOrderQueryResponse> Handle(GetUserOrderQueryRequest request, CancellationToken cancellationToken)
+        public async Task<GetUserOrderQueryResponse> Handle(GetUserOrderQueryRequest request, CancellationToken cancellationToken)
         {
             var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
             {
-               return new Task<GetUserOrderQueryResponse>(() => new GetUserOrderQueryResponse
+               return new GetUserOrderQueryResponse
                {
                    IsSuccess = false,
                    Message = "Kullanıcı kimliği bulunamadı."
-               });
+               };
             }
 
-            //var orders = _orderRepository.GetAllOrdersByUserId(userId);
+            var orders = _orderRepository.GetOrdersByUserId(userId);
+          
+            return new GetUserOrderQueryResponse
+            {
+                IsSuccess = true,
+                Orders = _mapper.Map<List<UserOrderDto>>(orders),
+                Message = "Kullanıcının siparişleri başarıyla getirildi."
+               
+            };
+
+
+
         }
     }
 }
