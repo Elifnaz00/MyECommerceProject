@@ -42,8 +42,13 @@ namespace MyProject.Bussines.Mapping
             CreateMap<Basket, AddBasketDto>().ReverseMap();
             CreateMap<BasketItem, UpdateBasketItemDto>();
 
+            CreateMap<BasketItem, OrderDetailBasketItemDto>().ForMember(dest => dest.OrderDetailProductDto, opt => opt.MapFrom(src => src.Product)).ReverseMap();
+
+            CreateMap<Product, OrderDetailProductDto>().ReverseMap();
             CreateMap<Order, CreateOrderCommandRequest>().ReverseMap();
-            CreateMap<Order, UserOrderDto>().ReverseMap();
+            CreateMap<Order, UserOrderDto>().ForMember(dest => dest.OrderStatusName, opt => opt.MapFrom(src => src.OrderStatus.Name))
+    .ForMember(dest => dest.OrderDetailBasketItemDto, opt => opt.MapFrom(src => src.Basket.BasketItems));
+
             CreateMap<Category, GetAllCategoriesQueryResponse>().ReverseMap();
             CreateMap<Product, GetAllProductQueryResponse>().ReverseMap();
             CreateMap<Product, GetProductByCategoryQueryResponse>().ReverseMap();
@@ -55,7 +60,6 @@ namespace MyProject.Bussines.Mapping
             CreateMap<AppUser, CreateUserCommandRequest>().ReverseMap();
             CreateMap<Basket, AddBasketQueryRequest>().ReverseMap();
             CreateMap<BasketItem, AddBasketItemCommandRequest>().ReverseMap();
-
             CreateMap<BasketItem, AddBasketItemViewModel>().ReverseMap();
             CreateMap<BasketItem, UpdateBasketItemViewModel>().ReverseMap();
 

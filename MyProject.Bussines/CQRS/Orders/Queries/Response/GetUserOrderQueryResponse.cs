@@ -13,7 +13,5 @@ namespace MyProject.Bussines.CQRS.Orders.Queries.Response
     {
         public List<UserOrderDto> Orders { get; set; }
 
-        public List<BasketItemDto> BasketItems { get; set; }
-
     }
 }

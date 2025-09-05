@@ -42,15 +42,13 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers
             }
 
             var orders = await _orderRepository.GetOrdersByUserId(userId);
-            var basketItems= orders.SelectMany(o => o.Basket.BasketItems).ToList();
+           
 
-            
             
             return new GetUserOrderQueryResponse
             {
                 IsSuccess = true,
                 Orders = _mapper.Map<List<UserOrderDto>>(orders),
-                BasketItems= _mapper.Map<List<BasketItemDto>>(basketItems),
                 Message = "Kullanıcının siparişleri başarıyla getirildi."
                
             };
