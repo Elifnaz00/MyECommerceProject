@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using MyProject.Bussines.CQRS.Orders.Queries.Request;
 using MyProject.Bussines.CQRS.Orders.Queries.Response;
 using MyProject.DataAccess.Abstract;
+using MyProject.DTO.DTOs.BasketItemDTOs;
 using MyProject.DTO.DTOs.OrderDTOs;
 
 namespace MyProject.Bussines.CQRS.Orders.Handlers
@@ -40,12 +41,16 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers
                };
             }
 
-            var orders = _orderRepository.GetOrdersByUserId(userId);
-          
+            var orders = await _orderRepository.GetOrdersByUserId(userId);
+            var basketItems= orders.SelectMany(o => o.Basket.BasketItems).ToList();
+
+            
+            
             return new GetUserOrderQueryResponse
             {
                 IsSuccess = true,
                 Orders = _mapper.Map<List<UserOrderDto>>(orders),
+                BasketItems= _mapper.Map<List<BasketItemDto>>(basketItems),
                 Message = "Kullanıcının siparişleri başarıyla getirildi."
                
             };

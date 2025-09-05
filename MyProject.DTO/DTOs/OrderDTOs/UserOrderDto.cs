@@ -13,5 +13,7 @@ namespace MyProject.DTO.DTOs.OrderDTOs
         public decimal TotalAmount { get; set; }
         public Guid OrderStatusId { get; set; }
         public OrderStatus? OrderStatus { get; set; }
+
+       
     }
 }

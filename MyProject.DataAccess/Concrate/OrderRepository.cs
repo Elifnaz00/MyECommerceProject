@@ -22,13 +22,17 @@ namespace MyProject.DataAccess.Concrate
 
         public async Task<List<Order>> GetOrdersByUserId(string userId)
         {
-            return await _context.Orders.AsNoTracking()
-                .Include(x => x.Basket)
+            var value=  await _context.Orders.AsNoTracking()
+                .Include(o => o.OrderStatus)
+                .Include(o => o.Basket)
                 .ThenInclude(y => y.BasketItems)
                 .ThenInclude(z => z.Product)
                 .Where(o => o.AppUserId == userId)
                 .OrderByDescending(o => o.CreateDate)
                 .ToListAsync();
+
+
+            return value;
         }
     }
 }

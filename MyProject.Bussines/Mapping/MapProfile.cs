@@ -43,6 +43,7 @@ namespace MyProject.Bussines.Mapping
             CreateMap<BasketItem, UpdateBasketItemDto>();
 
             CreateMap<Order, CreateOrderCommandRequest>().ReverseMap();
+            CreateMap<Order, UserOrderDto>().ReverseMap();
             CreateMap<Category, GetAllCategoriesQueryResponse>().ReverseMap();
             CreateMap<Product, GetAllProductQueryResponse>().ReverseMap();
             CreateMap<Product, GetProductByCategoryQueryResponse>().ReverseMap();

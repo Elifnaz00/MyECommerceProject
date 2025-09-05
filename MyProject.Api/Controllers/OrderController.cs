@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Bussines.CQRS.Orders.Commands.Request;
+using MyProject.Bussines.CQRS.Orders.Queries.Request;
 using MyProject.DTO.DTOs.OrderDTOs;
 
 namespace MyProject.Api.Controllers
@@ -39,8 +40,8 @@ namespace MyProject.Api.Controllers
         public async Task<IActionResult> GetUserOrder()
         {
             
-
-            return Ok();
+            var response= await _mediator.Send(new GetUserOrderQueryRequest()); 
+            return Ok(response);
         }
 
 
