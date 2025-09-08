@@ -15,7 +15,7 @@ namespace MyProject.DTO.DTOs.OrderDTOs
         public string? ShippingPostalCode { get; set; }
         public string? Phone { get; set; }
         public string? Email { get; set; }
-        public decimal TotalAmount { get; set; }
+        public decimal TotalAmount { get; set; } 
         public string? PaymentMethod { get; set; }
         public Guid BasketId { get; set; }
         public Guid OrderStatusId { get; set; }

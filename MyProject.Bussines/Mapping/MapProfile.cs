@@ -43,7 +43,8 @@ namespace MyProject.Bussines.Mapping
             CreateMap<BasketItem, UpdateBasketItemDto>();
 
             CreateMap<BasketItem, OrderDetailBasketItemDto>().ForMember(dest => dest.OrderDetailProductDto, opt => opt.MapFrom(src => src.Product)).ReverseMap();
-
+            CreateMap<UpdateBasketItemViewModel, UpdateBasketItemCommandRequest>().ReverseMap();
+            
             CreateMap<Product, OrderDetailProductDto>().ReverseMap();
             CreateMap<Order, CreateOrderCommandRequest>().ReverseMap();
             CreateMap<Order, UserOrderDto>().ForMember(dest => dest.OrderStatusName, opt => opt.MapFrom(src => src.OrderStatus.Name))

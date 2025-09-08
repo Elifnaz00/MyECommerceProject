@@ -59,6 +59,17 @@ namespace MyProject.Api.Controllers
             return Ok(response);
         }
 
+        [HttpPut("UpdateBasketItem")]
+        public async Task<IActionResult> UpdateBasketItem([FromBody] UpdateBasketItemDto updateBasketItemDto)
+        {
+            var response = await _mediator.Send(new UpdateBasketItemCommandRequest
+            {
+                Id = updateBasketItemDto.Id,
+                Quantity = updateBasketItemDto.Quantity
+            });
+            return NoContent();
+        }
+
 
     }
 }

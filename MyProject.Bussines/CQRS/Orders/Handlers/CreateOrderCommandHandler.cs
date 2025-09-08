@@ -13,29 +13,28 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using MyProject.Bussines.Services;
 
 namespace MyProject.Bussines.CQRS.Orders.Handlers
 {
     public class CreateOrderCommandRequestHandler : IRequestHandler<CreateOrderCommandRequest, CreateOrderCommandResponse>
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IBasketService _basketService;
         private readonly IMapper _mapper;
-        private readonly IHttpContextAccessor _httpContextAccessor; 
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CreateOrderCommandRequestHandler(IOrderRepository orderRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor) // Update constructor
+        public CreateOrderCommandRequestHandler(IOrderRepository orderRepository, IBasketService basketService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _orderRepository = orderRepository;
+            _basketService = basketService;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<CreateOrderCommandResponse> Handle(CreateOrderCommandRequest request, CancellationToken cancellationToken)
         {
-            if (request.CreateOrderDto == null)
-            {
-                return new() { IsSuccess = false, Message = "Sipariş bilgileri eksik." };
-            }
-
+            
             var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
             {
@@ -43,6 +42,16 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers
                 {
                     IsSuccess = false,
                     Message = "Kullanıcı kimliği bulunamadı."
+                };
+            }
+
+            var checkUser = await _basketService.GetBasketByUserServiceAsync(userId);
+            if (checkUser is null)
+            {
+                return new()
+                {
+                    IsSuccess = false,
+                    Message = "Kullanıcıya ait aktif bir sepet bulunamadı."
                 };
             }
 

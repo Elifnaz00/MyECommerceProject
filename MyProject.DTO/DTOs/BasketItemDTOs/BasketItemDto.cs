@@ -12,6 +12,7 @@ namespace MyProject.DTO.DTOs.BasketItemDTOs
     {
         public Guid Id { get; set; }  
         public int Quantity { get; set; }
+        public Guid BasketId { get; set; }
         public ProductDto Product { get; set; }
     }
 }

@@ -11,22 +11,18 @@ using MyProject.WebUI.Models.ShoppingCartModel;
 using Newtonsoft.Json;
 
 
-
 namespace MyProject.WebUI.Controllers
 {
     [Authorize]
     public class ShoppingCartController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        
-
+       
         public ShoppingCartController(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
         {
             _httpClientFactory = httpClientFactory;
-            _httpContextAccessor = httpContextAccessor;
+           
         }
-
 
 
         [HttpGet]
@@ -65,8 +61,8 @@ namespace MyProject.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(ShoppingCartSubmitViewModel shoppingCartSubmitViewModel)
         {
-     
-            return RedirectToAction("Index","Order", shoppingCartSubmitViewModel);
+            //ürün sayısını update et
+            return Ok();
         }
 
     }
