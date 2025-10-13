@@ -60,13 +60,23 @@ namespace MyProject.Bussines.Services
            
         }
 
-
+       
         public async Task<bool> RemoveBasketItemAsync(Guid basketItemId, string userId)
         {
              return await _basketItemRepository.DeleteItemBasketAsync(basketItemId, userId);
                
         }
 
-       
+
+        public async Task UpdateBasketItemAsync(UpdateBasketItemViewModel updateBasketItemViewModel)
+        {
+            var existingItem = await _basketItemRepository.GetByIdAsync(updateBasketItemViewModel.Id);
+            if (existingItem == null) return;
+            existingItem.Quantity = updateBasketItemViewModel.Quantity;
+            _basketItemRepository.Update(existingItem);
+
+        }
+
+
     }
 }

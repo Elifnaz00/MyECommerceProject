@@ -22,6 +22,7 @@ using MyProject.DTO.DTOs.BasketDTOs;
 
 using MyProject.DTO.Models.BasketItemViewModel;
 using MyProject.Bussines.CQRS.BasketItem.Commands.Request;
+using MyProject.DataAccess.UnıtOfWorks;
 
 namespace MyProject.Bussines.Mapping
 {
@@ -63,12 +64,14 @@ namespace MyProject.Bussines.Mapping
             CreateMap<BasketItem, AddBasketItemCommandRequest>().ReverseMap();
             CreateMap<BasketItem, AddBasketItemViewModel>().ReverseMap();
             CreateMap<BasketItem, UpdateBasketItemViewModel>().ReverseMap();
+            CreateMap<UpdateBasketItemDto, UpdateBasketItemViewModel>().ReverseMap();
+
 
             CreateMap<CreateOrderDto, Order>()
             .ForMember(dest => dest.PaymentStatusId, opt => opt.MapFrom(src => Guid.Parse("11111111-1111-1111-1111-111111111111"))) // Pending
             .ForMember(dest => dest.OrderStatusId, opt => opt.MapFrom(src => Guid.Parse("22222222-2222-2222-2222-222222222222"))); // Await Payment
 
-
+            CreateMap<IUnitOfWork, UnitOfWork>().ReverseMap();
 
 
 

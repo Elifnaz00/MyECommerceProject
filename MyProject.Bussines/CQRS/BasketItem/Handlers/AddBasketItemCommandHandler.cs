@@ -121,11 +121,11 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
                 Id = checkedProductInBasket.Id, // Sepetteki ürünün ID'si  
             };
 
-            var updateSuccess = await _basketItemService.UpdateQuantityAsync(updateItemModel);
+            await _basketItemService.UpdateQuantityAsync(updateItemModel);
             return new AddBasketItemCommandResponse
             {
-                IsSuccess = updateSuccess,
-                Message = updateSuccess ? "Ürün sepete eklendi." : "Ürün miktarı güncellenemedi."
+                IsSuccess = true,
+                Message = "Ürün miktarı güncellendi."
             };
 
         }

@@ -18,5 +18,7 @@ namespace MyProject.Bussines.Services
 
         Task<bool> UpdateQuantityAsync(UpdateBasketItemViewModel UpdateBasketItemViewModel);
 
+        Task UpdateBasketItemAsync(UpdateBasketItemViewModel updateBasketItemViewModel);
+
     }
 }
