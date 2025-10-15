@@ -57,13 +57,5 @@ namespace MyProject.WebUI.Controllers
             }
         }
 
-
-        [HttpPost]
-        public async Task<IActionResult> Index(ShoppingCartSubmitViewModel shoppingCartSubmitViewModel)
-        {
-            //ürün sayısını update et
-            return Ok();
-        }
-
     }
 }

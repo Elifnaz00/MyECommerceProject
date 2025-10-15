@@ -33,14 +33,23 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
 
             foreach (var item in mappedValueItems)
             {
-                await _basketItemService.UpdateQuantityAsync(item);
+                var updated= await _basketItemService.UpdateBasketItemAsync(item);
+                if(!updated)
+                {
+                    return new UpdateBasketItemCommandResponse
+                    {
+                        IsSuccess = false,
+                        Message = "Sepet güncellenemedi..."
+                    };
+                }
 
             }
+            
             await _unitOfWork.SaveChangesAsync();
             return new UpdateBasketItemCommandResponse
             {
                 IsSuccess = true,
-                Message = "Sepet verileri başarıyla güncellendi."
+                Message = "Sepet onaylandı..."
             };
         }
     }

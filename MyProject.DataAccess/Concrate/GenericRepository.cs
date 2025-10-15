@@ -29,8 +29,6 @@ namespace MyProject.DataAccess.Concrate
         protected DbSet<T> entity => _myProjectContext.Set<T>();
 
         
-     
-        
         public async Task<IQueryable<T?>> GetAllAsync()
         {
             return entity.AsNoTracking();
@@ -103,16 +101,17 @@ namespace MyProject.DataAccess.Concrate
 
         public bool Update(T entity)
         {
-            
-            EntityEntry entityEntry = this.entity.Update(entity);
-            _myProjectContext.SaveChangesAsync();
-            return entityEntry.State == EntityState.Modified;
-          
+            try
+            {
+                EntityEntry<T> entityEntry = this.entity.Update(entity);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+
+            }
         }
-
-
-
-        
      
     }
 }

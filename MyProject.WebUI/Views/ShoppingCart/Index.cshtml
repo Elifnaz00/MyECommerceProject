@@ -206,19 +206,20 @@
 					},
 					success: function (response) {
 
-						if (response.isSuccess) {
-							alert(response.Message || "Sepet onaylandı. Sipariş sayfasına yönlendiriliyorsunuz...");
+						if (response.isSuccess) {	
 							window.location.href = '/Order/Index';
 						} else {
 							alert(response.Message || "Sipariş oluşturma işlemi başarısız.");
 						}
 					},
 					error: function (xhr, status, error) {
-						alert("Bir hata oluştu: " + error + "\nDetay: " + xhr.responseText);
+						var response = xhr.responseJSON;
+	alert(response?.Message || "Sipariş oluşturma işlemi başarısız.");
+						
 					}
 				})
 
-		}); 
+		});  
 		});
 	</script>
 

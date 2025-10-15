@@ -69,7 +69,10 @@ namespace MyProject.Api.Controllers
             });
          
 
-            return NoContent();
+            if(response.IsSuccess)
+                return Ok(response);
+
+            return BadRequest(response);
         }
 
 
