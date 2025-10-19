@@ -35,14 +35,11 @@ namespace MyProject.DataAccess.Concrate
         }
 
 
-
         public async Task<T?> GetByIdAsync(Guid id)
         {
             var result=  await this.entity.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
             return result;
         }
-
-
 
         public async Task<T?> FindByIdAsync(Guid id)
         {
@@ -50,8 +47,6 @@ namespace MyProject.DataAccess.Concrate
             return await entity.FindAsync(id);
 
         }
-
-
 
         public IQueryable<T> GetWhere(Expression<Func<T, bool>> predicate)
         {
@@ -75,42 +70,26 @@ namespace MyProject.DataAccess.Concrate
         {
             await this.entity.AddRangeAsync(entities);
             await _myProjectContext.SaveChangesAsync();
-
-
         }
 
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            try
-            {
-                var value= await this.entity.FirstOrDefaultAsync(x => x.Id == id);
-                if (value is null) return false;
+             var value= await this.entity.FirstOrDefaultAsync(x => x.Id == id);
+             if (value is null) return false;
                
-                EntityEntry<T> entityEntry = this.entity.Remove(value);
-                await _myProjectContext.SaveChangesAsync();
-                return entityEntry.State== EntityState.Deleted;
-                  
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-            
+             EntityEntry<T> entityEntry = this.entity.Remove(value);
+             await _myProjectContext.SaveChangesAsync();
+             return true;
+
         }
 
-        public bool Update(T entity)
+        public async Task<bool> UpdateAsync(T entity)
         {
-            try
-            {
-                EntityEntry<T> entityEntry = this.entity.Update(entity);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-
-            }
+             EntityEntry<T> entityEntry = this.entity.Update(entity);
+            await _myProjectContext.SaveChangesAsync();
+            return true;
+         
         }
      
     }

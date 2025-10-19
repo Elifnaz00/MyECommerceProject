@@ -87,8 +87,6 @@ namespace MyProject.Api.Controllers
                "Error creating new employee record");
             }
 
-
-
         }
 
         [HttpPut("{id}")]
@@ -99,10 +97,9 @@ namespace MyProject.Api.Controllers
             if (result != null && id == updateEntranceDTO.Id)
             {
                 var updateDto = _mapper.Map<Entrance>(updateEntranceDTO);
-                _entranceRepository.Update(updateDto);
+                await _entranceRepository.UpdateAsync(updateDto);
 
                 return Ok();
-                //CreatedAtRoute(nameof(GetEntrance), new { Id = id }, updateDto);
             }
 
             return NoContent();

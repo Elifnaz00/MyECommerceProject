@@ -22,8 +22,6 @@ namespace MyProject.WebUI.Controllers
         }
 
        
-
-       
         public async Task<IActionResult> Index()
         {
             //string url = "https://localhost:7177/api/entrance";

@@ -28,7 +28,7 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers
             if (request.PaymentStatusId == Guid.Parse("33333333-3333-3333-3333-333333333333")) // Paid
                 order.OrderStatusId = Guid.Parse("55555555-5555-5555-5555-555555555555"); // Processing
 
-            _orderRepository.Update(order);
+            await _orderRepository.UpdateAsync(order);
 
             return true;
         }

@@ -68,7 +68,7 @@ namespace MyProject.Bussines.Mapping
             CreateMap<BasketItem, UpdateBasketItemViewModel>().ReverseMap();
             CreateMap<UpdateBasketItemDto, UpdateBasketItemViewModel>().ReverseMap();
 
-
+            
             CreateMap<CreateOrderDto, Order>()
             .ForMember(dest => dest.PaymentStatusId, opt => opt.MapFrom(src => Guid.Parse("11111111-1111-1111-1111-111111111111"))) // Pending
             .ForMember(dest => dest.OrderStatusId, opt => opt.MapFrom(src => Guid.Parse("22222222-2222-2222-2222-222222222222"))); // Await Payment

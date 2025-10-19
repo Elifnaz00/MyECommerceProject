@@ -57,7 +57,7 @@ namespace MyProject.Bussines.Services
 
             existingItem.Quantity += 1; 
 
-            return _basketItemRepository.Update(existingItem);
+            return await _basketItemRepository.UpdateAsync(existingItem);
            
         }
 
@@ -76,7 +76,7 @@ namespace MyProject.Bussines.Services
                 return false;
            
             existingItem.Quantity = updateBasketItemViewModel.Quantity;
-            return _basketItemRepository.Update(existingItem);
+            return await _basketItemRepository.UpdateAsync(existingItem);
         }
 
       

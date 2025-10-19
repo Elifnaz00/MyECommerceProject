@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using MyProject.Bussines.CQRS.BasketItem.Commands.Request;
 using MyProject.Bussines.CQRS.BasketItem.Commands.Response;
 using MyProject.Bussines.Services;
@@ -22,14 +23,15 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
         private readonly IBasketItemService _basketItemService;
         private readonly IBasketService _basketService;
         private readonly IMapper _mapper;
+        private readonly ILogger<AddBasketItemCommandHandler> _logger;
 
-        public AddBasketItemCommandHandler(IHttpContextAccessor httpContextAccessor, IMapper mapper, IBasketItemService basketItemService, IBasketService basketService)
+        public AddBasketItemCommandHandler(IHttpContextAccessor httpContextAccessor, IBasketItemService basketItemService, IBasketService basketService, IMapper mapper, ILogger<AddBasketItemCommandHandler> logger)
         {
             _httpContextAccessor = httpContextAccessor;
             _basketItemService = basketItemService;
             _basketService = basketService;
             _mapper = mapper;
-
+            _logger = logger;
         }
 
         public async Task<AddBasketItemCommandResponse> Handle(AddBasketItemCommandRequest request, CancellationToken cancellationToken)
@@ -45,88 +47,104 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
                     Message = "Kullanıcı kimliği bulunamadı."
                 };
             }
-
-            var basketByUser = await _basketService.GetBasketByUserServiceAsync(userId); // Kullanıcının sepetini alır. Eğer sepet yoksa yeni bir sepet oluşturur.  
-
-            if (basketByUser is null)
+            try
             {
-                var newBasket = new Basket
+                var basketByUser = await _basketService.GetBasketByUserServiceAsync(userId); // Kullanıcının sepetini alır. Eğer sepet yoksa yeni bir sepet oluşturur.  
+
+                if (basketByUser is null)
                 {
-                    AppUserId = userId,
-                    Active = true
-                };
+                    var newBasket = new Basket
+                    {
+                        AppUserId = userId,
+                        Active = true
+                    };
 
-                var newBasketAdded = await _basketService.AddBasketAsync(newBasket);
-
-
-                AddBasketItemViewModel newBasketAddedModel = new()
-                {
-                    ProductId = request.ProductId,
-                    BasketId = newBasketAdded.Id,
-                    Quantity = 1
-                };
+                    var newBasketAdded = await _basketService.AddBasketAsync(newBasket);
 
 
-                var addedItem = await _basketItemService.AddBasketItemAsync(newBasketAddedModel); // Sepete yeni ürün ekler.  
-                if (addedItem is null)
-                {
+                    AddBasketItemViewModel newBasketAddedModel = new()
+                    {
+                        ProductId = request.ProductId,
+                        BasketId = newBasketAdded.Id,
+                        Quantity = 1
+                    };
+
+
+                    var addedItem = await _basketItemService.AddBasketItemAsync(newBasketAddedModel); // Sepete yeni ürün ekler.  
+                    if (addedItem is null)
+                    {
+                        return new()
+                        {
+                            IsSuccess = false,
+                            Message = "Ürün sepete eklenemedi."
+                        };
+                    }
                     return new()
                     {
-                        IsSuccess = false,
-                        Message = "Ürün sepete eklenemedi."
+                        BasketItem = _mapper.Map<BasketItemDto>(addedItem),
+                        IsSuccess = true,
+                        Message = "Ürün sepetinize eklendi."
                     };
                 }
-                return new()
-                {
-                    BasketItem = _mapper.Map<BasketItemDto>(addedItem),
-                    IsSuccess = true,
-                    Message = "Ürün sepetinize eklendi."
-                };
-            }
 
-            var checkedProductInBasket = await _basketItemService.GetBasketItemProductAsync(basketByUser.Id, request.ProductId);
-            if (checkedProductInBasket == null)
-            {
-                // Kullanıcının sepetinde requestten gelen ürün yoksa yeni basket ıtem ekler.  
-                AddBasketItemViewModel value7 = new()
+                var checkedProductInBasket = await _basketItemService.GetBasketItemProductAsync(basketByUser.Id, request.ProductId);
+                if (checkedProductInBasket == null)
                 {
-                    ProductId = request.ProductId,
-                    BasketId = basketByUser.Id,
-                    Quantity = 1,
+                    // Kullanıcının sepetinde requestten gelen ürün yoksa yeni basket ıtem ekler.  
+                    AddBasketItemViewModel value7 = new()
+                    {
+                        ProductId = request.ProductId,
+                        BasketId = basketByUser.Id,
+                        Quantity = 1,
 
-                };
+                    };
 
-                var addedItem = await _basketItemService.AddBasketItemAsync(value7);
-                if (addedItem is null)
-                {
+                    var addedItem = await _basketItemService.AddBasketItemAsync(value7);
+                    if (addedItem is null)
+                    {
+                        return new AddBasketItemCommandResponse
+                        {
+                            IsSuccess = false,
+                            Message = "Ürün sepete eklenemedi."
+                        };
+                    }
+
+
                     return new AddBasketItemCommandResponse
                     {
-                        IsSuccess = false,
-                        Message = "Ürün sepete eklenemedi."
+                        BasketItem = _mapper.Map<BasketItemDto>(addedItem),
+                        IsSuccess = true,
+                        Message = "Ürün sepetinize eklendi."
                     };
                 }
 
+                // Kullanıcının sepetinde requestten gelen ürün varsa, miktarını günceller.  
+                UpdateBasketItemViewModel updateItemModel = new()
+                {
+                    Id = checkedProductInBasket.Id, // Sepetteki ürünün ID'si  
+                };
+
+                await _basketItemService.UpdateQuantityAsync(updateItemModel);
+                return new AddBasketItemCommandResponse
+                {
+                    IsSuccess = true,
+                    Message = "Ürün miktarı güncellendi."
+                };
+
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Sepete ürün eklenirken bir hata oluştu. UserId: {UserId}, ProductId: {ProductId}", userId, request.ProductId);
 
                 return new AddBasketItemCommandResponse
                 {
-                    BasketItem = _mapper.Map<BasketItemDto>(addedItem),
-                    IsSuccess = true,
-                    Message = "Ürün sepetinize eklendi."
+                    IsSuccess = false,
+                    Message = "Sepete ürün eklenirken bir hata oluştu, lütfen tekrar deneyin."
                 };
+                
             }
 
-            // Kullanıcının sepetinde requestten gelen ürün varsa, miktarını günceller.  
-            UpdateBasketItemViewModel updateItemModel = new()
-            {
-                Id = checkedProductInBasket.Id, // Sepetteki ürünün ID'si  
-            };
 
-            await _basketItemService.UpdateQuantityAsync(updateItemModel);
-            return new AddBasketItemCommandResponse
-            {
-                IsSuccess = true,
-                Message = "Ürün miktarı güncellendi."
-            };
 
         }
 
