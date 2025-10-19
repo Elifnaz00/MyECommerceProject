@@ -54,6 +54,13 @@ namespace MyProject.DataAccess.Concrate
             return true;
             
         }
+
+        public async Task<decimal> CalculateBasketTotalAsync(Guid basketId)
+        {
+            return await _myProjectContext.BasketItems
+                .Where(bi => bi.BasketId == basketId)
+                .SumAsync(bi => bi.Quantity * bi.Product.Price);
+        }
     }
     
 }

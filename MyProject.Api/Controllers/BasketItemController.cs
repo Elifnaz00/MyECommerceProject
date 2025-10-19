@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Bussines.CQRS.BasketItem.Commands;
 using MyProject.Bussines.CQRS.BasketItem.Commands.Request;
-using MyProject.Bussines.CQRS.Baskets.Queries.Request;
+using MyProject.Bussines.CQRS.BasketItem.Queries.Request;
 using MyProject.DTO.DTOs.BasketItemDTOs;
 using MyProject.Entity.Entities;
 
@@ -60,12 +60,14 @@ namespace MyProject.Api.Controllers
         }
 
 
-        [HttpPut("UpdateBasketItem")]
-        public async Task<IActionResult> UpdateBasketItem([FromBody] List<UpdateBasketItemDto> updateBasketItemDto)
+        [HttpPut("UpdateBasketItem/{Id}")]
+        public async Task<IActionResult> UpdateBasketItem([FromBody] UpdateBasketItemDto updateBasketItemDto, [FromRoute] Guid Id)
         {
             var response = await _mediator.Send(new UpdateBasketItemCommandRequest
             {
-                Items = updateBasketItemDto
+                Id = Id,
+                Quantity = updateBasketItemDto.Quantity
+
             });
          
 
@@ -75,6 +77,26 @@ namespace MyProject.Api.Controllers
             return BadRequest(response);
         }
 
+
+
+        [HttpGet("GetBasketTotal/{basketId}")]
+        public async Task<IActionResult> GetBasketTotal([FromRoute] Guid basketId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+                return Unauthorized();
+
+            var response = await _mediator.Send(new GetBasketTotalQueryRequest
+            {
+                BasketId = basketId
+            });
+
+            if (!response.IsSuccess)
+                return BadRequest(response);
+
+            return Ok(response);
+
+        }
 
     }
 }

@@ -13,5 +13,6 @@ namespace MyProject.Bussines.Services
 
         public Task<Basket> AddBasketAsync(Basket basket);  
         public Task<IEnumerable<BasketItem>> GetActiveBasketItemsByUserIdServiceAsync(string userId);
+
     }
 }

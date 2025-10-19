@@ -13,6 +13,8 @@ namespace MyProject.DataAccess.Abstract
         Task<BasketItem> AddItemBasketAsync(BasketItem basketItem);
         Task<bool> DeleteItemBasketAsync(Guid itemId, string userId);
 
-
+        public Task<decimal> CalculateBasketTotalAsync(Guid basketId);
     }
+
+
 }

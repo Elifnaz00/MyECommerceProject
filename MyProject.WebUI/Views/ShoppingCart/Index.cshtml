@@ -117,13 +117,89 @@
 
 	<script>
 		$(document).ready(function () {
-			
-			$(".input-group").on("click", function(){
-				var obje= $(this);
-				console.log(obje);
-			})
 
 		var token = @Html.Raw(Json.Serialize(Context.Session.GetString("token") ?? ""));
+
+			$( ".input-group" ).on( "click", ".quantity-left-minus", function() {
+			   var $inputValueMinus= $(this).closest(".input-group").find("input.input-number");
+			  
+			   var quantityMinus = parseInt($inputValueMinus.val()) || 1;
+			   if(quantityMinus > 1 )
+			   {
+					 quantityMinus = quantityMinus - 1 ;
+			   }
+			 
+			   $inputValueMinus.val(quantityMinus);
+			   basketItemIdMinus= $(this).closest("tr").find(".basket-item-id").text().trim();
+		
+
+			   $.ajax({
+					url: 'https://localhost:7177/api/v1/BasketItem/UpdateBasketItem/' + basketItemIdMinus,
+					type: 'PUT',
+					dataType: "json",
+					data: JSON.stringify({ quantity: quantityMinus }),
+					contentType: "application/json",
+					beforeSend: function (xhr) {
+						if (token) {
+							xhr.setRequestHeader("Authorization", "Bearer " + token);
+						}
+					},
+					success: function (response) {
+
+						if (response.isSuccess) {
+							
+						} else {
+							alert(response.Message || "Sipariş adeti güncellenemedi.");
+						}
+					},
+					error: function (xhr, status, error) {
+						var response = xhr.responseJSON;
+	alert(response?.Message || "Sipariş oluşturma işlemi başarısız.");
+
+					}
+				})
+			});
+
+			$( ".input-group" ).on( "click", ".quantity-right-plus", function() {
+			   var $inputValuePlus = $(this).closest(".input-group").find(".input-number");
+			   var quantityPlus= parseInt($inputValuePlus.val()) || 1 ;
+			   if(quantityPlus < 100)
+			   {
+				   quantityPlus = quantityPlus + 1 ;
+			   }
+
+			   $inputValuePlus.val(quantityPlus);
+				
+			   basketItemId= $(this).closest("tr").find(".basket-item-id").text().trim()
+
+				  $.ajax({
+					url: 'https://localhost:7177/api/v1/BasketItem/UpdateBasketItem/' + basketItemId,
+					type: 'PUT',
+					dataType: "json",
+					data: JSON.stringify({ quantity: quantityPlus }),
+					contentType: "application/json",
+					beforeSend: function (xhr) {
+						if (token) {
+							xhr.setRequestHeader("Authorization", "Bearer " + token);
+						}
+					},
+					success: function (response) {
+
+						if (response.isSuccess) {
+
+						} else {
+							alert(response.Message || "Sipariş adeti güncellenemedi.");
+						}
+					},
+					error: function (xhr, status, error) {
+						var response = xhr.responseJSON;
+	alert(response?.Message || "Sipariş oluşturma işlemi başarısız.");
+
+					}
+				})
+			} );
+
+	
 
 			$("table tbody").on("click", ".remove-item", function (e) {
 				e.preventDefault();

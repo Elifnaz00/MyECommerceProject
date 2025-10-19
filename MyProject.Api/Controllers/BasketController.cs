@@ -24,7 +24,6 @@ namespace MyProject.Api.Controllers
         }
 
 
-        
 
         [HttpGet("GetBasket")]
         public async Task<IActionResult> GetBasket()
@@ -42,7 +41,7 @@ namespace MyProject.Api.Controllers
                     return BadRequest(response);
                 }
 
-                return Ok(response); 
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -62,13 +61,14 @@ namespace MyProject.Api.Controllers
 
             var response = await _mediator.Send(new AddBasketQueryRequest
             {
-                AppUserId= userId,
+                AppUserId = userId,
                 Active = true,
-               
+
             });
 
-            return CreatedAtAction("GetBasket", new { id = userId}, response);
+            return CreatedAtAction("GetBasket", new { id = userId }, response);
         }
+
 
     }
 }

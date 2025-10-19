@@ -11,6 +11,7 @@ namespace MyProject.Bussines.CQRS.BasketItem.Commands.Request
 {
     public class UpdateBasketItemCommandRequest: IRequest<UpdateBasketItemCommandResponse>
     {
-       public List<UpdateBasketItemDto> Items { get; set; }
+        public Guid Id { get; set; }    
+        public int Quantity { get; set; }
     }
 }

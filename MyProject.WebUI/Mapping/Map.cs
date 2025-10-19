@@ -21,15 +21,8 @@ namespace MyProject.WebUI.Mapping
             CreateMap<Product, ProductNewViewModel>().ReverseMap();
             CreateMap<Product, ShoppingCartProductViewModel>().ReverseMap();
             CreateMap<Basket, ShoppingCartGetItemsViewModel>().ReverseMap();
-            CreateMap<Basket, ShoppingCartSubmitViewModel>().ReverseMap();
-
             CreateMap<Basket, ShoppingCartViewModel>().ReverseMap();
-            
-
-
-
-
-
+            CreateMap<Order, OrderViewModel>().ReverseMap();    
 
 
         }    

@@ -32,10 +32,9 @@ namespace MyProject.Bussines.Services
 
         public async Task<Basket> GetBasketByUserServiceAsync(string userId)
         {
-            var value = await _basketRepository.GetBasketByUserAsync(userId);
+            return await _basketRepository.GetBasketByUserAsync(userId);
             
-            return value;
-
         }
+
     }
 }

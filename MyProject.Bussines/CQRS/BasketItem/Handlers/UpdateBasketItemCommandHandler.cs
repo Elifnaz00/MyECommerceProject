@@ -28,12 +28,10 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
 
         public async Task<UpdateBasketItemCommandResponse> Handle(UpdateBasketItemCommandRequest request, CancellationToken cancellationToken)
         {
-            var mappedValueItems = _mapper.Map<IList<UpdateBasketItemViewModel>>(request.Items);
+           
+            var mappedValue= _mapper.Map<UpdateBasketItemViewModel>(request);
 
-
-            foreach (var item in mappedValueItems)
-            {
-                var updated= await _basketItemService.UpdateBasketItemAsync(item);
+            var updated= await _basketItemService.UpdateBasketItemAsync(mappedValue);
                 if(!updated)
                 {
                     return new UpdateBasketItemCommandResponse
@@ -43,8 +41,6 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
                     };
                 }
 
-            }
-            
             await _unitOfWork.SaveChangesAsync();
             return new UpdateBasketItemCommandResponse
             {

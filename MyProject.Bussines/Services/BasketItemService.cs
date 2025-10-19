@@ -7,6 +7,7 @@ using AutoMapper;
 using Azure.Core;
 using MediatR;
 using MyProject.DataAccess.Abstract;
+using MyProject.DataAccess.Concrate;
 using MyProject.DTO.Models.BasketItemViewModel;
 using MyProject.Entity.Entities;
 
@@ -75,11 +76,14 @@ namespace MyProject.Bussines.Services
                 return false;
            
             existingItem.Quantity = updateBasketItemViewModel.Quantity;
-            return true;
-           
-
+            return _basketItemRepository.Update(existingItem);
         }
 
-
+      
+        public async Task<decimal> CalculateBasketTotalServiceAsync(Guid basketId)
+        {
+            return await _basketItemRepository.CalculateBasketTotalAsync(basketId);
+        }
     }
+    
 }

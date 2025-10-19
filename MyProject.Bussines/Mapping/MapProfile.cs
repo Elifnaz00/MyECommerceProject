@@ -23,6 +23,7 @@ using MyProject.DTO.DTOs.BasketDTOs;
 using MyProject.DTO.Models.BasketItemViewModel;
 using MyProject.Bussines.CQRS.BasketItem.Commands.Request;
 using MyProject.DataAccess.UnıtOfWorks;
+using MyProject.Bussines.CQRS.BasketItem.Queries.Request;
 
 namespace MyProject.Bussines.Mapping
 {
@@ -61,6 +62,7 @@ namespace MyProject.Bussines.Mapping
             CreateMap<Contact, ContactUsCommandRequest>().ReverseMap();
             CreateMap<AppUser, CreateUserCommandRequest>().ReverseMap();
             CreateMap<Basket, AddBasketQueryRequest>().ReverseMap();
+            CreateMap<Basket, GetBasketTotalQueryRequest>().ReverseMap();
             CreateMap<BasketItem, AddBasketItemCommandRequest>().ReverseMap();
             CreateMap<BasketItem, AddBasketItemViewModel>().ReverseMap();
             CreateMap<BasketItem, UpdateBasketItemViewModel>().ReverseMap();

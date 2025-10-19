@@ -20,5 +20,6 @@ namespace MyProject.Bussines.Services
 
         Task<bool> UpdateBasketItemAsync(UpdateBasketItemViewModel updateBasketItemViewModel);
 
+        public Task<decimal> CalculateBasketTotalServiceAsync(Guid BasketId);
     }
 }
