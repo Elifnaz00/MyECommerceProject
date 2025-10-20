@@ -27,18 +27,12 @@ namespace MyProject.Bussines.Services
 
         public async Task<BasketItem?> AddBasketItemAsync(AddBasketItemViewModel addBasketItemViewModel)
         {
-            try
-            {
-                var entity = _mapper.Map<BasketItem>(addBasketItemViewModel);
-                var addedEntity = await _basketItemRepository.AddItemBasketAsync(entity);
+           
+             var entity = _mapper.Map<BasketItem>(addBasketItemViewModel);
+             var addedEntity = await _basketItemRepository.AddItemBasketAsync(entity);
                 
-
-                return addedEntity?.Id != Guid.Empty ? addedEntity : null;
-            }
-            catch
-            {
-                return null;
-            }
+             return addedEntity?.Id != Guid.Empty ? addedEntity : null;
+          
 
         }
 

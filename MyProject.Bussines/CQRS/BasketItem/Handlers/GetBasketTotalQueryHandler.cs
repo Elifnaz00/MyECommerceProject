@@ -24,6 +24,7 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
             try
             {
                 decimal total = await _basketItemService.CalculateBasketTotalServiceAsync(request.BasketId);
+
                 return new GetBasketTotalQueryResponse() { TotalAmount = total, IsSuccess= true, Message="Toplam fiyat başarıyla getirildi."};
             }
             catch (Exception ex)

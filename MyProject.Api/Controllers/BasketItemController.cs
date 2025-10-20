@@ -94,7 +94,7 @@ namespace MyProject.Api.Controllers
             if (!response.IsSuccess)
                 return BadRequest(response);
 
-            return Ok(response);
+            return Json(response);
 
         }
 

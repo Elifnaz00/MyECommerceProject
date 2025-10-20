@@ -66,7 +66,7 @@
 															<button type="button" class="quantity-right-plus btn btn-outline-secondary" data-type="plus" data-field="">
 																<i class="ion-ios-add"></i>
 															</button>
-														<span id="basketId" style="display:none;"> @item.BasketId</span>
+														<span id="basket-id" style="display:none;"> @item.BasketId</span>
 														</div>
 													</div>
 												</td>
@@ -83,7 +83,7 @@
 							<h3>Cart Totals</h3>
 							<p class="d-flex total-price">
 								<span>Total</span>
-								<span>$17.60</span>
+								<span>@Model.</span>
 							</p>
 						</div>
 						<p class="text-center"><button type="submit" class="btn btn-primary py-3 px-4">Sepeti Onayla</button></p>
@@ -119,9 +119,38 @@
 		$(document).ready(function () {
 
 		var token = @Html.Raw(Json.Serialize(Context.Session.GetString("token") ?? ""));
+		
+
+		function updateBasketTotal(basketId, token)
+		{
+			$.ajax({
+				 url: 'https://localhost:7177/api/v1/BasketItem/GetBasketTotal/' + basketId,
+				 type: 'GET',
+				 dataType: "json",
+				 beforeSend: function (xhr) {
+					 if (token) {
+						 xhr.setRequestHeader("Authorization", "Bearer " + token);
+					 }
+				 },
+				 success: function(response){
+					 alert("merhaba");
+					 if(response.isSuccess){
+						 
+						 $(".total-price span:last").text(`${response.totalAmount}`);
+					 }
+				 },
+				 error: function(xhr){
+					 var response = xhr.responseJSON;
+	alert(response?.Message || "Sepet Toplamı Hesaplanamadı.");
+				 }
+			})
+		}
 
 			$( ".input-group" ).on( "click", ".quantity-left-minus", function() {
 			   var $inputValueMinus= $(this).closest(".input-group").find("input.input-number");
+				basketItemId= $(this).closest("tr").find(".basket-item-id").text().trim();
+				basketId= $(this).closest(".input-group").find("#basket-id").text().trim();
+				
 			  
 			   var quantityMinus = parseInt($inputValueMinus.val()) || 1;
 			   if(quantityMinus > 1 )
@@ -130,11 +159,11 @@
 			   }
 			 
 			   $inputValueMinus.val(quantityMinus);
-			   basketItemIdMinus= $(this).closest("tr").find(".basket-item-id").text().trim();
+			  
 		
 
 			   $.ajax({
-					url: 'https://localhost:7177/api/v1/BasketItem/UpdateBasketItem/' + basketItemIdMinus,
+					url: 'https://localhost:7177/api/v1/BasketItem/UpdateBasketItem/' + basketItemId,
 					type: 'PUT',
 					dataType: "json",
 					data: JSON.stringify({ quantity: quantityMinus }),
@@ -147,7 +176,7 @@
 					success: function (response) {
 
 						if (response.isSuccess) {
-							
+							updateBasketTotal(basketId, token);
 						} else {
 							alert(response.Message || "Sipariş adeti güncellenemedi.");
 						}
@@ -162,6 +191,10 @@
 
 			$( ".input-group" ).on( "click", ".quantity-right-plus", function() {
 			   var $inputValuePlus = $(this).closest(".input-group").find(".input-number");
+			   basketItemId= $(this).closest("tr").find(".basket-item-id").text().trim();
+			   basketId= $(this).closest(".input-group").find("#basket-id").text().trim();
+			   
+
 			   var quantityPlus= parseInt($inputValuePlus.val()) || 1 ;
 			   if(quantityPlus < 100)
 			   {
@@ -170,7 +203,7 @@
 
 			   $inputValuePlus.val(quantityPlus);
 				
-			   basketItemId= $(this).closest("tr").find(".basket-item-id").text().trim()
+			   
 
 				  $.ajax({
 					url: 'https://localhost:7177/api/v1/BasketItem/UpdateBasketItem/' + basketItemId,
@@ -186,6 +219,7 @@
 					success: function (response) {
 
 						if (response.isSuccess) {
+							updateBasketTotal(basketId, token);
 
 						} else {
 							alert(response.Message || "Sipariş adeti güncellenemedi.");
@@ -212,6 +246,7 @@
 
 				var $row = $(this).closest("tr");
 				var basketItemId = $row.find(".basket-item-id").text().trim();
+				var basketId= $("#basket-id").text().trim();
 
 				if (!basketItemId) {
 					alert("Sepet öğesi ID'si bulunamadı.");
@@ -233,6 +268,7 @@
 					
 						if (response.isSuccess) {
 							$row.remove();
+							updateBasketTotal(basketId, token);
 							alert(response.Message || "Ürün başarıyla silindi.");
 						} else {
 							alert(response.Message || "Silme işlemi başarısız.");
@@ -252,7 +288,7 @@
 					return;
 				}
 
-				var basketId= $("#basketId").text().trim();
+				var basketId= $("#basket-id").text().trim();
 				if(!basketId){
 					alert("Sepet ID'si bulunamadı.");
 					return;
