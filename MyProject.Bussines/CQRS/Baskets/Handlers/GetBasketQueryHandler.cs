@@ -33,20 +33,20 @@ namespace MyProject.Bussines.CQRS.Baskets.Handlers
 
         public async Task<GetBasketQueryResponse> Handle(GetBasketQueryRequest request, CancellationToken cancellationToken)
         {
-           
-            var basketItems= await _basketRepository.GetActiveBasketItemsByUserIdAsync(request.UserId);
-            
+            var basketItems = await _basketRepository.GetActiveBasketItemsByUserIdAsync(request.UserId);
+
             if (basketItems is null)
             {
                 return new GetBasketQueryResponse
                 {
                     BasketItems = null,
-                    Message= "Kullanıcıya ait aktif sepet bulunamadı.",
+                    Message = "Kullanıcıya ait aktif sepet bulunamadı.",
                     IsSuccess = false,
                     BasketStatus = BasketStatus.NotFound,
                 };
             }
-            if(!basketItems.Any())
+
+            if (!basketItems.Any())
             {
                 return new GetBasketQueryResponse
                 {
@@ -56,19 +56,18 @@ namespace MyProject.Bussines.CQRS.Baskets.Handlers
                     BasketStatus = BasketStatus.Empty,
                 };
             }
-          
+
+            var totalPrice = basketItems.Sum(x => x.Quantity * x.Product.Price);
+
             var basketItemDto = _mapper.Map<IList<BasketItemDto>>(basketItems);
 
             return new GetBasketQueryResponse
             {
+                TotalPrice = totalPrice,
                 BasketItems = basketItemDto,
-                IsSuccess= true,
+                IsSuccess = true,
                 BasketStatus = BasketStatus.HasItems,
-               
-
             };
-            
-
         }
     }
     

@@ -29,9 +29,9 @@ namespace MyProject.DataAccess.Concrate
 
         public async Task <IEnumerable<BasketItem?>> GetActiveBasketItemsByUserIdAsync(string userId)
         {
-            
-            var result = await _myProjectContext.Baskets.Include(x => x.BasketItems).ThenInclude(x=> x.Product).Where(e => e.AppUserId == userId).FirstOrDefaultAsync(x => x.Active == true); 
 
+            var result = await _myProjectContext.Baskets.Include(x => x.BasketItems).ThenInclude(x => x.Product).Where(e => e.AppUserId == userId).FirstOrDefaultAsync(x => x.Active);
+           
             return result?.BasketItems;
         }
        

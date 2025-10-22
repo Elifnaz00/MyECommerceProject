@@ -12,6 +12,7 @@ namespace MyProject.Bussines.CQRS.Baskets.Queries.Response
     {
         public IList<BasketItemDto> BasketItems { get; set; }
         public BasketStatus BasketStatus { get; set; } 
+        public decimal TotalPrice { get; set; } 
         public string Message { get; set; }
         public bool IsSuccess { get; set; }
     }

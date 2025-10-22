@@ -52,7 +52,7 @@
 													<p asp-for="Description"> @item.Product.Description</p>
 											</td>
 
-												<td asp-for="Price" class="price">$@item.Product.Price</td>
+											<td asp-for="Price" class="price"> @($"{item.Product.Price.ToString("N2", new System.Globalization.CultureInfo("tr-TR"))} TL")</td>
 
 												<td class="quantity">
 													<div class="input-group mb-3">
@@ -83,7 +83,7 @@
 							<h3>Cart Totals</h3>
 							<p class="d-flex total-price">
 								<span>Total</span>
-								<span>@Model.</span>
+								<span>@($"{Model.TotalPrice.ToString("N2", new System.Globalization.CultureInfo("tr-TR"))} TL")</span>
 							</p>
 						</div>
 						<p class="text-center"><button type="submit" class="btn btn-primary py-3 px-4">Sepeti Onayla</button></p>
@@ -133,10 +133,12 @@
 					 }
 				 },
 				 success: function(response){
-					 alert("merhaba");
+					
 					 if(response.isSuccess){
-						 
-						 $(".total-price span:last").text(`${response.totalAmount}`);
+
+							 $(".total-price span:last").text(
+	  `${response.totalAmount.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} TL`
+	);
 					 }
 				 },
 				 error: function(xhr){
