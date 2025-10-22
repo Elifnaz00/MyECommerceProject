@@ -118,7 +118,7 @@
 	<script>
 		$(document).ready(function () {
 
-		var token = @Html.Raw(Json.Serialize(Context.Session.GetString("token") ?? ""));
+		var token = @Html.Raw(Json.Serialize(Context.Session.GetString("token") ?? ""))
 		
 
 		function updateBasketTotal(basketId, token)
@@ -127,6 +127,7 @@
 				 url: 'https://localhost:7177/api/v1/BasketItem/GetBasketTotal/' + basketId,
 				 type: 'GET',
 				 dataType: "json",
+				 contentType: 'application/json; charset=utf-8',
 				 beforeSend: function (xhr) {
 					 if (token) {
 						 xhr.setRequestHeader("Authorization", "Bearer " + token);

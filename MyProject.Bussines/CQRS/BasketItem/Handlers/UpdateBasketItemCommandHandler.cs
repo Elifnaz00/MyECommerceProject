@@ -45,7 +45,7 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
             return new UpdateBasketItemCommandResponse
             {
                 IsSuccess = true,
-                Message = "Sepet onaylandı..."
+                Message = "Sepet Güncellemesi başarılı..."
             };
         }
     }

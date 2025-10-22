@@ -154,19 +154,6 @@ namespace MyProject.WebUI.Controllers
             var data = await response.Content.ReadFromJsonAsync<dynamic>();
             return Json(data);
         }
-        
-
-       
-
-
-
-
-
-
-
-
-
-
 
     }
 }
