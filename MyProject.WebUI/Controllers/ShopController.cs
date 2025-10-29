@@ -36,17 +36,15 @@ namespace MyProject.WebUI.Controllers
         public async Task<IActionResult> ShopProductList()
         {
             var client = _httpClientFactory.CreateClient("ApiService1");
-            
-            // Tüm ürünleri al
+
+            // Tüm ürünleri al  
             HttpResponseMessage httpResponseMessage = await client.GetAsync(client.BaseAddress + "/Product/GetProduct");
             httpResponseMessage.EnsureSuccessStatusCode();
 
             var allProducts = await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<ProductListViewModel>>()
                               ?? new List<ProductListViewModel>();
             return View(allProducts);
-
         }
-
    
         [HttpPost]
         public async Task<IActionResult> ShopProductList(Guid productId)
@@ -83,7 +81,6 @@ namespace MyProject.WebUI.Controllers
 
             var client = _httpClientFactory.CreateClient("ApiService1");
             
-            // Kategoriye göre filtrele
             HttpResponseMessage httpResponseMessage = await client.GetAsync(client.BaseAddress + $"/Product/Productbycategory/{categoryId}");
             httpResponseMessage.EnsureSuccessStatusCode();
 

@@ -63,7 +63,11 @@ namespace MyProject.DataAccess.Concrate
             return _context.Products.Where(x => x.CategoryId == categoryId);
         }
 
-       
+        public int GetProductCount()
+        {
+            return _context.Products.AsNoTracking().Count();
+        }   
+
 
 
     }

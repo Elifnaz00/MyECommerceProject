@@ -34,5 +34,15 @@ namespace MyProject.DataAccess.Concrate
 
             return value;
         }
+
+        public int GetOrderCount() {
+            return _context.Orders.AsNoTracking().Count();
+
+        }
+
+        public decimal GetOrderTotalAmount()
+        {
+            return _context.Orders.AsNoTracking().Sum(o => o.TotalAmount);
+        }
     }
 }

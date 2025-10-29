@@ -10,7 +10,10 @@ namespace MyProject.DataAccess.Abstract
 {
     public interface IOrderRepository : IBaseEntityRepository<Order>
     {
-        Task<List<Order>> GetOrdersByUserId(string userId);    
+        Task<List<Order>> GetOrdersByUserId(string userId);
+        public int GetOrderCount();
+
+        public decimal GetOrderTotalAmount();
     }
 }
  

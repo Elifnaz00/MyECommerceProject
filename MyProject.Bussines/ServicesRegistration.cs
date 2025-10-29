@@ -21,6 +21,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MyProject.Bussines.Services;
 using MyProject.Bussines.CQRS.Contacts.Validators;
+using MyProject.Bussines.CQRS.Admin.Dashboard.Queries.Request;
+using MyProject.Bussines.CQRS.Admin.Dashboard.Handlers;
 
 namespace MyProject.Bussines
 {
@@ -45,8 +47,9 @@ namespace MyProject.Bussines
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(typeof(MapProfile));
             services.AddMediatR(typeof(GetAllCategoryQueryHandler).Assembly);
+            services.AddMediatR(typeof(GetDashboardDataQueryHandler).Assembly);
 
-          
+
 
 
 

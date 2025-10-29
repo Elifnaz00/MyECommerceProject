@@ -17,6 +17,8 @@ namespace MyProject.DataAccess.Abstract
         IQueryable<Product> GetNewArrivalProducts();
         IQueryable<Product> GetFilteredProduct(FilteredProductDto filtered);
 
+        int GetProductCount();
+
 
     }
 }

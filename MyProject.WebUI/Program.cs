@@ -57,8 +57,15 @@ builder.Services.AddHttpClient("ApiService1", client =>
     client.BaseAddress = new Uri("https://localhost:7177/api/v1");
     client.Timeout = TimeSpan.FromMinutes(10);
     client.DefaultRequestHeaders.Clear();
-    // Diðer yapýlandýrma seçenekleri
+    
 });
+builder.Services.AddHttpClient("admin", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7177/api/Admin");
+    client.Timeout = TimeSpan.FromMinutes(10);
+    client.DefaultRequestHeaders.Clear();
+});
+
 builder.Services.AddHttpContextAccessor();   // IHttpContextAccessor
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -93,16 +100,6 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
-app.MapControllerRoute(
-    name: "MyArea",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-
-app.MapAreaControllerRoute(
-    name: "MyAreaUser",
-    areaName: "User",
-    pattern: "User/{controller=Home}/{action=Index}/{id?}");
 
 app.MapAreaControllerRoute(
     name: "MyAreaAdmin",
