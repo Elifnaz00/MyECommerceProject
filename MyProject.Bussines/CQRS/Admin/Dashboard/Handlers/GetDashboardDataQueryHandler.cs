@@ -36,6 +36,8 @@ namespace MyProject.Bussines.CQRS.Admin.Dashboard.Handlers
 
                 var totalAmountOrder = _orderRepository.GetOrderTotalAmount();
 
+                var customerCount=  _userManager.GetUsersInRoleAsync("customer").Result.Count;
+
                 return new()
                 {
                     TotalOrder = allOrders,
@@ -44,7 +46,7 @@ namespace MyProject.Bussines.CQRS.Admin.Dashboard.Handlers
                     IsSuccess = true
                 };
             }
-            catch (Exception ex)
+            catch 
             {
                 return new()
                 {

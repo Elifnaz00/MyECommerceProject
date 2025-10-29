@@ -12,7 +12,6 @@ namespace MyProject.DataAccess.Abstract
     public interface IBaseEntityRepository<T> where T: BaseEntity
     {
 
-       
         Task<IQueryable<T?>> GetAllAsync();
 
         IQueryable<T?> GetWhere(Expression<Func<T, bool>> predicate);

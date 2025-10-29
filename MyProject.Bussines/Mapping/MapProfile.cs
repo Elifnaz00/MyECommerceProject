@@ -25,6 +25,7 @@ using MyProject.DTO.Models.BasketItemViewModel;
 using MyProject.Bussines.CQRS.BasketItem.Commands.Request;
 using MyProject.DataAccess.UnıtOfWorks;
 using MyProject.Bussines.CQRS.BasketItem.Queries.Request;
+using MyProject.DTO.Models.AdminRoleViewModel;
 
 namespace MyProject.Bussines.Mapping
 {
@@ -68,6 +69,7 @@ namespace MyProject.Bussines.Mapping
             CreateMap<BasketItem, AddBasketItemViewModel>().ReverseMap();
             CreateMap<BasketItem, UpdateBasketItemViewModel>().ReverseMap();
             CreateMap<UpdateBasketItemDto, UpdateBasketItemViewModel>().ReverseMap();
+            CreateMap<AdminCreateRoleViewModel,  AppRole>().ReverseMap();
 
             
             CreateMap<CreateOrderDto, Order>()
