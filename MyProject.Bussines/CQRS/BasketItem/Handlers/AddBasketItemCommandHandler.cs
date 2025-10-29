@@ -36,7 +36,7 @@ namespace MyProject.Bussines.CQRS.BasketItem.Handlers
 
         public async Task<AddBasketItemCommandResponse> Handle(AddBasketItemCommandRequest request, CancellationToken cancellationToken)
         {
-            // Kullanıcının kimliğini HttpContext üzerinden al
+           
             var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (string.IsNullOrEmpty(userId))

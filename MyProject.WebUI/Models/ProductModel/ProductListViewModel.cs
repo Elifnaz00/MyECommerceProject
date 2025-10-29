@@ -9,7 +9,7 @@ namespace MyProject.WebUI.Models.ProductModel
 
         public int Stock { get; set; }
         public string? Description { get; set; }
-        public long Price { get; set; }
+        public decimal Price { get; set; }
         public string? ImageUrl { get; set; }
 
         public string? Size { get; set; }

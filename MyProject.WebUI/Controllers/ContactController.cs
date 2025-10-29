@@ -41,8 +41,6 @@ namespace MyProject.WebUI.Controllers
             if (!result.IsValid)
             {
                 result.AddToModelState(this.ModelState);
-
-                // re-render the view when validation failed.
                 return View("Index", contactUsViewModel);
             }
 

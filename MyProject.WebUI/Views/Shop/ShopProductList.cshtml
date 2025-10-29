@@ -128,7 +128,7 @@
                                                     <i class="fas fa-star"></i>
                                                     <i class="fas fa-star"></i>
                                                 </div>
-                                                <span>@item.Price</span>
+                                            <span>@($"{item.Price.ToString("N2", new System.Globalization.CultureInfo("tr-TR"))} TL")</span>
                                                
                                             </div>
                                           
@@ -174,7 +174,6 @@
 
                 var isAuthenticated = '@User.Identity.IsAuthenticated'.toLowerCase() === 'true';
 
-       
 
                 if (!isAuthenticated) {
                     Swal.fire({
@@ -189,13 +188,11 @@
                             window.location.href = '/Login/Index'; // Giriş sayfan burasıysa
                         }
                     });
-                } else {
-                    // AJAX ile sepete ekle
+                } else { 
                     $.ajax({
                         type: "POST",
                         url: "/Shop/ShopProductList",
                         data: { productId: productId },
-                       
                         success: function (response) {
 							if(response.success) {
 								// Sepete ekleme başarılıysa
@@ -203,22 +200,29 @@
 									icon: 'success',
 									title: 'Başarılı!',
 									text: response.message,
-								});
+                                    confirmButtonText: 'Sepete Git',
+                                    showCancelButton: true,
+                                    cancelButtonText: 'Tamam',
+                                     }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '/ShoppingCart/Index'; 
+                            }
+								            });
 							} else {
 								// Sepete ekleme başarısızsa
 								Swal.fire({
 									icon: 'error',
-									title: 'Hata!',
-									text: response.message
+									title: 'Oturum açma hatası!',
+									text: response.message,
+                                   
 								});
-							}
-                           
+							} 
                         },
-                        error: function () {
+                        error: function (response) {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Hata!',
-                                text: 'Ürün sepete eklenirken bir hata oluştu.'
+                                text: response.message
                             });
                         }
                     });
@@ -243,16 +247,16 @@
                         color: _color,
                         price: _price
 
-
                     },
                                    success: function (data) {
             let html = '';
             $.each(data, function (index, item) {
+                
                 html += `
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                         <div class="single-new-arrival mb-50 text-center">
                             <div class="popular-img">
-                                <a href="/Shop/ProductDetails/${item.id}">
+                                <a href= "/Shop/ProductDetails/${item.id}">
                                     <img src="${item.imageUrl}" class="img-fluid" alt="" />
                                 </a>
                                 <div class="favorit-items">
@@ -260,7 +264,7 @@
                                 </div>
                             </div>
                             <div class="popular-caption">
-                                <h3><a href="/Shop/ProductDetails/${item.id}">${item.title}</a></h3>
+                                <h3><a asp-controler="Shop" asp-action="ProductDetails" asp-route-id= "${item.productId}" > ${item.title}</a></h3>
                                 <div class="rating mb-10">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
