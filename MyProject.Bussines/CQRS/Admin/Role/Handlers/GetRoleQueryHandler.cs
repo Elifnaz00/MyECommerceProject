@@ -16,22 +16,36 @@ namespace MyProject.Bussines.CQRS.Admin.Role.Handlers
     {
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
-
-        public GetRoleQueryHandler(IRoleService roleService, IMapper mapper)
+   
+        public GetRoleQueryHandler(IRoleService roleService,
+                                   IMapper mapper)
         {
             _roleService = roleService;
             _mapper = mapper;
+          
         }
 
         public Task<GetRoleQueryResponse> Handle(GetRoleQueryRequest request, CancellationToken cancellationToken)
         {
-            var allRoleList = _roleService.GetAllRoles();
-         
-            return Task.FromResult(new GetRoleQueryResponse
+            try
             {
-                RoleList = _mapper.Map<List<AppRoleDto>>(allRoleList),
-            });
-
+                var allRoleList = _roleService.GetAllRoles();
+                var mappedAllRoleList = _mapper.Map<List<AppRoleDto>>(allRoleList);
+                return Task.FromResult(new GetRoleQueryResponse
+                {
+                    RoleList = mappedAllRoleList,
+                    StatusCode = 200
+                });
+            }
+            catch (Exception ex)
+            {
+                
+                return Task.FromResult(new GetRoleQueryResponse
+                {
+                    Message = "Roller alınırken bir hata oluştu: ",
+                    StatusCode = 500
+                }); 
+            }
         }
     }
 }

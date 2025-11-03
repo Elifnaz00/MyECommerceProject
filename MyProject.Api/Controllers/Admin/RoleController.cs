@@ -1,7 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MyProject.DTO.Models.AdminRoleViewModel;
+using MyProject.Bussines.CQRS.Admin.Role.Commands.Request;
+using MyProject.Bussines.CQRS.Admin.Role.Queries.Request;
+using MyProject.DTO.DTOs.AdminDTOs.RoleDto;
+
 
 namespace MyProject.Api.Controllers.Admin
 {
@@ -15,26 +18,47 @@ namespace MyProject.Api.Controllers.Admin
         {
             _mediator = mediator;
         }
-        [HttpGet()]
+        [HttpGet("GetRole")]
         public async Task<IActionResult> GetRole()
         {
-            return Ok("Role Controller Çalıştı");
+            var getRoleresponse= await _mediator.Send(new GetRoleQueryRequest()); 
+            return getRoleresponse.StatusCode == 200 ? Ok(getRoleresponse.RoleList) : StatusCode(500);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateRole(AdminCreateRoleViewModel adminCreateRoleViewModel)
+        [HttpPost("CreateRole")]
+        public async Task<IActionResult> CreateRole([FromBody] CreateAppRoleDto createAppRoleDto)
         {
             
-            return Ok("Create Role Çalıştı");
+            var response= await _mediator.Send(new CreateRoleCommmandRequest
+                {
+                    Name = createAppRoleDto.Name,
+                   
+            });
+            return response.StatusCode == 201 ? Created("", response.Message) :
+                   response.StatusCode == 204 ? NoContent() :
+                   StatusCode(500, response.Message); 
+
+
+
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateRole(string id, [FromBody] string roleName)
+        [HttpPut("UpdateRole/{id}")]
+        public async Task<IActionResult> UpdateRole([FromBody] UpdateRoleDto updateAppRoleDto, [FromRoute] string id)
         {
-            return Ok("Update Role Çalıştı");
+         
+            var response = await _mediator.Send(new UpdateRoleCommandRequest
+            {
+                Id = id,
+                Name = updateAppRoleDto.Name
+
+            });
+            return response.StatusCode == 204 ? NoContent() :
+                   response.StatusCode == 201 ? Created("", null) :
+                   StatusCode(500);
         }
 
-        [HttpDelete("{id}")]
+
+        [HttpDelete("DeleteRole/{id}")]
         public async Task<IActionResult> DeleteRole(string id)
         {
             return Ok("Delete Role Çalıştı");

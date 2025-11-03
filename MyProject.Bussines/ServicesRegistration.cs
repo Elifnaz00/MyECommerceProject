@@ -23,6 +23,7 @@ using MyProject.Bussines.Services;
 using MyProject.Bussines.CQRS.Contacts.Validators;
 using MyProject.Bussines.CQRS.Admin.Dashboard.Queries.Request;
 using MyProject.Bussines.CQRS.Admin.Dashboard.Handlers;
+using Microsoft.Extensions.Logging;
 
 namespace MyProject.Bussines
 {
@@ -41,6 +42,7 @@ namespace MyProject.Bussines
             services.AddScoped<IBasketItemRepository, BasketItemRepository>();
             services.AddScoped<IBasketItemService, BasketItemService>();
             services.AddScoped<IBasketService, BasketService>();
+            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ITokenHandler, TokenHandler>();
             services.AddScoped<IValidator<ContactUsCommandRequest>, CreateContactCommandValidator>();
             services.AddValidatorsFromAssemblyContaining<CreateContactCommandValidator>();
@@ -48,6 +50,7 @@ namespace MyProject.Bussines
             services.AddAutoMapper(typeof(MapProfile));
             services.AddMediatR(typeof(GetAllCategoryQueryHandler).Assembly);
             services.AddMediatR(typeof(GetDashboardDataQueryHandler).Assembly);
+           
 
 
 

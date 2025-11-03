@@ -27,6 +27,7 @@ using MyProject.DataAccess.UnıtOfWorks;
 using MyProject.Bussines.CQRS.BasketItem.Queries.Request;
 using MyProject.DTO.Models.AdminRoleViewModel;
 using MyProject.DTO.DTOs.AdminDTOs.RoleDto;
+using MyProject.Bussines.CQRS.Admin.Role.Commands.Request;
 
 namespace MyProject.Bussines.Mapping
 {
@@ -47,6 +48,8 @@ namespace MyProject.Bussines.Mapping
             CreateMap<Basket, AddBasketDto>().ReverseMap();
             CreateMap<BasketItem, UpdateBasketItemDto>();
             CreateMap<AppRoleDto, AppRole>().ReverseMap();
+            CreateMap<UpdateRoleDto, AppRole>().ReverseMap();
+
 
             CreateMap<BasketItem, OrderDetailBasketItemDto>().ForMember(dest => dest.OrderDetailProductDto, opt => opt.MapFrom(src => src.Product)).ReverseMap();
             CreateMap<UpdateBasketItemViewModel, UpdateBasketItemCommandRequest>().ReverseMap();
@@ -72,8 +75,12 @@ namespace MyProject.Bussines.Mapping
             CreateMap<BasketItem, UpdateBasketItemViewModel>().ReverseMap();
             CreateMap<UpdateBasketItemDto, UpdateBasketItemViewModel>().ReverseMap();
             CreateMap<AdminCreateRoleViewModel,  AppRole>().ReverseMap();
-
+            CreateMap<AdminCreateRoleViewModel, CreateRoleCommmandRequest>().ReverseMap();
+            CreateMap<AdminUpdateRoleViewModel, AppRole>().ReverseMap();
+            CreateMap<AdminUpdateRoleViewModel, UpdateRoleCommandRequest>().ReverseMap();
             
+
+
             CreateMap<CreateOrderDto, Order>()
             .ForMember(dest => dest.PaymentStatusId, opt => opt.MapFrom(src => Guid.Parse("11111111-1111-1111-1111-111111111111"))) // Pending
             .ForMember(dest => dest.OrderStatusId, opt => opt.MapFrom(src => Guid.Parse("22222222-2222-2222-2222-222222222222"))); // Await Payment

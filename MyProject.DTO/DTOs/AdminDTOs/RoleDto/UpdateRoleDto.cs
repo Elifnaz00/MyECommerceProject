@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MyProject.DTO.DTOs.AdminDTOs.RoleDto
 {
-    public class AppRoleDto
+    public class UpdateRoleDto
     {
-        public string Id { get; set; }
+      
         public string Name { get; set; }
     }
 }

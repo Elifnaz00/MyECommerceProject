@@ -40,7 +40,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQRS\Admin\Role\Commands\" />
     <Folder Include="CQRS\Orders\Handlers\QueryHandlers\" />
   </ItemGroup>
 

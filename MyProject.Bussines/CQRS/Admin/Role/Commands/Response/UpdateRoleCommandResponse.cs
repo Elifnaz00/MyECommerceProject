@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyProject.DTO.DTOs.AdminDTOs.RoleDto;
 
-
-namespace MyProject.Bussines.CQRS.Admin.Role.Queries.Response
+namespace MyProject.Bussines.CQRS.Admin.Role.Commands.Response
 {
-    public class GetRoleQueryResponse
+    public class UpdateRoleCommandResponse
     {
-        public List<AppRoleDto> RoleList { get; set; }
         public int StatusCode { get; set; }
         public string Message { get; set; }
     }

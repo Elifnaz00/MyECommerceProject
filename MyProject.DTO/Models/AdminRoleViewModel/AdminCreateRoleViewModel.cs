@@ -8,6 +8,8 @@ namespace MyProject.DTO.Models.AdminRoleViewModel
 {
     public class AdminCreateRoleViewModel
     {
+        public string Id { get; set; } 
         public string Name { get; set; }
+
     }
 }
