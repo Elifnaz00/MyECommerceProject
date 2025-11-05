@@ -55,10 +55,11 @@ Amaç, modern yazılım geliştirme pratiklerini uygulayarak öğrenmek ve gerç
 - `MyProject.WebUI` → MVC/WebUI katmanı  
 - `MyProject.Business` → İş kuralları katmanı  
 - `MyProject.DataAccess` → Veri erişim katmanı  
-- `MyProject.Entity` → Entity sınıfları  
+- `MyProject.Entity` → Entity sınıfları , Status Code ve Status Basket Enum tanımlamaları 
 - `MyProject.DTO` → DTO sınıfları  
 
 ---
+
 
 
 
