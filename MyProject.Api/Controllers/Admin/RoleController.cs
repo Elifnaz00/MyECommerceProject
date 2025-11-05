@@ -25,6 +25,8 @@ namespace MyProject.Api.Controllers.Admin
             return getRoleresponse.StatusCode == 200 ? Ok(getRoleresponse.RoleList) : StatusCode(500);
         }
 
+
+
         [HttpPost("CreateRole")]
         public async Task<IActionResult> CreateRole([FromBody] CreateAppRoleDto createAppRoleDto)
         {
@@ -34,10 +36,7 @@ namespace MyProject.Api.Controllers.Admin
                     Name = createAppRoleDto.Name,
                    
             });
-            return response.StatusCode == 201 ? Created("", response.Message) :
-                   response.StatusCode == 204 ? NoContent() :
-                   StatusCode(500, response.Message); 
-
+            return Ok(response);
 
 
         }
@@ -52,9 +51,7 @@ namespace MyProject.Api.Controllers.Admin
                 Name = updateAppRoleDto.Name
 
             });
-            return response.StatusCode == 204 ? NoContent() :
-                   response.StatusCode == 201 ? Created("", null) :
-                   StatusCode(500);
+            return Ok();
         }
 
 

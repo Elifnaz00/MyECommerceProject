@@ -24,35 +24,36 @@ namespace MyProject.Bussines.Services
 
         public async Task<IdentityResult> CreateRole(AdminCreateRoleViewModel adminCreateRoleViewModel)
         {
+            
             var hasValue= await _roleManager.FindByNameAsync(adminCreateRoleViewModel.Name);
-            if(hasValue != null)
+            var mappedAppRoleValue = _mapper.Map<AppRole>(hasValue);
+            if (hasValue != null)
             {
-                var updateMappedValue= _mapper.Map(adminCreateRoleViewModel, hasValue);
-                await _roleManager.UpdateAsync(updateMappedValue);
+                await _roleManager.UpdateAsync(mappedAppRoleValue);
             }
-            return await _roleManager.CreateAsync(new AppRole
-                {
-                Id = adminCreateRoleViewModel.Id,           
-                Name = adminCreateRoleViewModel.Name
-                });
-            
-            
-        }
-        public async Task<IdentityResult> DeleteRole(string id)
-        {
-            var role = await _roleManager.FindByIdAsync(id);
-            if(role == null)
-                throw new Exception("Role bulunamadı");
-            return await _roleManager.DeleteAsync(role);
+            return await _roleManager.CreateAsync(mappedAppRoleValue); 
         }
 
-        public async  Task<IdentityResult> UpdateRole(AdminUpdateRoleViewModel adminUpdateRoleViewModel)
+
+        public async Task<bool> DeleteRole(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            if (role is null)
+                return false;
+            IdentityResult identityResult = await _roleManager.DeleteAsync(role);
+            return identityResult.Succeeded;
+        }
+
+
+        public async  Task<bool> UpdateRole(AdminUpdateRoleViewModel adminUpdateRoleViewModel)
         {
             var role= await _roleManager.FindByIdAsync(adminUpdateRoleViewModel.Id);
-            if(role == null)
-                throw new Exception("Role bulunamadı");
+            if (role is null)
+                return false;
+
             role.Name = adminUpdateRoleViewModel.Name;
-            return await _roleManager.UpdateAsync(role);
+            IdentityResult identityResult = await _roleManager.UpdateAsync(role);
+            return identityResult.Succeeded;
 
         }
 

@@ -77,8 +77,11 @@ namespace MyProject.Bussines.Mapping
             CreateMap<AdminCreateRoleViewModel,  AppRole>().ReverseMap();
             CreateMap<AdminCreateRoleViewModel, CreateRoleCommmandRequest>().ReverseMap();
             CreateMap<AdminUpdateRoleViewModel, AppRole>().ReverseMap();
-            CreateMap<AdminUpdateRoleViewModel, UpdateRoleCommandRequest>().ReverseMap();
-            
+            CreateMap<AdminUpdateRoleViewModel, UpdateRoleCommandRequest>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+
+
 
 
             CreateMap<CreateOrderDto, Order>()

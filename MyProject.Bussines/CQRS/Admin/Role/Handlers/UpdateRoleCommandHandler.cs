@@ -9,6 +9,7 @@ using MyProject.Bussines.CQRS.Admin.Role.Commands.Request;
 using MyProject.Bussines.CQRS.Admin.Role.Commands.Response;
 using MyProject.Bussines.Services;
 using MyProject.DTO.Models.AdminRoleViewModel;
+using MyProject.Entity.Enums;
 
 namespace MyProject.Bussines.CQRS.Admin.Role.Handlers
 {
@@ -28,19 +29,26 @@ namespace MyProject.Bussines.CQRS.Admin.Role.Handlers
             try
             {
                 var mappedCreateRole = _mapper.Map<AdminUpdateRoleViewModel>(request);
-                await _roleService.UpdateRole(mappedCreateRole);
-                return new UpdateRoleCommandResponse()
+                var isSuccess= await _roleService.UpdateRole(mappedCreateRole);
+                if(isSuccess == false)
                 {
-                    Message = "Rol güncellemesi başarılı!",
-                    StatusCode = 204
+                    return new UpdateRoleCommandResponse
+                    {
+                        Message = "Aranan rol bulunamadı.1",
+                        StatusCode = StatusCode.NotFound
+                    };
+                }
+                return new UpdateRoleCommandResponse
+                {         
+                    StatusCode = StatusCode.NoContent
                 };
             }
             catch
             {
-                return new UpdateRoleCommandResponse()
+                return new UpdateRoleCommandResponse
                 {
                     Message = "Rol güncellenirken bir hata oluştu!",
-                    StatusCode = 500
+                    StatusCode = StatusCode.InternalServerError
                 };
             }
         }

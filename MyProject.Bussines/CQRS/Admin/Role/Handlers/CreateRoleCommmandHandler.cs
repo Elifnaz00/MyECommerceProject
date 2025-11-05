@@ -10,6 +10,7 @@ using MyProject.Bussines.CQRS.Admin.Role.Commands.Request;
 using MyProject.Bussines.CQRS.Admin.Role.Commands.Response;
 using MyProject.Bussines.Services;
 using MyProject.DTO.Models.AdminRoleViewModel;
+using MyProject.Entity.Enums;
 
 namespace MyProject.Bussines.CQRS.Admin.Role.Handlers
 {
@@ -36,7 +37,7 @@ namespace MyProject.Bussines.CQRS.Admin.Role.Handlers
                 return new CreateRoleCommmandResponse()
                 {
                     Message = "Yeni rol başarıyla eklendi.",
-                    StatusCode= 201 
+                    StatusCode = StatusCode.Created
                 };
 
             }
@@ -45,7 +46,7 @@ namespace MyProject.Bussines.CQRS.Admin.Role.Handlers
                 return new CreateRoleCommmandResponse()
                 {
                     Message = "Rol oluşturulurken bir hata oluştu!",
-                    StatusCode = 500
+                    StatusCode = StatusCode.InternalServerError
                 };
                 //throw;
             }
