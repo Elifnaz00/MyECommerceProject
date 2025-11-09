@@ -28,6 +28,7 @@ using MyProject.Bussines.CQRS.BasketItem.Queries.Request;
 using MyProject.DTO.Models.AdminRoleViewModel;
 using MyProject.DTO.DTOs.AdminDTOs.RoleDto;
 using MyProject.Bussines.CQRS.Admin.Role.Commands.Request;
+using System.Data.SqlTypes;
 
 namespace MyProject.Bussines.Mapping
 {
@@ -74,12 +75,13 @@ namespace MyProject.Bussines.Mapping
             CreateMap<BasketItem, AddBasketItemViewModel>().ReverseMap();
             CreateMap<BasketItem, UpdateBasketItemViewModel>().ReverseMap();
             CreateMap<UpdateBasketItemDto, UpdateBasketItemViewModel>().ReverseMap();
-            CreateMap<AdminCreateRoleViewModel,  AppRole>().ReverseMap();
+            CreateMap<AppRole, AdminCreateRoleViewModel>().ReverseMap();      
             CreateMap<AdminCreateRoleViewModel, CreateRoleCommmandRequest>().ReverseMap();
-            CreateMap<AdminUpdateRoleViewModel, AppRole>().ReverseMap();
-            CreateMap<AdminUpdateRoleViewModel, UpdateRoleCommandRequest>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+            CreateMap<AdminUpdateRoleViewModel, UpdateRoleCommandRequest>().ReverseMap();
+
+
+
+
 
 
 

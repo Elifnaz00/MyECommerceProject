@@ -36,7 +36,7 @@ namespace MyProject.Api.Controllers.Admin
                     Name = createAppRoleDto.Name,
                    
             });
-            return Ok(response);
+            return response.StatusCode == Entity.Enums.StatusCode.Created ? Ok(response) : StatusCode(500, response);
 
 
         }
@@ -51,6 +51,7 @@ namespace MyProject.Api.Controllers.Admin
                 Name = updateAppRoleDto.Name
 
             });
+            
             return Ok();
         }
 
@@ -58,7 +59,11 @@ namespace MyProject.Api.Controllers.Admin
         [HttpDelete("DeleteRole/{id}")]
         public async Task<IActionResult> DeleteRole(string id)
         {
-            return Ok("Delete Role Çalıştı");
+            await _mediator.Send(new DeleteRoleCommandRequest
+            {
+                Id = id
+            });
+            return Ok();
         }
     }
 }

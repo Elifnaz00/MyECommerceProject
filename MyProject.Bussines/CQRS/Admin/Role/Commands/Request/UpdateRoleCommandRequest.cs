@@ -11,7 +11,6 @@ namespace MyProject.Bussines.CQRS.Admin.Role.Commands.Request
     public class UpdateRoleCommandRequest : IRequest<UpdateRoleCommandResponse>
     {
         public string Id { get; set; }
-
         public string Name { get; set; }
     }
 }

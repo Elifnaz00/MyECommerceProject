@@ -12,11 +12,11 @@ namespace MyProject.Bussines.Services
 {
     public interface IRoleService
     {
-       Task<IdentityResult> CreateRole(AdminCreateRoleViewModel adminCreateRoleViewModel);
+       Task<IdentityResult> CreateRoleAsync(AdminCreateRoleViewModel adminCreateRoleViewModel);
 
-        Task<bool> DeleteRole(string id);
+        Task<bool> DeleteRoleAsync(string id);
 
-        Task<bool> UpdateRole(AdminUpdateRoleViewModel adminUpdateRoleViewModel);
+        Task<bool> UpdateRoleAsync(AdminUpdateRoleViewModel adminUpdateRoleViewModel);
 
         IList<AppRole> GetAllRoles();
     }

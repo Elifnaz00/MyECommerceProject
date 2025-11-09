@@ -30,10 +30,10 @@ namespace MyProject.Bussines.CQRS.Admin.Role.Handlers
         {
             try
             {
-                    
+               
                 var mappedCreateRoleModel = _mapper.Map<AdminCreateRoleViewModel>(request);
-                mappedCreateRoleModel.Id= Guid.NewGuid().ToString();
-                await _roleService.CreateRole(mappedCreateRoleModel);
+                
+                await _roleService.CreateRoleAsync(mappedCreateRoleModel);
                 return new CreateRoleCommmandResponse()
                 {
                     Message = "Yeni rol başarıyla eklendi.",

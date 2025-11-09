@@ -9,6 +9,6 @@ namespace MyProject.Entity.Entities
 {
     public class AppRole: IdentityRole<string>
     {
-
+        
     }
 }

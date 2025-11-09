@@ -22,20 +22,25 @@ namespace MyProject.Bussines.Services
             _mapper = mapper;
         }
 
-        public async Task<IdentityResult> CreateRole(AdminCreateRoleViewModel adminCreateRoleViewModel)
+        public async Task<IdentityResult> CreateRoleAsync(AdminCreateRoleViewModel adminCreateRoleViewModel)
         {
             
             var hasValue= await _roleManager.FindByNameAsync(adminCreateRoleViewModel.Name);
-            var mappedAppRoleValue = _mapper.Map<AppRole>(hasValue);
+            
             if (hasValue != null)
             {
-                await _roleManager.UpdateAsync(mappedAppRoleValue);
+                hasValue.Name = adminCreateRoleViewModel.Name;
+                await _roleManager.UpdateAsync(hasValue);
             }
-            return await _roleManager.CreateAsync(mappedAppRoleValue); 
+       
+            return await _roleManager.CreateAsync(new AppRole
+            {
+                Name = adminCreateRoleViewModel.Name          
+            }); 
         }
 
 
-        public async Task<bool> DeleteRole(string id)
+        public async Task<bool> DeleteRoleAsync(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
             if (role is null)
@@ -45,13 +50,13 @@ namespace MyProject.Bussines.Services
         }
 
 
-        public async  Task<bool> UpdateRole(AdminUpdateRoleViewModel adminUpdateRoleViewModel)
+        public async  Task<bool> UpdateRoleAsync(AdminUpdateRoleViewModel adminUpdateRoleViewModel)
         {
             var role= await _roleManager.FindByIdAsync(adminUpdateRoleViewModel.Id);
             if (role is null)
                 return false;
 
-            role.Name = adminUpdateRoleViewModel.Name;
+            role.Name = adminUpdateRoleViewModel.Name; 
             IdentityResult identityResult = await _roleManager.UpdateAsync(role);
             return identityResult.Succeeded;
 

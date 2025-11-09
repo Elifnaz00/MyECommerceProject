@@ -8,8 +8,8 @@ using MyProject.Bussines.CQRS.Admin.Role.Commands.Response;
 
 namespace MyProject.Bussines.CQRS.Admin.Role.Commands.Request
 {
-    public class CreateRoleCommmandRequest: IRequest<CreateRoleCommmandResponse>
+    public class DeleteRoleCommandRequest : IRequest<DeleteRoleCommandResponse>
     {
-        public string Name { get; set; } 
+        public string Id { get; set; }
     }
 }

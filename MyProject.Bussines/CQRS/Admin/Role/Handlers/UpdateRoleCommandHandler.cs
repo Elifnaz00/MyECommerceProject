@@ -29,7 +29,7 @@ namespace MyProject.Bussines.CQRS.Admin.Role.Handlers
             try
             {
                 var mappedCreateRole = _mapper.Map<AdminUpdateRoleViewModel>(request);
-                var isSuccess= await _roleService.UpdateRole(mappedCreateRole);
+                var isSuccess= await _roleService.UpdateRoleAsync(mappedCreateRole);
                 if(isSuccess == false)
                 {
                     return new UpdateRoleCommandResponse
