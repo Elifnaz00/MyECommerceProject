@@ -29,15 +29,11 @@ namespace MyProject.Bussines.CQRS.Admin.Role.Handlers
         {
             
                 var mappedCreateRole = _mapper.Map<AdminUpdateRoleViewModel>(request);
-                var isSuccess= await _roleService.UpdateRoleAsync(mappedCreateRole);
-                if(isSuccess == false)
-                {
-                    throw new NotFoundException("aranan rol bulunamadı");
-                }
+                await _roleService.UpdateRoleAsync(mappedCreateRole);
 
                 return new UpdateRoleCommandResponse
                 {         
-                    StatusCode = StatusCode.NoContent
+                    StatusCode = StatusCode.NoContent  
                 };
            
                

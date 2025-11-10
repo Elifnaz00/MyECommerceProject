@@ -16,7 +16,7 @@ namespace MyProject.Bussines.Services
 
         Task<bool> DeleteRoleAsync(string id);
 
-        Task<bool> UpdateRoleAsync(AdminUpdateRoleViewModel adminUpdateRoleViewModel);
+        Task UpdateRoleAsync(AdminUpdateRoleViewModel adminUpdateRoleViewModel);
 
         IList<AppRole> GetAllRoles();
     }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MyProject.Bussines.Exceptions;
 using MyProject.DTO.Models.AdminRoleViewModel;
 using MyProject.Entity.Entities;
 
@@ -50,21 +51,22 @@ namespace MyProject.Bussines.Services
         }
 
 
-        public async  Task<bool> UpdateRoleAsync(AdminUpdateRoleViewModel adminUpdateRoleViewModel)
-        {
-            var role= await _roleManager.FindByIdAsync(adminUpdateRoleViewModel.Id);
-            if (role is null)
-                return false;
-
-            role.Name = adminUpdateRoleViewModel.Name; 
-            IdentityResult identityResult = await _roleManager.UpdateAsync(role);
-            return identityResult.Succeeded;
-
-        }
+       
 
         public IList<AppRole> GetAllRoles() {
             return _roleManager.Roles.ToList();
-        } 
+        }
+
+        public async Task UpdateRoleAsync(AdminUpdateRoleViewModel adminUpdateRoleViewModel)
+        {
+            var role = await _roleManager.FindByIdAsync(adminUpdateRoleViewModel.Id);
+            if (role is null)
+                throw new NotFoundException("aranan rol bulunamadı");
+
+            role.Name = adminUpdateRoleViewModel.Name;
+            await _roleManager.UpdateAsync(role);
+            return;
+        }
     }
     
     

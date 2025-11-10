@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Web.Http.Results;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Bussines.CQRS.Admin.Role.Commands.Request;
@@ -55,15 +56,15 @@ namespace MyProject.Api.Controllers.Admin
         [HttpPut("UpdateRole/{id}")]
         public async Task<IActionResult> UpdateRole([FromBody] UpdateRoleDto updateAppRoleDto, [FromRoute] string id)
         {
-         
-            var response = await _mediator.Send(new UpdateRoleCommandRequest
-            {
-                Id = id,
-                Name = updateAppRoleDto.Name
-
-            });
             
-            return NoContent();
+                var response = await _mediator.Send(new UpdateRoleCommandRequest
+                {
+                    Id = id,
+                    Name = updateAppRoleDto.Name
+
+                });
+                return NoContent();
+           
         }
 
 
