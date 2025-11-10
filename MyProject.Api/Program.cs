@@ -79,6 +79,7 @@ builder.Services.AddControllers()
     });
 services.AddAuthorization();
 
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 var app = builder.Build();
 
@@ -95,7 +96,8 @@ app.UseAuthentication();
 app.UseRouting();
 app.UseCors("AllowLocalhost7122");
 app.UseAuthorization();
-
+app.UseExceptionHandler();
+app.UseStatusCodePages();
 app.MapControllers();
 
 app.Run();

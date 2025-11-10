@@ -18,6 +18,8 @@ namespace MyProject.Api.Controllers.Admin
         {
             _mediator = mediator;
         }
+
+
         [HttpGet("GetRole")]
         public async Task<IActionResult> GetRole()
         {
@@ -36,10 +38,19 @@ namespace MyProject.Api.Controllers.Admin
                     Name = createAppRoleDto.Name,
                    
             });
-            return response.StatusCode == Entity.Enums.StatusCode.Created ? Ok(response) : StatusCode(500, response);
+            if(response.StatusCode == Entity.Enums.StatusCode.InternalServerError)
+            {
+                return Problem(
+                    type: "Bad Request",
+                    title: "Identity failure",
+                    detail: response.Message,
+                    statusCode: StatusCodes.Status500InternalServerError);
 
-
+            }
+            return Created("", response.Message);
         }
+
+
 
         [HttpPut("UpdateRole/{id}")]
         public async Task<IActionResult> UpdateRole([FromBody] UpdateRoleDto updateAppRoleDto, [FromRoute] string id)
@@ -52,7 +63,7 @@ namespace MyProject.Api.Controllers.Admin
 
             });
             
-            return Ok();
+            return NoContent();
         }
 
 

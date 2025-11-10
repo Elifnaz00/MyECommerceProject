@@ -24,6 +24,9 @@ using MyProject.Bussines.CQRS.Contacts.Validators;
 using MyProject.Bussines.CQRS.Admin.Dashboard.Queries.Request;
 using MyProject.Bussines.CQRS.Admin.Dashboard.Handlers;
 using Microsoft.Extensions.Logging;
+using MyProject.Bussines.Exceptions;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace MyProject.Bussines
 {
@@ -50,7 +53,23 @@ namespace MyProject.Bussines
             services.AddAutoMapper(typeof(MapProfile));
             services.AddMediatR(typeof(GetAllCategoryQueryHandler).Assembly);
             services.AddMediatR(typeof(GetDashboardDataQueryHandler).Assembly);
-           
+            services.AddExceptionHandler<GlobalExceptionHandler>();
+            services.AddExceptionHandler<CustomExceptionHandler>();
+            services.AddExceptionHandler<NotFoundExceptionHandler>();
+            services.AddProblemDetails(options =>
+            {
+                options.CustomizeProblemDetails = context =>
+                {
+                    context.ProblemDetails.Instance =
+                        $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+
+                    context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
+
+                    Activity? activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
+                    context.ProblemDetails.Extensions.TryAdd("traceId", activity?.Id);
+                };
+            });
+
 
 
 
