@@ -20,7 +20,7 @@ namespace MyProject.Bussines.Services
     public RoleService(RoleManager<AppRole> roleManager, IMapper mapper)
         {
             _roleManager = roleManager;
-            _mapper = mapper;
+            
         }
 
         public async Task<IdentityResult> CreateRoleAsync(AdminCreateRoleViewModel adminCreateRoleViewModel)

@@ -19,11 +19,7 @@ namespace MyProject.Api.Controllers
         readonly IMediator _mediator;
 
 
-        public BasketItemController(IMediator mediator)
-        {
-            _mediator = mediator;
-
-        }
+       
 
         [HttpGet("GetBasketItems")]
         public async Task<IActionResult> GetBasketItems()

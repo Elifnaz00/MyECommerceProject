@@ -63,10 +63,6 @@ namespace MyProject.DataAccess.CQRS.AppUsers.Handlers.CommandHandlers
                 IsSuccess= false
             };
 
-
-
-
-
         }
     }
 }

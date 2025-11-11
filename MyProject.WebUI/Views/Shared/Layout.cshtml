@@ -1,9 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using MyProject.Entity.Entities
+@using Microsoft.AspNetCore.Http;
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
 
 @{
+    
 }
 
 <!doctype html>
@@ -115,7 +117,7 @@
                                         <li>
                                             <div class="card-stor">
                                                 <a asp-controller="ShoppingCart" asp-action="Index"><img src ="~/Themes/shionhouse-master/assets/img/gallery/card.svg" alt=""></a>
-                                                <span>0</span>
+                                                <span class="shopping-cart-item-count">0</span>
                                             </div>
                                         </li>
                                         <li>
@@ -390,3 +392,33 @@
     @await RenderSectionAsync("scripts", required: false)
 </body>
 </html>
+<script>
+        $( document ).ready(function() {
+            var token= "@Context.Session.GetString("token")";
+            
+            if(!token == null){
+                 getData();
+            }
+           
+
+        async function getData() {
+            
+          const url = "https://localhost:7122/api/v1/Basket/GetBasket";
+          try {
+            const response = await fetch(url);
+            if (!response.ok) {
+              throw new Error(`Response status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log(result);
+          } catch (error) {
+            console.error(error.message);
+          }
+        }
+       
+       
+    });
+    
+	
+</script>
