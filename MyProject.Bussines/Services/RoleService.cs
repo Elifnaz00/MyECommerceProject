@@ -15,7 +15,7 @@ namespace MyProject.Bussines.Services
     public class RoleService : IRoleService
     {
         readonly RoleManager<AppRole> _roleManager;
-        readonly IMapper _mapper;
+    
 
     public RoleService(RoleManager<AppRole> roleManager, IMapper mapper)
         {
@@ -28,10 +28,10 @@ namespace MyProject.Bussines.Services
             
             var hasValue= await _roleManager.FindByNameAsync(adminCreateRoleViewModel.Name);
             
-            if (hasValue != null)
+            if (hasValue is not null)
             {
                 hasValue.Name = adminCreateRoleViewModel.Name;
-                await _roleManager.UpdateAsync(hasValue);
+                return await _roleManager.UpdateAsync(hasValue);
             }
        
             return await _roleManager.CreateAsync(new AppRole
@@ -41,31 +41,31 @@ namespace MyProject.Bussines.Services
         }
 
 
-        public async Task<bool> DeleteRoleAsync(string id)
+        public async Task DeleteRoleAsync(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
             if (role is null)
-                return false;
-            IdentityResult identityResult = await _roleManager.DeleteAsync(role);
-            return identityResult.Succeeded;
+                throw new NotFoundException("Aranan veri bulunamadı.");
+
+            await _roleManager.DeleteAsync(role);
         }
-
-
-       
+    
 
         public IList<AppRole> GetAllRoles() {
             return _roleManager.Roles.ToList();
         }
 
-        public async Task UpdateRoleAsync(AdminUpdateRoleViewModel adminUpdateRoleViewModel)
+
+
+        public async Task<IdentityResult> UpdateRoleAsync(AdminUpdateRoleViewModel adminUpdateRoleViewModel)
         {
             var role = await _roleManager.FindByIdAsync(adminUpdateRoleViewModel.Id);
             if (role is null)
-                throw new NotFoundException("aranan rol bulunamadı");
+                throw new NotFoundException("Aranan veri bulunamadı.");
 
             role.Name = adminUpdateRoleViewModel.Name;
-            await _roleManager.UpdateAsync(role);
-            return;
+            return await _roleManager.UpdateAsync(role);
+            
         }
     }
     

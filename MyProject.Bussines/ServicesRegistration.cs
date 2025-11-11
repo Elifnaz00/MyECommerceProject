@@ -53,7 +53,9 @@ namespace MyProject.Bussines
             services.AddAutoMapper(typeof(MapProfile));
             services.AddMediatR(typeof(GetAllCategoryQueryHandler).Assembly);
             services.AddMediatR(typeof(GetDashboardDataQueryHandler).Assembly);
+            services.AddExceptionHandler<BadRequestExceptionHandler>();
             services.AddExceptionHandler<NotFoundExceptionHandler>();
+            services.AddExceptionHandler<CustomGlobalExceptionHandler>();
             services.AddProblemDetails(options =>
             {
                 options.CustomizeProblemDetails = context =>

@@ -27,25 +27,14 @@ namespace MyProject.Bussines.CQRS.Admin.Role.Handlers
 
         public Task<GetRoleQueryResponse> Handle(GetRoleQueryRequest request, CancellationToken cancellationToken)
         {
-            try
-            {
+           
                 var allRoleList = _roleService.GetAllRoles();
                 var mappedAllRoleList = _mapper.Map<List<AppRoleDto>>(allRoleList);
                 return Task.FromResult(new GetRoleQueryResponse
                 {
-                    RoleList = mappedAllRoleList,
-                    StatusCode = 200
+                    RoleList = mappedAllRoleList,   
                 });
-            }
-            catch (Exception ex)
-            {
-                
-                return Task.FromResult(new GetRoleQueryResponse
-                {
-                    Message = "Roller alınırken bir hata oluştu: ",
-                    StatusCode = 500
-                }); 
-            }
+           
         }
     }
 }

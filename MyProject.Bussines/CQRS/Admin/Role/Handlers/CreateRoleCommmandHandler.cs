@@ -8,6 +8,7 @@ using Castle.Core.Logging;
 using MediatR;
 using MyProject.Bussines.CQRS.Admin.Role.Commands.Request;
 using MyProject.Bussines.CQRS.Admin.Role.Commands.Response;
+using MyProject.Bussines.Exceptions;
 using MyProject.Bussines.Services;
 using MyProject.DTO.Models.AdminRoleViewModel;
 using MyProject.Entity.Enums;
@@ -28,28 +29,20 @@ namespace MyProject.Bussines.CQRS.Admin.Role.Handlers
 
         public async Task<CreateRoleCommmandResponse> Handle(CreateRoleCommmandRequest request, CancellationToken cancellationToken)
         {
-            try
-            {
-               
-                var mappedCreateRoleModel = _mapper.Map<AdminCreateRoleViewModel>(request);
+          
+            var mappedCreateRoleModel = _mapper.Map<AdminCreateRoleViewModel>(request);
                 
-                await _roleService.CreateRoleAsync(mappedCreateRoleModel);
-                return new CreateRoleCommmandResponse()
-                {
-                    Message = "Yeni rol başarıyla eklendi.",
-                    StatusCode = StatusCode.Created
-                };
+            var identityResult = await _roleService.CreateRoleAsync(mappedCreateRoleModel);
+            if(!identityResult.Succeeded)
+            {
+                throw new BadRequestException(identityResult.Errors.FirstOrDefault()?.Description ?? "Rol oluşturulamadı.");
 
             }
-            catch
+
+            return new CreateRoleCommmandResponse()
             {
-                return new CreateRoleCommmandResponse()
-                {
-                    Message = "Rol oluşturulurken bir hata oluştu!",
-                    StatusCode = StatusCode.InternalServerError
-                };
-                //throw;
-            }
+                Message = "Yeni rol başarıyla eklendi.",
+            };
         }
     }
 }

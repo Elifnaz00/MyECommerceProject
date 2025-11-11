@@ -8,14 +8,24 @@ namespace MyProject.Bussines.Exceptions
 {
     public class NotFoundException : Exception
     {
-        public NotFoundException() : base("Not found")
+
+        private string id;
+        public NotFoundException() : base()
         {
 
         }
 
         public NotFoundException(string message) : base(message)
-        {
+        { }
 
+
+        public NotFoundException(string message, string id) : base(message)
+        {
+           this.id = id;
+         
+           
         }
+
     }
+    
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using MyProject.Bussines.CQRS.Admin.Role.Commands.Request;
 using MyProject.Bussines.CQRS.Admin.Role.Commands.Response;
 using MyProject.Bussines.Exceptions;
@@ -14,7 +15,7 @@ using MyProject.Entity.Enums;
 
 namespace MyProject.Bussines.CQRS.Admin.Role.Handlers
 {
-    public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommandRequest, UpdateRoleCommandResponse>
+    public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommandRequest, Unit>
     {
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
@@ -25,19 +26,14 @@ namespace MyProject.Bussines.CQRS.Admin.Role.Handlers
             _mapper = mapper;
         }
 
-        public async Task<UpdateRoleCommandResponse> Handle(UpdateRoleCommandRequest request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateRoleCommandRequest request, CancellationToken cancellationToken)
         {
-            
-                var mappedCreateRole = _mapper.Map<AdminUpdateRoleViewModel>(request);
-                await _roleService.UpdateRoleAsync(mappedCreateRole);
+            var mappedUpdateRole = _mapper.Map<AdminUpdateRoleViewModel>(request);
+            var result= await _roleService.UpdateRoleAsync(mappedUpdateRole);
+            if (!result.Succeeded)
+                throw new BadRequestException(result.Errors.FirstOrDefault()?.Description ?? "Rol güncellenemedi.");
 
-                return new UpdateRoleCommandResponse
-                {         
-                    StatusCode = StatusCode.NoContent  
-                };
-           
-               
-            
+            return Unit.Value; 
         }
     }
 }

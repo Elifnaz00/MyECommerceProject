@@ -11,7 +11,5 @@ namespace MyProject.Bussines.CQRS.Admin.Role.Queries.Response
     public class GetRoleQueryResponse
     {
         public List<AppRoleDto> RoleList { get; set; }
-        public int StatusCode { get; set; }
-        public string Message { get; set; }
     }
 }

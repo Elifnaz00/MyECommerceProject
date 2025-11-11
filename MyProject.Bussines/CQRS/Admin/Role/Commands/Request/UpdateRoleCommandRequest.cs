@@ -8,7 +8,7 @@ using MyProject.Bussines.CQRS.Admin.Role.Commands.Response;
 
 namespace MyProject.Bussines.CQRS.Admin.Role.Commands.Request
 {
-    public class UpdateRoleCommandRequest : IRequest<UpdateRoleCommandResponse>
+    public class UpdateRoleCommandRequest : IRequest
     {
         public string Id { get; set; }
         public string Name { get; set; }
