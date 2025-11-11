@@ -35,11 +35,17 @@ Amaç, modern yazılım geliştirme pratiklerini uygulayarak öğrenmek ve gerç
 - **Identity & JWT Authentication** → Kullanıcı giriş/çıkış süreçlerinde token tabanlı kimlik doğrulama yapıldı; ayrıca admin controller tarafında yetkilendirme ve sepet işlemlerinde güvenlik sağlandı.
   **JWT Token Konfigürasyonu** → API üzerinde gelen JWT token'ların doğrulanması sağlandı. 
   Token’ın **issuer** ve **audience** değerleri kontrol edildi, **yaşam süresi (lifetime)** doğrulandı ve token’ın uygulamaya ait olduğu **security key ile garanti altına alındı**. 
-  Ayrıca, kullanıcı adı token içindeki **Name claim** üzerinden çekilerek `User.Identity.Name` ile erişim sağlandı. 
+  Ayrıca, kullanıcı adı token içindeki **Name claim** üzerinden çekilerek **`User.Identity.Name`** ile erişim sağlandı. 
   Bu sayede API endpoint’lerine güvenli erişim ve yetkilendirme gerçekleştirildi. 
 - **CQRS + MediatR** → Komut ve sorgu işlemleri ayrılarak temiz mimari sağlandı.  
 - **AutoMapper** → Entity ↔ DTO dönüşümleri kolaylaştırıldı.  
 - **Repository Pattern** → Veri erişimi soyutlandı, test edilebilirlik ve esneklik sağlandı.  
+
+## 🛠️ Hata Yönetimi (Exception Handling & Logging)
+- **IExceptionHandler** yapısı kullanılarak merkezi hata yönetimi (global exception handling) uygulandı.
+- Hatalar, **custom exception handler sınıfları** üzerinden yönetildi. 
+- Hata yanıtlarının standartlaştırılması için **Problem Details(RFC 7807**) kullanıldı.
+- Her hata ayıklandığında loglanması için Handler sınıflarında **ILogger<T>** arayüzü uygulandı.
 
 ### 🔹 Diğer Teknolojiler & Best Practices
 - **Dependency Injection** → Servislerin bağımlılıkları yönetildi, loosely coupled yapı kuruldu.  
@@ -53,12 +59,13 @@ Amaç, modern yazılım geliştirme pratiklerini uygulayarak öğrenmek ve gerç
 ## 📂 Katmanlar
 - `MyProject.Api` → Web API katmanı  
 - `MyProject.WebUI` → MVC/WebUI katmanı  
-- `MyProject.Business` → İş kuralları katmanı  
-- `MyProject.DataAccess` → Veri erişim katmanı  
-- `MyProject.Entity` → Entity sınıfları , Status Code ve Status Basket Enum tanımlamaları 
+- `MyProject.Business` → İş kuralları katmanı   → İdentity Error Costomization, CQRS, Exceptions, Mapping, Services Registration(DI Container), Services, TokenServices.
+- `MyProject.DataAccess` → Veri erişim katmanı → Abstract Repository, Concrate Repository, Context, UnıtOfWork.
+- `MyProject.Entity` → Entity sınıfları, StatusCode Enum, StatusBasket Enum.
 - `MyProject.DTO` → DTO sınıfları  
 
 ---
+
 
 
 
