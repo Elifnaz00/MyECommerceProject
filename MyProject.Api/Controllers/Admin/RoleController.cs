@@ -66,5 +66,17 @@ namespace MyProject.Api.Controllers.Admin
             });
             return NoContent();
         }
+
+
+        [HttpPost("RoleAssign")]
+        public async Task<IActionResult> RoleAssign([FromBody] RoleAssignDto roleAssignDto)
+        {
+            await _mediator.Send(new RoleAssignCommandRequest
+            {
+               adminRoleAssignViewModels= roleAssignDto.adminRoleAssignViewModels,
+               UserId= roleAssignDto.UserId
+            });
+            return Ok();
+        }
     }
 }

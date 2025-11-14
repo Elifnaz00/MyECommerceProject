@@ -1,26 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyProject.Bussines.Exceptions;
 using MyProject.DTO.Models.AdminRoleViewModel;
 using MyProject.Entity.Entities;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MyProject.Bussines.Services
 {
     public class RoleService : IRoleService
     {
         readonly RoleManager<AppRole> _roleManager;
-    
+        readonly UserManager<AppUser> _userManager;
 
-    public RoleService(RoleManager<AppRole> roleManager, IMapper mapper)
+        public RoleService(RoleManager<AppRole> roleManager, UserManager<AppUser> userManager)
         {
             _roleManager = roleManager;
-            
+            _userManager = userManager;
         }
 
         public async Task<IdentityResult> CreateRoleAsync(AdminCreateRoleViewModel adminCreateRoleViewModel)
@@ -55,7 +56,7 @@ namespace MyProject.Bussines.Services
             return _roleManager.Roles.ToList();
         }
 
-
+       
 
         public async Task<IdentityResult> UpdateRoleAsync(AdminUpdateRoleViewModel adminUpdateRoleViewModel)
         {
@@ -67,6 +68,26 @@ namespace MyProject.Bussines.Services
             return await _roleManager.UpdateAsync(role);
             
         }
+
+        public async Task RoleAssignAsync(List<AdminRoleAssignViewModel> adminRoleAssignViewModel, string id)
+        {
+            if(adminRoleAssignViewModel is null)
+                throw new ArgumentNullException();
+           
+            AppUser? user = await _userManager.FindByIdAsync(id);
+            if (user is null)
+                throw new NotFoundException("Kullanıcı bulunamadı.");
+
+            foreach (AdminRoleAssignViewModel role in adminRoleAssignViewModel)
+            {
+                if (role.HasAssign)
+                    await _userManager.AddToRoleAsync(user, role.Name);
+                else
+                    await _userManager.RemoveFromRoleAsync(user, role.Name);
+            }
+        }
+
+
     }
     
     

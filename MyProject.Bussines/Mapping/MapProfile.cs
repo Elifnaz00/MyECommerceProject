@@ -77,14 +77,7 @@ namespace MyProject.Bussines.Mapping
             CreateMap<UpdateBasketItemDto, UpdateBasketItemViewModel>().ReverseMap();
             CreateMap<AppRole, AdminCreateRoleViewModel>().ReverseMap();      
             CreateMap<AdminCreateRoleViewModel, CreateRoleCommmandRequest>().ReverseMap();
-            CreateMap<AdminUpdateRoleViewModel, UpdateRoleCommandRequest>().ReverseMap();
-
-
-
-
-
-
-
+           
 
             CreateMap<CreateOrderDto, Order>()
             .ForMember(dest => dest.PaymentStatusId, opt => opt.MapFrom(src => Guid.Parse("11111111-1111-1111-1111-111111111111"))) // Pending

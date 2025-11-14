@@ -19,5 +19,7 @@ namespace MyProject.Bussines.Services
         Task<IdentityResult> UpdateRoleAsync(AdminUpdateRoleViewModel adminUpdateRoleViewModel);
 
         IList<AppRole> GetAllRoles();
+
+        Task RoleAssignAsync(List<AdminRoleAssignViewModel> adminRoleAssignViewModel, string id);
     }
 }

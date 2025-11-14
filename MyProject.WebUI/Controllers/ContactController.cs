@@ -11,7 +11,7 @@ using System;
 
 namespace MyProject.WebUI.Controllers
 {
-    
+    [Authorize(Roles = "Denemelik")]
     public class ContactController : Controller
     {
 
