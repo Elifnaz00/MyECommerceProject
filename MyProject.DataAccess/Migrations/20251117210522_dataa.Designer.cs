@@ -12,8 +12,8 @@ using MyProject.DataAccess.Context;
 namespace MyProject.DataAccess.Migrations
 {
     [DbContext(typeof(MyProjectContext))]
-    [Migration("20250901224503_defaultordersttusandpaymentstatus")]
-    partial class defaultordersttusandpaymentstatus
+    [Migration("20251117210522_dataa")]
+    partial class dataa
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -473,35 +473,35 @@ namespace MyProject.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("22222222-2222-2222-2222-222222222222"),
-                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(4401),
+                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1401),
                             IsDeleted = false,
                             Name = "Await Payment"
                         },
                         new
                         {
                             Id = new Guid("55555555-5555-5555-5555-555555555555"),
-                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(4407),
+                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1405),
                             IsDeleted = false,
                             Name = "Processing"
                         },
                         new
                         {
                             Id = new Guid("66666666-6666-6666-6666-666666666666"),
-                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(4409),
+                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1407),
                             IsDeleted = false,
                             Name = "Shipped"
                         },
                         new
                         {
                             Id = new Guid("77777777-7777-7777-7777-777777777777"),
-                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(4411),
+                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1409),
                             IsDeleted = false,
                             Name = "Delivered"
                         },
                         new
                         {
                             Id = new Guid("88888888-8888-8888-8888-888888888888"),
-                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(4413),
+                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1412),
                             IsDeleted = false,
                             Name = "Cancelled"
                         });
@@ -530,23 +530,23 @@ namespace MyProject.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(3943),
+                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1248),
                             IsDeleted = false,
                             Name = "Pending"
                         },
                         new
                         {
                             Id = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(3957),
+                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1264),
                             IsDeleted = false,
                             Name = "Paid"
                         },
                         new
                         {
                             Id = new Guid("44444444-4444-4444-4444-444444444444"),
-                            CreateDate = new DateTime(2025, 9, 2, 1, 45, 3, 212, DateTimeKind.Local).AddTicks(3959),
+                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1266),
                             IsDeleted = false,
-                            Name = "Failed"
+                            Name = "Refunded"
                         });
                 });
 

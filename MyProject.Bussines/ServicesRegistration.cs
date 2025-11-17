@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+﻿ using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -46,6 +46,7 @@ namespace MyProject.Bussines
             services.AddScoped<IBasketItemService, BasketItemService>();
             services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IRoleService, RoleService>();
+          
             services.AddScoped<ITokenHandler, TokenHandler>();
             services.AddScoped<IValidator<ContactUsCommandRequest>, CreateContactCommandValidator>();
             services.AddValidatorsFromAssemblyContaining<CreateContactCommandValidator>();

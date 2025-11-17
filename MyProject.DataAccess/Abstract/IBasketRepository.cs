@@ -10,7 +10,7 @@ namespace MyProject.DataAccess.Abstract
     public interface IBasketRepository : IBaseEntityRepository<Basket>
     {
         public Task<Basket> GetBasketByUserAsync(string userId);
-        public Task<IEnumerable<BasketItem>> GetActiveBasketItemsByUserIdAsync(string userId);
+        public Task<ICollection<BasketItem>> GetActiveBasketItemsByUserIdAsync(string userId);
 
     }
        

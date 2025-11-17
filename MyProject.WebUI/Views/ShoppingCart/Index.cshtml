@@ -5,12 +5,14 @@
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 
-	@if (!string.IsNullOrEmpty(Model.Message))
-	{
+	@if (Model is null)
+{
+	<div style="width: 100%; height: 100%;">
 		<div class="alert alert-success">
-			<span>@Model.Message</span>
+			<span>@TempData["BasketMessage"]</span>
 		</div>
-	}
+	</div>
+}
 	else{
 		<section class="ftco-section ftco-cart">
 			<form method="post" asp-controller="ShoppingCart" asp-action="Index">
@@ -335,6 +337,7 @@
 		});  
 		});
 	</script>
+
 
 
 

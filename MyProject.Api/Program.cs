@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using MyProject.Bussines;
 using MyProject.Bussines.Customization.Identity;
 using MyProject.DataAccess.Context;
+using MyProject.DataAccess.IdentitySeeder;
 using MyProject.Entity.Entities;
 using System.Security.Claims;
 using System.Text;
@@ -29,8 +29,10 @@ services.AddCors(options =>
 // Add services to the container.
 
 services.AddDbContext<MyProjectContext>(options =>
-  options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"), options => {
-      options.EnableRetryOnFailure(); }
+  options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"), options =>
+  {
+      options.EnableRetryOnFailure();
+  }
   ));
 
 
@@ -83,7 +85,17 @@ services.AddAuthorization();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+using (var scope = app.Services.CreateScope())
+{
+    var scopedServices = scope.ServiceProvider;
+    var dbContext = scopedServices.GetRequiredService<MyProjectContext>();
+
+    await dbContext.Database.MigrateAsync();
+
+    await SeedData.SeedRolesAndAdminAsync(scopedServices);
+}
+
+// Configure the HTTP request pipeline.     
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

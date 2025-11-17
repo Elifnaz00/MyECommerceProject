@@ -18,7 +18,7 @@ namespace MyProject.Bussines.CQRS.Admin.Role.Handlers
         public RoleAssignCommandHandler(IRoleService roleService, IMapper mapper)
         {
             _roleService = roleService;
-            _mapper = mapper;
+           
         }
 
         public async Task<Unit> Handle(RoleAssignCommandRequest request, CancellationToken cancellationToken)

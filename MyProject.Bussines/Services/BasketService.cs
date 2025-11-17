@@ -24,7 +24,7 @@ namespace MyProject.Bussines.Services
             return await _basketRepository.AddAsync(basket);
         }
 
-        public async Task<IEnumerable<BasketItem>> GetActiveBasketItemsByUserIdServiceAsync(string userId)
+        public async Task<ICollection<BasketItem>> GetActiveBasketItemsByUserIdServiceAsync(string userId)
         {
             return await _basketRepository.GetActiveBasketItemsByUserIdAsync(userId);
 

@@ -27,7 +27,7 @@ namespace MyProject.DataAccess.Concrate
             return result;
         }
 
-        public async Task <IEnumerable<BasketItem?>> GetActiveBasketItemsByUserIdAsync(string userId)
+        public async Task<ICollection<BasketItem>> GetActiveBasketItemsByUserIdAsync(string userId)
         {
 
             var result = await _myProjectContext.Baskets.Include(x => x.BasketItems).ThenInclude(x => x.Product).Where(e => e.AppUserId == userId).FirstOrDefaultAsync(x => x.Active);

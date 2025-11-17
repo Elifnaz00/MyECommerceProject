@@ -16,10 +16,12 @@ namespace MyProject.Api.Controllers
     [ApiController]
     public class BasketItemController : Controller
     {
-        readonly IMediator _mediator;
+        private readonly IMediator _mediator;
 
-
-       
+        public BasketItemController(IMediator mediator )
+        {
+            _mediator= mediator;
+        }
 
         [HttpGet("GetBasketItems")]
         public async Task<IActionResult> GetBasketItems()

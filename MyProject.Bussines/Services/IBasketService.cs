@@ -12,7 +12,7 @@ namespace MyProject.Bussines.Services
         public Task<Basket> GetBasketByUserServiceAsync(string userId);
 
         public Task<Basket> AddBasketAsync(Basket basket);  
-        public Task<IEnumerable<BasketItem>> GetActiveBasketItemsByUserIdServiceAsync(string userId);
+        public Task<ICollection<BasketItem>> GetActiveBasketItemsByUserIdServiceAsync(string userId);
 
     }
 }

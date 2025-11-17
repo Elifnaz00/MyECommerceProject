@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Drawing;
+using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,11 +43,12 @@ namespace MyProject.WebUI.Controllers
             HttpResponseMessage httpResponse = await client.GetAsync(client.BaseAddress + "/Basket/GetBasket");
             var response = await httpResponse.Content.ReadFromJsonAsync<ShoppingCartViewModel>();
 
+            TempData["BasketMessage"] = "Sepetinizde ürün bulunmamaktadır.";
 
             return response.BasketStatus switch
             {
                 Entity.Enums.BasketStatus.NotFound => await HandleNotFoundAsync(),  // boş sepet görünümü
-                Entity.Enums.BasketStatus.Empty => View(response),  // ürün yok ama sepet var
+                Entity.Enums.BasketStatus.Empty => View(),  // ürün yok ama sepet var
                 Entity.Enums.BasketStatus.HasItems => View(response),  // sepet dolu
                 _ => View()  // varsayılan olarak boş sepet görünümü
             };

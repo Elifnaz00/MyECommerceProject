@@ -90,10 +90,13 @@ namespace MyProject.DataAccess.Context
                 .HasDefaultValue(Guid.Parse("22222222-2222-2222-2222-222222222222"));
 
 
-           modelBuilder.Entity<AppRole>()
-               .Property(x => x.Id)
-               .HasDefaultValue(Guid.NewGuid().ToString());
-                
+            modelBuilder.Entity<AppRole>()
+                .Property(x => x.Id)
+                .HasDefaultValueSql("NEWID()");
+
+
+
+
             modelBuilder.Entity<PaymentStatus>().HasData(
          new PaymentStatus { Id = Guid.Parse("11111111-1111-1111-1111-111111111111"), Name = "Pending" }, //Beklemede
          new PaymentStatus { Id = Guid.Parse("33333333-3333-3333-3333-333333333333"), Name = "Paid" },//ödendi
