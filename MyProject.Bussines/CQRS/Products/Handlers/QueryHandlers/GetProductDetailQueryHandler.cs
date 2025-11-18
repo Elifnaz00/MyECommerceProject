@@ -16,13 +16,13 @@ namespace MyProject.Bussines.CQRS.Products.Handlers.QueryHandlers
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
-        private readonly ILogger<GetProductDetailQueryRequest> _logger;
+       
 
         public GetProductDetailQueryRequestHandler(IProductRepository productRepository, IMapper mapper, ILogger<GetProductDetailQueryRequest> logger)
         {
             _productRepository = productRepository;
             _mapper = mapper;
-            _logger = logger;
+           
         }
 
         public async Task<GetProductDetailQueryResponse> Handle(GetProductDetailQueryRequest request, CancellationToken cancellationToken)
@@ -30,9 +30,8 @@ namespace MyProject.Bussines.CQRS.Products.Handlers.QueryHandlers
             var value = await _productRepository.GetByIdAsync(request.Id);
 
 
-            if (value == null)
-            {
-                _logger.LogWarning("Ürün bulunamadı. ID: {Id}", request.Id);
+            if (value is null)
+            {    
                 throw new KeyNotFoundException("Ürün bulunamadı.");
             }
 

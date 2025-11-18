@@ -1,34 +1,34 @@
 ﻿
 using AutoMapper;
 using MyProject.Bussines.CQRS.Abouts.Queries.Response;
+using MyProject.Bussines.CQRS.Admin.Role.Commands.Request;
 using MyProject.Bussines.CQRS.AppUsers.Commands.Request;
+using MyProject.Bussines.CQRS.BasketItem.Commands.Request;
+using MyProject.Bussines.CQRS.BasketItem.Queries.Request;
+using MyProject.Bussines.CQRS.Baskets.Queries.Request;
 using MyProject.Bussines.CQRS.Categories.Queries.Response;
 using MyProject.Bussines.CQRS.Contacts.Commands.Request;
 using MyProject.Bussines.CQRS.Orders.Commands.Request;
+using MyProject.Bussines.CQRS.Products.Queries.Request;
 using MyProject.Bussines.CQRS.Products.Queries.Response;
-using MyProject.TokenDTOs.DTOs.EntranceDTOs;
+using MyProject.DataAccess.UnıtOfWorks;
+using MyProject.DTO.DTOs.AdminDTOs.RoleDto;
+using MyProject.DTO.DTOs.BasketDTOs;
+using MyProject.DTO.DTOs.BasketItemDTOs;
+using MyProject.DTO.DTOs.ContactDTOs;
+using MyProject.DTO.DTOs.OrderDTOs;
+using MyProject.DTO.DTOs.ProductDTOs;
+using MyProject.DTO.Models.AdminRoleViewModel;
+using MyProject.DTO.Models.BasketItemViewModel;
+using MyProject.DTO.Models.OrderStatusViewModel;
 using MyProject.Entity.Entities;
+using MyProject.TokenDTOs.DTOs.EntranceDTOs;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyProject.DTO.DTOs.ProductDTOs;
-using MyProject.Bussines.CQRS.Products.Queries.Request;
-using MyProject.DTO.DTOs.ContactDTOs;
-using MyProject.DTO.DTOs.OrderDTOs;
-using MyProject.Bussines.CQRS.Baskets.Queries.Request;
-using MyProject.DTO.DTOs.BasketItemDTOs;
-using MyProject.DTO.DTOs.BasketDTOs;
-
-using MyProject.DTO.Models.BasketItemViewModel;
-using MyProject.Bussines.CQRS.BasketItem.Commands.Request;
-using MyProject.DataAccess.UnıtOfWorks;
-using MyProject.Bussines.CQRS.BasketItem.Queries.Request;
-using MyProject.DTO.Models.AdminRoleViewModel;
-using MyProject.DTO.DTOs.AdminDTOs.RoleDto;
-using MyProject.Bussines.CQRS.Admin.Role.Commands.Request;
-using System.Data.SqlTypes;
 
 namespace MyProject.Bussines.Mapping
 {
@@ -77,7 +77,8 @@ namespace MyProject.Bussines.Mapping
             CreateMap<UpdateBasketItemDto, UpdateBasketItemViewModel>().ReverseMap();
             CreateMap<AppRole, AdminCreateRoleViewModel>().ReverseMap();      
             CreateMap<AdminCreateRoleViewModel, CreateRoleCommmandRequest>().ReverseMap();
-           
+            CreateMap<UpdateOrderStatusDto, OrderStatus>().ReverseMap();
+            //CreateMap<OrderStatusUpdateViewModel, UpdateOrderStatusCommandRequest>().ReverseMap();
 
             CreateMap<CreateOrderDto, Order>()
             .ForMember(dest => dest.PaymentStatusId, opt => opt.MapFrom(src => Guid.Parse("11111111-1111-1111-1111-111111111111"))) // Pending

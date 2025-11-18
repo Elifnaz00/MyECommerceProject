@@ -1,4 +1,5 @@
 ﻿
+using MyProject.DTO.Models.OrderStatusViewModel;
 using MyProject.Entity.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ namespace MyProject.DataAccess.Abstract
     public interface IOrderRepository : IBaseEntityRepository<Order>
     {
         Task<List<Order>> GetOrdersByUserId(string userId);
-        public int GetOrderCount();
+        int GetOrderCount();
 
-        public decimal GetOrderTotalAmount();
+        decimal GetOrderTotalAmount();
     }
 }
  

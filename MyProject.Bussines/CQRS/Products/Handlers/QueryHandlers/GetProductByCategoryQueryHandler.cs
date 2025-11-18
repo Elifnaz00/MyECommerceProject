@@ -31,8 +31,7 @@ namespace MyProject.Bussines.CQRS.Products.Handlers.QueryHandlers
 
             var queryableProducts =  _productRepository.GetProductByCategory(request.Id);
             var products = await queryableProducts.ToListAsync();
-            
-            
+                 
             var result = _mapper.Map<IList<GetProductByCategoryQueryResponse>>(products);
             return result;
         }

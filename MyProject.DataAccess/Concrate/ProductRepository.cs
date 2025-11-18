@@ -56,7 +56,6 @@ namespace MyProject.DataAccess.Concrate
         }
 
 
-
         public IQueryable<Product> GetProductByCategory(Guid categoryId)
         {
           

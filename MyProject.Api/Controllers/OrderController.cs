@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyProject.Bussines.CQRS.Admin.Order.Commands.Request;
 using MyProject.Bussines.CQRS.Orders.Commands.Request;
 using MyProject.Bussines.CQRS.Orders.Queries.Request;
 using MyProject.DTO.DTOs.OrderDTOs;
@@ -20,38 +21,32 @@ namespace MyProject.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost("create-order")]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDto crateOrderDto)
         {
-            var response= await _mediator.Send(new CreateOrderCommandRequest() { CreateOrderDto = crateOrderDto});
-            return CreatedAtAction(nameof(GetByIdOrder), new {id= response.CreatedOrderDto.Id}, response);
-           
-        }
+            var response = await _mediator.Send(new CreateOrderCommandRequest() { CreateOrderDto = crateOrderDto });
+            return CreatedAtAction(nameof(GetByIdOrder), new { id = response.CreatedOrderDto.Id }, response);
 
-        [HttpGet("{id}")]
+        }
+        
+
+        [HttpGet("order-details{id}")]
         public async Task<IActionResult> GetByIdOrder([FromRoute] Guid id)
         {
             return Ok("merhaba");
         }
 
-         
+
 
         [HttpGet("user-orders")]
         public async Task<IActionResult> GetUserOrder()
         {
-            
-            var response= await _mediator.Send(new GetUserOrderQueryRequest()); 
+
+            var response = await _mediator.Send(new GetUserOrderQueryRequest());
             return Ok(response);
         }
 
-
-        [HttpGet("all-orders-admin")]
-        public async Task<IActionResult> GetAllOrder()
-        {
-
-            return Ok();
-        }
-
-
+     
     }
+        
 }

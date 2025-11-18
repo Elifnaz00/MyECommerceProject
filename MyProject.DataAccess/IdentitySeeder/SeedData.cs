@@ -19,7 +19,6 @@ namespace MyProject.DataAccess.IdentitySeeder
             // Define roles to seed
             var roles = new[] { "Admin", "User"};
 
-            // Seed roles
             foreach (var role in roles)
             {
                 if (!await roleManager.RoleExistsAsync(role))
@@ -28,11 +27,9 @@ namespace MyProject.DataAccess.IdentitySeeder
                 }
             }
 
-          
             var adminEmail = "admin@gmail.com";
             var adminPassword = "Admin@123";
 
-           
             var userExist = await userManager.FindByEmailAsync(adminEmail);
             if (userExist == null)
             {
@@ -45,7 +42,6 @@ namespace MyProject.DataAccess.IdentitySeeder
                     EmailConfirmed = true
                 };
 
-                
                 var result = await userManager.CreateAsync(adminUser, adminPassword);
                 if (result.Succeeded)
                 {

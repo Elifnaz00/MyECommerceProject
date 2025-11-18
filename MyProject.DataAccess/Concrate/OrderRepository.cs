@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyProject.DataAccess.Abstract;
 using MyProject.DataAccess.Context;
-
+using MyProject.DTO.Models.OrderStatusViewModel;
 using MyProject.Entity.Entities;
 using System;
 using System.Collections.Generic;
@@ -41,5 +41,7 @@ namespace MyProject.DataAccess.Concrate
         {
             return _context.Orders.AsNoTracking().Sum(o => o.TotalAmount);
         }
+
+      
     }
 }
