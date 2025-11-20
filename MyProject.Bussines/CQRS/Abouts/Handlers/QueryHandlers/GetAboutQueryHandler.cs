@@ -27,7 +27,7 @@ namespace MyProject.Bussines.CQRS.Abouts.Handlers.QueryHandlers
 
         public async Task<IList<GetAboutQueryResponse>> Handle(GetAboutQueryRequest request, CancellationToken cancellationToken)
         {
-            var value= await _aboutrepository.GetAllAsync();
+            var value=  _aboutrepository.GetAll();
             var aboutList= await value.ToListAsync();
 
             return _mapper.Map<IList<GetAboutQueryResponse>>(aboutList);

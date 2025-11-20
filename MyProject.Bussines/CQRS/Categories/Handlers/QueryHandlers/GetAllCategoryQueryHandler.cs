@@ -23,9 +23,9 @@ namespace MyProject.Bussines.CQRS.Categories.Handlers.QueryHandlers
             _mapper = mapper;
         }
 
-        public async Task<IList<GetAllCategoriesQueryResponse>> Handle(GetAllCategoriesQueryRequest request, CancellationToken cancellationToken)
+        async Task<IList<GetAllCategoriesQueryResponse>> IRequestHandler<GetAllCategoriesQueryRequest, IList<GetAllCategoriesQueryResponse>>.Handle(GetAllCategoriesQueryRequest request, CancellationToken cancellationToken)
         {
-            var value = await _categoryRepository.GetAllAsync();
+            var value = _categoryRepository.GetAll();
             var categoryDto = _mapper.Map<IList<GetAllCategoriesQueryResponse>>(value);
             return categoryDto;
         }

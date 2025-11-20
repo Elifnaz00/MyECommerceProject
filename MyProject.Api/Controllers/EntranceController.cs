@@ -24,12 +24,12 @@ namespace MyProject.Api.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<ListEntranceDTO>> GetEntrance()
+        public ActionResult<ListEntranceDTO> GetEntrance()
         {
             try
             {
 
-                var result = await _entranceRepository.GetAllAsync();
+                var result =  _entranceRepository.GetAll();
                 var value = _mapper.Map<IList<ListEntranceDTO>>(result);
                 return Ok(value);
             }

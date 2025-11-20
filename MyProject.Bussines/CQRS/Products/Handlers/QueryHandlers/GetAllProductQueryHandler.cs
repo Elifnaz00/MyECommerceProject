@@ -24,7 +24,7 @@ namespace MyProject.Bussines.CQRS.Products.Handlers.QueryHandlers
 
         public async Task<IList<GetAllProductQueryResponse>> Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
         {
-            var value = await _productRepository.GetAllAsync();
+            var value =  _productRepository.GetAll();
             var resultDto = _mapper.Map<IList<GetAllProductQueryResponse>>(value);
             return resultDto;
         }

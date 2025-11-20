@@ -30,7 +30,7 @@ namespace MyProject.Api.Controllers
         }
         
 
-        [HttpGet("order-details{id}")]
+        [HttpGet("order-details/{id}")]
         public async Task<IActionResult> GetByIdOrder([FromRoute] Guid id)
         {
             return Ok("merhaba");
@@ -46,7 +46,16 @@ namespace MyProject.Api.Controllers
             return Ok(response);
         }
 
-     
+
+
+        [HttpDelete("cancel-order/{id}")]    
+        public async Task<IActionResult> CancelOrder([FromRoute] Guid id)
+        {
+            await _mediator.Send(new CancelOrderCommandRequest() { OrderId = id });
+            return NoContent();
+        }
+
+
     }
         
 }

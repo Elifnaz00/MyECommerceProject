@@ -29,31 +29,16 @@ namespace MyProject.DataAccess.Concrate
         protected DbSet<T> entity => _myProjectContext.Set<T>();
 
         
-        public async Task<IQueryable<T?>> GetAllAsync()
-        {
-            return entity.AsNoTracking();
-        }
+        public IQueryable<T?> GetAll() => entity.AsNoTracking();
+       
+        public async Task<T?> GetByIdAsync(Guid id) => await this.entity.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+       
 
+        public async Task<T?> FindByIdAsync(Guid id) =>  await entity.FindAsync(id);
+       
 
-        public async Task<T?> GetByIdAsync(Guid id)
-        {
-            var result=  await this.entity.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
-            return result;
-        }
-
-        public async Task<T?> FindByIdAsync(Guid id)
-        {
-
-            return await entity.FindAsync(id);
-
-        }
-
-        public IQueryable<T> GetWhere(Expression<Func<T, bool>> predicate)
-        {
-            return this.entity.AsNoTracking().Where(predicate); ;
-        }
-
-
+        public IQueryable<T> GetWhere(Expression<Func<T, bool>> predicate) => this.entity.AsNoTracking().Where(predicate); 
+       
 
         public async Task<T> AddAsync(T entity)
         {
@@ -77,7 +62,7 @@ namespace MyProject.DataAccess.Concrate
         {
              var value= await this.entity.FirstOrDefaultAsync(x => x.Id == id);
              if (value is null) return false;
-               
+             
              EntityEntry<T> entityEntry = this.entity.Remove(value);
              await _myProjectContext.SaveChangesAsync();
              return true;
