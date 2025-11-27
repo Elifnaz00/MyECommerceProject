@@ -48,7 +48,7 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers
             return new GetUserOrderQueryResponse
             {
                 IsSuccess = true,
-                Orders = _mapper.Map<List<UserOrderDto>>(orders),
+                OrdersDto = _mapper.Map<List<UserOrderDto>>(orders),
                 Message = "Kullanıcının siparişleri başarıyla getirildi."
                
             };

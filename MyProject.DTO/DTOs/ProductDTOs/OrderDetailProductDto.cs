@@ -10,9 +10,7 @@ namespace MyProject.DTO.DTOs.ProductDTOs
     public class OrderDetailProductDto
     {
         public string? Title { get; set; }
-        public string? Description { get; set; }
-        public long Price { get; set; }
         public string? ImageUrl { get; set; }
-
+        public string? Size { get; set; }
     }
 }

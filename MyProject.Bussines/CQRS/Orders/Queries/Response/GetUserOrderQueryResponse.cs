@@ -11,7 +11,7 @@ namespace MyProject.Bussines.CQRS.Orders.Queries.Response
 {
     public class GetUserOrderQueryResponse: BaseResponse
     {
-        public List<UserOrderDto> Orders { get; set; }
+        public List<UserOrderDto> OrdersDto { get; set; }
 
     }
 }

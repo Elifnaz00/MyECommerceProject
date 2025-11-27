@@ -18,6 +18,7 @@ namespace MyProject.Entity.Entities
        
         public decimal TotalAmount { get; set; }
         public string? PaymentMethod { get; set; }
+
         public Guid BasketId { get; set; }
         public Basket? Basket { get; set; }
 

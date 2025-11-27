@@ -23,8 +23,11 @@ namespace MyProject.Bussines.Services
            var hasCancelOrder= await _orderRepository.FindByIdAsync(orderId);
            if (hasCancelOrder is null) 
                throw new NotFoundException("Silinmek istenen sipariş bulunamadı.");
-
-           await _orderRepository.CancelOrderAsync(hasCancelOrder);
+           
+            hasCancelOrder.IsDeleted = true;
+            hasCancelOrder.OrderStatusId = Guid.Parse("88888888-8888-8888-8888-888888888888");
+            await _orderRepository.UpdateAsync(hasCancelOrder);
+          
              
 
         }

@@ -50,15 +50,11 @@ namespace MyProject.Bussines.Mapping
             CreateMap<BasketItem, UpdateBasketItemDto>();
             CreateMap<AppRoleDto, AppRole>().ReverseMap();
             CreateMap<UpdateRoleDto, AppRole>().ReverseMap();
-
-
-            CreateMap<BasketItem, OrderDetailBasketItemDto>().ForMember(dest => dest.OrderDetailProductDto, opt => opt.MapFrom(src => src.Product)).ReverseMap();
+           
             CreateMap<UpdateBasketItemViewModel, UpdateBasketItemCommandRequest>().ReverseMap();
             
             CreateMap<Product, OrderDetailProductDto>().ReverseMap();
             CreateMap<Order, CreateOrderCommandRequest>().ReverseMap();
-            CreateMap<Order, UserOrderDto>().ForMember(dest => dest.OrderStatusName, opt => opt.MapFrom(src => src.OrderStatus.Name))
-    .ForMember(dest => dest.OrderDetailBasketItemDto, opt => opt.MapFrom(src => src.Basket.BasketItems));
 
             CreateMap<Category, GetAllCategoriesQueryResponse>().ReverseMap();
             CreateMap<Product, GetAllProductQueryResponse>().ReverseMap();
@@ -78,6 +74,7 @@ namespace MyProject.Bussines.Mapping
             CreateMap<AppRole, AdminCreateRoleViewModel>().ReverseMap();      
             CreateMap<AdminCreateRoleViewModel, CreateRoleCommmandRequest>().ReverseMap();
             CreateMap<UpdateOrderStatusDto, OrderStatus>().ReverseMap();
+            CreateMap<UserOrderDto, Order>().ReverseMap().ForMember(dest => dest.OrderDetailBasketItemDtos, opt => opt.MapFrom(src => src.Basket.BasketItems));
             //CreateMap<OrderStatusUpdateViewModel, UpdateOrderStatusCommandRequest>().ReverseMap();
 
             CreateMap<CreateOrderDto, Order>()

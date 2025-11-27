@@ -14,7 +14,8 @@ namespace MyProject.DTO.DTOs.OrderDTOs
         public decimal TotalAmount { get; set; }
         public Guid OrderStatusId { get; set; }
         public string? OrderStatusName { get; set; }
-
-        public List<OrderDetailBasketItemDto> OrderDetailBasketItemDto { get; set; }
+        public IList<OrderDetailBasketItemDto> OrderDetailBasketItemDtos { get; set; } = new List<OrderDetailBasketItemDto>();
+       
     }
+
 }
