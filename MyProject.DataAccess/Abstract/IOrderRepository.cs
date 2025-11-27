@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MyProject.DTO.Models.OrderStatusViewModel;
 using MyProject.Entity.Entities;
 using System;
@@ -13,8 +14,8 @@ namespace MyProject.DataAccess.Abstract
     {
         Task<List<Order>> GetOrdersByUserId(string userId);
         int GetOrderCount();
-
         decimal GetOrderTotalAmount();
+        Task CancelOrderAsync(Order order);
     }
 }
  

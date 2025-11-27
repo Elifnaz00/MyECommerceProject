@@ -1,0 +1,32 @@
+﻿using MyProject.Bussines.Exceptions;
+using MyProject.DataAccess.Abstract;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MyProject.Bussines.Services
+{
+   
+    public class OrderService : IOrderService
+    {
+        private readonly  IOrderRepository _orderRepository;
+
+        public OrderService(IOrderRepository orderRepository)
+        {
+            _orderRepository = orderRepository;
+        }
+
+        public async Task CancelOrderServiceAsync(Guid orderId) 
+        {
+           var hasCancelOrder= await _orderRepository.FindByIdAsync(orderId);
+           if (hasCancelOrder is null) 
+               throw new NotFoundException("Silinmek istenen sipariş bulunamadı.");
+
+           await _orderRepository.CancelOrderAsync(hasCancelOrder);
+             
+
+        }
+    }
+}
