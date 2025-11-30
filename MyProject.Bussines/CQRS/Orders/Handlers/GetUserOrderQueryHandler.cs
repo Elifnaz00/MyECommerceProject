@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using MyProject.Bussines.CQRS.Orders.Queries.Request;
 using MyProject.Bussines.CQRS.Orders.Queries.Response;
+using MyProject.Bussines.Exceptions;
 using MyProject.DataAccess.Abstract;
 using MyProject.DTO.DTOs.BasketItemDTOs;
 using MyProject.DTO.DTOs.OrderDTOs;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using UnauthorizedAccessException = MyProject.Bussines.Exceptions.UnauthorizedAccessException;
 
 namespace MyProject.Bussines.CQRS.Orders.Handlers
 {
@@ -34,17 +36,14 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers
             var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
             {
-               return new GetUserOrderQueryResponse
-               {
-                   IsSuccess = false,
-                   Message = "Kullanıcı kimliği bulunamadı."
-               };
+                throw new UnauthorizedAccessException("Lütfen giriş yapınız.");
             }
 
             var orders = await _orderRepository.GetOrdersByUserId(userId);
+            if (orders == null || !orders.Any()) {
+                throw new NotFoundException("Order not found");
+            }
             
-           
-
             return new GetUserOrderQueryResponse
             {
                 IsSuccess = true,

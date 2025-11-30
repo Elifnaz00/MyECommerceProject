@@ -74,10 +74,20 @@ namespace MyProject.Bussines.Mapping
             CreateMap<AppRole, AdminCreateRoleViewModel>().ReverseMap();      
             CreateMap<AdminCreateRoleViewModel, CreateRoleCommmandRequest>().ReverseMap();
             CreateMap<UpdateOrderStatusDto, OrderStatus>().ReverseMap();
-            CreateMap<UserOrderDto, Order>().ReverseMap().ForMember(dest => dest.OrderDetailBasketItemDtos, opt => opt.MapFrom(src => src.Basket.BasketItems));
-            //CreateMap<OrderStatusUpdateViewModel, UpdateOrderStatusCommandRequest>().ReverseMap();
+
+            CreateMap<Order, UserOrderDto>()
+    .ForMember(dest => dest.OrderStatusName,
+               opt => opt.MapFrom(src => src.OrderStatus.Name))
+    .ForMember(dest => dest.OrderDetailBasketItemDtos,
+               opt => opt.MapFrom(src => src.Basket.BasketItems));
+
+            CreateMap<BasketItem, OrderDetailBasketItemDto>()
+    .ForMember(dest => dest.Product,
+               opt => opt.MapFrom(src => src.Product));
+
 
             CreateMap<CreateOrderDto, Order>()
+
             .ForMember(dest => dest.PaymentStatusId, opt => opt.MapFrom(src => Guid.Parse("11111111-1111-1111-1111-111111111111"))) // Pending
             .ForMember(dest => dest.OrderStatusId, opt => opt.MapFrom(src => Guid.Parse("22222222-2222-2222-2222-222222222222"))); // Await Payment
 

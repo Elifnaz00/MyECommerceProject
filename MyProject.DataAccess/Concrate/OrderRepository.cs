@@ -26,6 +26,7 @@ namespace MyProject.DataAccess.Concrate
         public async Task<List<Order>> GetOrdersByUserId(string userId)
         {
             return await _context.Orders
+                .Include(o => o.OrderStatus)
                 .Include(o => o.Basket)
                 .ThenInclude(y => y.BasketItems)
                 .ThenInclude(z => z.Product)
