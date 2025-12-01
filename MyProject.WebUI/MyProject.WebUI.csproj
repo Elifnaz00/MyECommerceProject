@@ -501,4 +501,8 @@
     <ProjectReference Include="..\MyProject.Entity\MyProject.Entity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Shared\Components\OrderList\" />
+  </ItemGroup>
+
 </Project>

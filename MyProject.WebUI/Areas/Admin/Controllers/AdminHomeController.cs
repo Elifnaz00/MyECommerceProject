@@ -25,6 +25,44 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
             return View();
         }
 
-      
+        public IActionResult Customers()
+        {
+            return View();
+        }
+
+
+        public IActionResult ActiveOrders()
+        {
+            return View();
+        }
+
+        public IActionResult CancelledOrders()
+        {
+            return View();
+        }
+
+
+        public IActionResult MailBox()
+        {
+            return View();
+        }
+
+
+        public IActionResult AvailableProducts()
+        {
+            return View();
+            
+        }
+
+
+        public IActionResult FinishedProducts()
+        {
+            return View();
+        }
+
+
+
+
+
     }
 }
