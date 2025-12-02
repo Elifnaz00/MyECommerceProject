@@ -17,14 +17,21 @@ namespace MyProject.Api.Controllers.Admin
             _mediator = mediator;
         }
 
-        [HttpGet("admin-get-orderlist")]
-        public IActionResult GetOrderList()
+        [HttpGet("admin-get-active-orderlist")]
+        public IActionResult GetActiveOrderList()
         {
-            return Ok("Admin Order Controller çalıştı");
+            return Ok();
         }
-    
 
-       [HttpPut("admin-update-ststus-order/{id}")]
+
+        [HttpGet("admin-get-active-orderlist/{id}")]
+        public IActionResult GetActiveOrderList([FromRoute] Guid id)
+        {
+            return Ok();
+        }
+
+
+        [HttpPut("admin-update-ststus-order/{id}")]
         public async Task<IActionResult> UpdateOrderStatus([FromRoute] Guid id, [FromBody] UpdateOrderStatusDto updateOrderDto)
         {
             var response = await _mediator.Send(new UpdateOrderStatusCommandRequest() { OrderId = id, StatusId = updateOrderDto.Id });
@@ -32,5 +39,23 @@ namespace MyProject.Api.Controllers.Admin
 
 
         }
+
+        [HttpDelete("admin-cancel-order/{id}")]
+        public async Task<IActionResult> CancelOrder([FromRoute] Guid id)
+        {
+           
+            return Ok();
+
+
+        }
+
+        [HttpGet("admin-get-cancelled-orderlist")]
+        public IActionResult GetCancelledOrderList()
+        {
+            return Ok();
+        }
+
+
+      
     }
 }

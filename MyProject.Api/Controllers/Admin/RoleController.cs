@@ -9,7 +9,7 @@ using MyProject.DTO.DTOs.AdminDTOs.RoleDto;
 
 namespace MyProject.Api.Controllers.Admin
 {
-    [Route("api/admin/[controller]")]
+    [Route("api/v1/admin/[controller]")]
     [ApiController]
     public class RoleController : ControllerBase
     {
