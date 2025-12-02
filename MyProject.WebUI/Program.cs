@@ -59,9 +59,19 @@ builder.Services.AddHttpClient("ApiService1", client =>
     client.DefaultRequestHeaders.Clear();
     
 });
+
 builder.Services.AddHttpClient("admin", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7177/api/Admin");
+    client.BaseAddress = new Uri("https://localhost:7177/api/admin");
+    client.Timeout = TimeSpan.FromMinutes(10);
+    client.DefaultRequestHeaders.Clear();
+
+});
+
+
+builder.Services.AddHttpClient("admin", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7177/api/v1/admin");
     client.Timeout = TimeSpan.FromMinutes(10);
     client.DefaultRequestHeaders.Clear();
 });

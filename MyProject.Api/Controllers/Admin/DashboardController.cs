@@ -5,7 +5,7 @@ using MyProject.Bussines.CQRS.Admin.Dashboard.Queries.Request;
 
 namespace MyProject.Api.Controllers.Admin
 {
-    [Route("api/admin/[controller]")]
+    [Route("api/v1/admin/[controller]")]
     [ApiController]
     public class DashboardController : ControllerBase
     {
@@ -19,7 +19,7 @@ namespace MyProject.Api.Controllers.Admin
         public async Task<IActionResult> GetDashboardData()
         {
             var dashboardResponse= await _mediator.Send(new GetDashboardDataQueryRequest());
-            return dashboardResponse.IsSuccess ? Ok(dashboardResponse) : StatusCode(500, dashboardResponse); ;
+            return Ok(dashboardResponse);
 
         }
     }

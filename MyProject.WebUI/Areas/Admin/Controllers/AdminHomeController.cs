@@ -11,7 +11,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class AdminHomeController : Controller
     {
-        readonly HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
 
         public AdminHomeController(IHttpClientFactory httpClientFactory, IMapper mapper)
@@ -20,8 +20,16 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+           var dashBoardResponse= await _httpClient.GetAsync(_httpClient.BaseAddress + "/Dashboard/GetDashboardData");
+
+            if (dashBoardResponse.IsSuccessStatusCode)
+            {
+                var EmpResponse = dashBoardResponse.Content.ReadFromJsonAsync<DashboardViewModel>().Result;
+                return View(EmpResponse);
+            }
+               
             return View();
         }
 

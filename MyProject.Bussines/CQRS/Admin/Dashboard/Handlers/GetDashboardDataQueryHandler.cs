@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyProject.Bussines.CQRS.Admin.Dashboard.Queries.Request;
 using MyProject.Bussines.CQRS.Admin.Dashboard.Queries.Response;
+using MyProject.Bussines.Exceptions;
 using MyProject.DataAccess.Abstract;
 using MyProject.Entity.Entities;
 
@@ -28,34 +29,25 @@ namespace MyProject.Bussines.CQRS.Admin.Dashboard.Handlers
 
         public async Task<GetDashboardDataQueryResponse> Handle(GetDashboardDataQueryRequest request, CancellationToken cancellationToken)
         {
-            try
-            {
+            
                 var allOrders = _orderRepository.GetOrderCount();
 
                 var allProduct = _productRepository.GetProductCount();
 
                 var totalAmountOrder = _orderRepository.GetOrderTotalAmount();
 
-                var customerCount=  _userManager.GetUsersInRoleAsync("customer").Result.Count;
+                var customerCount=  _userManager.GetUsersInRoleAsync("USER").Result.Count;
 
                 return new()
                 {
                     TotalOrder = allOrders,
                     TotalProduct = allProduct,
                     TotalAmountOrder = totalAmountOrder,
-                    IsSuccess = true
+                    CustomerCount = customerCount,
+                    IsSuccess =true
                 };
-            }
-            catch 
-            {
-                return new()
-                {
-                    IsSuccess = false,
-                    Message =  "Veriler listelenemedi."
-                };
-
-            }
-
+            
+           
         }
     }
 }

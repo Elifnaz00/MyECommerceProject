@@ -13,7 +13,7 @@ namespace MyProject.Bussines.CQRS.Admin.Dashboard.Queries.Response
         public int TotalOrder { get; set; }
 
         public decimal TotalAmountOrder { get; set; }
-        public string Message { get; set; } 
+        public int CustomerCount { get; set; }  
         public bool IsSuccess { get; set; } 
 
 
