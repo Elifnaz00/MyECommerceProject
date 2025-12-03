@@ -1,10 +1,12 @@
-﻿using System.Net.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using MyProject.Entity.Entities;
+using MyProject.WebUI.Models.AdminModel.DashboardModel;
+using MyProject.WebUI.Models.UserModel;
+using Newtonsoft.Json;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using MyProject.WebUI.Models.AdminModel.DashboardModel;
-using Newtonsoft.Json;
 
 namespace MyProject.WebUI.Areas.Admin.Controllers
 {
@@ -26,16 +28,27 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
 
             if (dashBoardResponse.IsSuccessStatusCode)
             {
-                var EmpResponse = dashBoardResponse.Content.ReadFromJsonAsync<DashboardViewModel>().Result;
+                var EmpResponse = await dashBoardResponse.Content.ReadFromJsonAsync<DashboardViewModel>();
                 return View(EmpResponse);
             }
                
             return View();
         }
 
-        public IActionResult Customers()
+        public async Task<IActionResult> Customers()
         {
+            var dashBoardResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + "/User/admin-get-userlist");
+            dashBoardResponse.EnsureSuccessStatusCode();
+           
+            if (dashBoardResponse.IsSuccessStatusCode)
+            {
+                var EmpResponse =   await dashBoardResponse.Content.ReadAsStringAsync();
+                var customerList = JsonConvert.DeserializeObject<List<CustomerListViewModel>>(EmpResponse);
+
+                return View(customerList);
+            }
             return View();
+
         }
 
 

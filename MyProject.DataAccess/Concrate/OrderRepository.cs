@@ -45,5 +45,10 @@ namespace MyProject.DataAccess.Concrate
             return _context.Orders.AsNoTracking().Sum(o => o.TotalAmount);
         }
 
+        public IQueryable<Order> GetActiveOrderList()
+        {
+            return _context.Orders.AsNoTracking().Where(o => o.IsDeleted == false);
+        }
+
     }
 }

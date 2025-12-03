@@ -2,6 +2,7 @@
 using AutoMapper;
 using MyProject.Bussines.CQRS.Abouts.Queries.Response;
 using MyProject.Bussines.CQRS.Admin.Role.Commands.Request;
+using MyProject.Bussines.CQRS.Admin.User.Queries.Request;
 using MyProject.Bussines.CQRS.AppUsers.Commands.Request;
 using MyProject.Bussines.CQRS.BasketItem.Commands.Request;
 using MyProject.Bussines.CQRS.BasketItem.Queries.Request;
@@ -13,6 +14,7 @@ using MyProject.Bussines.CQRS.Products.Queries.Request;
 using MyProject.Bussines.CQRS.Products.Queries.Response;
 using MyProject.DataAccess.UnıtOfWorks;
 using MyProject.DTO.DTOs.AdminDTOs.RoleDto;
+using MyProject.DTO.DTOs.AdminDTOs.UserDto;
 using MyProject.DTO.DTOs.BasketDTOs;
 using MyProject.DTO.DTOs.BasketItemDTOs;
 using MyProject.DTO.DTOs.ContactDTOs;
@@ -50,7 +52,7 @@ namespace MyProject.Bussines.Mapping
             CreateMap<BasketItem, UpdateBasketItemDto>();
             CreateMap<AppRoleDto, AppRole>().ReverseMap();
             CreateMap<UpdateRoleDto, AppRole>().ReverseMap();
-           
+
             CreateMap<UpdateBasketItemViewModel, UpdateBasketItemCommandRequest>().ReverseMap();
             
             CreateMap<Product, OrderDetailProductDto>().ReverseMap();
@@ -70,10 +72,14 @@ namespace MyProject.Bussines.Mapping
             CreateMap<BasketItem, AddBasketItemCommandRequest>().ReverseMap();
             CreateMap<BasketItem, AddBasketItemViewModel>().ReverseMap();
             CreateMap<BasketItem, UpdateBasketItemViewModel>().ReverseMap();
+            
             CreateMap<UpdateBasketItemDto, UpdateBasketItemViewModel>().ReverseMap();
             CreateMap<AppRole, AdminCreateRoleViewModel>().ReverseMap();      
             CreateMap<AdminCreateRoleViewModel, CreateRoleCommmandRequest>().ReverseMap();
             CreateMap<UpdateOrderStatusDto, OrderStatus>().ReverseMap();
+
+            CreateMap<UserListDto, AppUser>().ReverseMap();
+            CreateMap<OrderListDto, Order>().ReverseMap();
 
             CreateMap<Order, UserOrderDto>()
     .ForMember(dest => dest.OrderStatusName,

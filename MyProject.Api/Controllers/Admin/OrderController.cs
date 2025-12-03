@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Bussines.CQRS.Admin.Order.Commands.Request;
+using MyProject.Bussines.CQRS.Admin.Order.Queries.Request;
 using MyProject.DTO.DTOs.OrderDTOs;
 
 namespace MyProject.Api.Controllers.Admin
@@ -16,11 +17,13 @@ namespace MyProject.Api.Controllers.Admin
         {
             _mediator = mediator;
         }
+         
 
         [HttpGet("admin-get-active-orderlist")]
         public IActionResult GetActiveOrderList()
         {
-            return Ok();
+            var activeOrderList= _mediator.Send(new GetActiveOrderQueryRequest()); 
+            return Ok(activeOrderList);
         }
 
 

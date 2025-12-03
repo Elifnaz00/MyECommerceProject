@@ -7,6 +7,7 @@ using MyProject.WebUI.Models.EntranceModel;
 using MyProject.WebUI.Models.OrderModel;
 using MyProject.WebUI.Models.ProductModel;
 using MyProject.WebUI.Models.ShoppingCartModel;
+using MyProject.WebUI.Models.UserModel;
 
 namespace MyProject.WebUI.Mapping
 {
@@ -22,7 +23,8 @@ namespace MyProject.WebUI.Mapping
             CreateMap<Product, ShoppingCartProductViewModel>().ReverseMap();
             CreateMap<Basket, ShoppingCartGetItemsViewModel>().ReverseMap();
             CreateMap<Basket, ShoppingCartViewModel>().ReverseMap();
-            CreateMap<Order, OrderViewModel>().ReverseMap();    
+            CreateMap<Order, OrderViewModel>().ReverseMap();  
+           
 
 
         }    

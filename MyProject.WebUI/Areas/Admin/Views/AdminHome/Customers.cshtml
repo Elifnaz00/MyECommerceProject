@@ -1,7 +1,11 @@
-﻿
+﻿@using MyProject.WebUI.Models.UserModel
+@model IList<CustomerListViewModel>
+
 @{
     ViewData["Title"] = "Customers";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
+   
+     int counter = 0;
 }
 
 <div class="row">
@@ -22,24 +26,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td></td>
-                        </tr>
+                        @foreach(var item in Model)
+                        {
+                            counter++;
+                            <tr>
+                                <td> @counter </td>
+                                <td>@item.NameSurname</td>
+                                <td>@item.UserName</td>
+                                <td>@item.Email</td>
+                            </tr>
+						} 
                     </tbody>
                 </table>
             </div>

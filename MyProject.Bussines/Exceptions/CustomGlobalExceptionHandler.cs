@@ -30,7 +30,8 @@ namespace MyProject.Bussines.Exceptions
             {
                 Status = StatusCodes.Status500InternalServerError,
                 Title = "Internal Server Error",
-                Detail = "An unexpected error occurred. Please try again later."
+                Detail = exception.Message,
+                Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}"
             };
 
             httpContext.Response.StatusCode = problemDetails.Status.Value;
