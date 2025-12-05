@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using MyProject.DTO.DTOs.OrderDTOs;
 using MyProject.DTO.Models.OrderStatusViewModel;
 using MyProject.Entity.Entities;
 using System;
@@ -16,8 +17,9 @@ namespace MyProject.DataAccess.Abstract
         int GetOrderCount();
         decimal GetOrderTotalAmount();
 
-        IQueryable<Order> GetActiveOrderList();
+        Task<List<OrderListDto>> GetActiveOrderListAsync();
 
+     
     }
 }
  

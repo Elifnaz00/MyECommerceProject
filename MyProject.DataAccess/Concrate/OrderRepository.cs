@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MyProject.DataAccess.Abstract;
 using MyProject.DataAccess.Context;
+using MyProject.DTO.DTOs.OrderDTOs;
 using MyProject.DTO.Models.OrderStatusViewModel;
 using MyProject.Entity.Entities;
 using System;
@@ -45,10 +46,22 @@ namespace MyProject.DataAccess.Concrate
             return _context.Orders.AsNoTracking().Sum(o => o.TotalAmount);
         }
 
-        public IQueryable<Order> GetActiveOrderList()
+        public async Task<List<OrderListDto>> GetActiveOrderListAsync()
         {
-            return _context.Orders.AsNoTracking().Where(o => o.IsDeleted == false);
+            var value = await _context.Orders.Include(b => b.OrderStatus).Select(a => new OrderListDto()
+            {
+                Id = a.Id,
+                TotalAmount = a.TotalAmount,
+                CreateDate = a.CreateDate,
+                StatusName = a.OrderStatus.Name,
+                IsDeleted = a.IsDeleted
+            }).Where(a=>a.IsDeleted== false).ToListAsync();
+
+            return value;
+            
         }
+
+       
 
     }
 }

@@ -23,10 +23,10 @@ namespace MyProject.Bussines.CQRS.Admin.Order.Handlers
             _mapper = mapper;
         }
 
-        public async Task<List<OrderListDto>> Handle(GetActiveOrderQueryRequest request, CancellationToken cancellationToken)
+        public async  Task<List<OrderListDto>> Handle(GetActiveOrderQueryRequest request, CancellationToken cancellationToken)
         {
-             var activeOrderList= await _orderRepository.GetActiveOrderList().ToListAsync();
-             return _mapper.Map<List<OrderListDto>>(activeOrderList);
+            var value= await _orderRepository.GetActiveOrderListAsync();
+            return value;
         }
     }
 }
