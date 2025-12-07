@@ -11,22 +11,24 @@ using System.Threading.Tasks;
 
 namespace MyProject.Bussines.CQRS.Admin.Order.Handlers
 {
-    public class GetCancelledOrderQueryHandler : IRequestHandler<GetCancelledOrderQueryRequest, List<OrderListDto>>
+    public class DetailOrderQueryHandler : IRequestHandler<DetailOrderQueryRequest, OrderDetailDto>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
 
-        public GetCancelledOrderQueryHandler(IOrderRepository orderRepository, IMapper mapper)
+        public DetailOrderQueryHandler(IOrderRepository orderRepository, IMapper mapper)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
         }
 
-        public async Task<List<OrderListDto>> Handle(GetCancelledOrderQueryRequest request, CancellationToken cancellationToken)
+        public async Task<OrderDetailDto> Handle(DetailOrderQueryRequest request, CancellationToken cancellationToken)
         {
-            var activeOrderListExec = await _orderRepository.GetCanceledOrderListAsync();
-            return _mapper.Map<List<OrderListDto>>(activeOrderListExec);
-           
+
+            var orderDetailobj = await _orderRepository.GetOrderDetailAsync(request.Id);
+            var mapped=  _mapper.Map<OrderDetailDto>(orderDetailobj);
+            return mapped;
+
         }
     }
 }

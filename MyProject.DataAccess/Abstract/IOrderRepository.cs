@@ -19,6 +19,7 @@ namespace MyProject.DataAccess.Abstract
 
         Task<List<Order>> GetActiveOrderListAsync();
         Task<List<Order>> GetCanceledOrderListAsync();
+        Task<Order> GetOrderDetailAsync(Guid id);
 
 
     }

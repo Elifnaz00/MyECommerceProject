@@ -49,8 +49,6 @@ namespace MyProject.DataAccess.Concrate
           
         }
 
-
-
         public async Task AddRangeAsync(List<T> entities)
         {
             await this.entity.AddRangeAsync(entities);

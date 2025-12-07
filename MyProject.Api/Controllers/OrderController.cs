@@ -33,7 +33,8 @@ namespace MyProject.Api.Controllers
         [HttpGet("order-details/{id}")]
         public async Task<IActionResult> GetByIdOrder([FromRoute] Guid id)
         {
-            return Ok("merhaba");
+            var response = await _mediator.Send(new UserOrderDetailQueryRequest() { OrderId = id });
+            return Ok(response);
         }
 
 

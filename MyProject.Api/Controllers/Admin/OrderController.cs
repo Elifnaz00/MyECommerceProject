@@ -28,9 +28,10 @@ namespace MyProject.Api.Controllers.Admin
 
 
         [HttpGet("admin-get-active-orderlist/{id}")]
-        public IActionResult GetActiveOrderList([FromRoute] Guid id)
+        public async Task<IActionResult> GetActiveOrderList([FromRoute] Guid id)
         {
-            return Ok();
+            var activeOrderList = await _mediator.Send(new DetailOrderQueryRequest { Id = id});
+            return Ok(activeOrderList);
         }
 
 

@@ -41,7 +41,6 @@
 
   <ItemGroup>
     <Folder Include="CQRS\Admin\Order\Commands\Response\" />
-    <Folder Include="CQRS\Orders\Handlers\QueryHandlers\" />
   </ItemGroup>
 
 </Project>

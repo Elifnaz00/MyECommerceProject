@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using AutoMapper.Configuration.Conventions;
 using MyProject.Bussines.CQRS.Abouts.Queries.Response;
 using MyProject.Bussines.CQRS.Admin.Role.Commands.Request;
 using MyProject.Bussines.CQRS.Admin.User.Queries.Request;
@@ -90,6 +91,13 @@ namespace MyProject.Bussines.Mapping
             CreateMap<BasketItem, OrderDetailBasketItemDto>()
     .ForMember(dest => dest.Product,
                opt => opt.MapFrom(src => src.Product));
+
+            CreateMap<Order, OrderDetailDto>()
+                .ForMember(dest => dest.BasketItems,
+               opt => opt.MapFrom(src => src.Basket.BasketItems))
+                
+            .ForMember(dest => dest.AppUserNameSurname,
+               opt => opt.MapFrom(src => src.AppUser.NameSurname)); 
 
 
             CreateMap<CreateOrderDto, Order>()

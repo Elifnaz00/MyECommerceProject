@@ -63,21 +63,27 @@ namespace MyProject.DataAccess.Concrate
             */
 
             return await _context.Orders
-                .Select(u => new Order() { Id = u.Id, IsDeleted = u.IsDeleted, OrderStatus = u.OrderStatus, CreateDate= u.CreateDate , TotalAmount= u.TotalAmount})
+                .Select(u => new Order() { AppUser = u.AppUser, Id = u.Id, IsDeleted = u.IsDeleted, OrderStatus = u.OrderStatus, CreateDate= u.CreateDate , TotalAmount= u.TotalAmount})
                 .AsNoTracking().Where(a => a.IsDeleted == false).ToListAsync();
 
-         
-            
         }
 
         public async Task<List<Order>> GetCanceledOrderListAsync()
         { 
-            return await _context.Orders
-                .Select(u => new Order() { Id = u.Id, IsDeleted = u.IsDeleted, OrderStatus = u.OrderStatus, CreateDate = u.CreateDate, TotalAmount = u.TotalAmount })
-                .AsNoTracking().Where(a => a.IsDeleted == true).ToListAsync();
+            return await _context.Orders.Where(a => a.IsDeleted == true)
+                .Select(u => new Order() {AppUser= u.AppUser, Id = u.Id, IsDeleted = u.IsDeleted, OrderStatus = u.OrderStatus, CreateDate = u.CreateDate, TotalAmount = u.TotalAmount })
+                .AsNoTracking().ToListAsync();
         }
 
+        public async Task<Order> GetOrderDetailAsync(Guid id)
+        {
+            var value= await _context.Orders.Include(o => o.Basket)
+                .ThenInclude(b => b.BasketItems)
+                .ThenInclude(bi => bi.Product)
+                .Include(o => o.AppUser)
+                .SingleOrDefaultAsync(t => t.Id == id);  
 
-
+            return value;
+        }
     }
 }

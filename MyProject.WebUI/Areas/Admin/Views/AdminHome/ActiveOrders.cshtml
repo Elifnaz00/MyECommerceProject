@@ -16,7 +16,8 @@
                     <table class="table table-striped">
                         <tr>
                            
-                            <th>Kullanıcı</th> 
+                            <th>Kullanıcı id</th>
+                            <th>Ad Soyad</th>
                             <th>Sipariş Tarihi</th>
                             <th>Sipariş Tutarı</th>
                             <th>Sipariş Durumu</th>
@@ -28,7 +29,7 @@
                         {
                             <tr>
                                 <td>@order.Id</td>
-
+                                <td>@order.AppUserNameSurname</td>
                                 <td>@order.CreateDate</td>
                                 <td>@order.TotalAmount</td>
                                 <td>
