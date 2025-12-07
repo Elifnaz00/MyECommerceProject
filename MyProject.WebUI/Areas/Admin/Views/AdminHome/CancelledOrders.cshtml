@@ -1,4 +1,5 @@
-﻿
+﻿@using MyProject.WebUI.Models.OrderModel
+@model IEnumerable<StateOrderModel>
 @{
     ViewData["Title"] = "CancelledOrders";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
@@ -21,6 +22,38 @@
                             <th>Düzenle</th>
                             <th>Detay</th>
                         </tr>
+
+                        @foreach (var order in Model)
+                        {
+                            <tr>
+                                <td>@order.Id</td>
+
+                                <td>@order.CreateDate</td>
+                                <td>@order.TotalAmount</td>
+                                <td>
+
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @order.OrderStatusName
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#">İşleniyor</a>
+                                        <a class="dropdown-item" href="#">Kargolandı</a>
+                                        <a class="dropdown-item" href="#">Teslim Edildi</a>
+                                        <a class="dropdown-item" href="#">İptal Edildi</a>
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <button class="btn btn-edit-order btn-primary"> <i class="far fa-edit"></i></button>
+                                    <button class="btn btn-delete-order btn-danger"> <i class="fas fa-times"></i></button>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-primary">Sipariş Detay</a>
+                                </td>
+                            </tr>
+
+                        }
                       
                     </table>
                 </div>

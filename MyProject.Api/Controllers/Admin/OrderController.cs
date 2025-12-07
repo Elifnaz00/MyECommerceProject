@@ -20,9 +20,9 @@ namespace MyProject.Api.Controllers.Admin
          
 
         [HttpGet("admin-get-active-orderlist")]
-        public IActionResult GetActiveOrderList()
+        public async Task<IActionResult> GetActiveOrderList()
         {
-            var activeOrderList= _mediator.Send(new GetActiveOrderQueryRequest()); 
+            var activeOrderList= await _mediator.Send(new GetActiveOrderQueryRequest()); 
             return Ok(activeOrderList);
         }
 
@@ -34,31 +34,31 @@ namespace MyProject.Api.Controllers.Admin
         }
 
 
+        [HttpGet("admin-get-cancelled-orderlist")]
+        public async Task<IActionResult> GetCancelledOrderList()
+        {
+            var cancelledOrderList = await _mediator.Send(new GetCancelledOrderQueryRequest());
+            return Ok(cancelledOrderList);
+        }
+
+
+        [HttpDelete("admin-cancel-order/{id}")]
+        public async Task<IActionResult> CancelOrder([FromRoute] Guid id)
+        {
+            return Ok();
+        }
+
+
         [HttpPut("admin-update-ststus-order/{id}")]
         public async Task<IActionResult> UpdateOrderStatus([FromRoute] Guid id, [FromBody] UpdateOrderStatusDto updateOrderDto)
         {
             var response = await _mediator.Send(new UpdateOrderStatusCommandRequest() { OrderId = id, StatusId = updateOrderDto.Id });
             return Ok(response);
 
-
-        }
-
-        [HttpDelete("admin-cancel-order/{id}")]
-        public async Task<IActionResult> CancelOrder([FromRoute] Guid id)
-        {
-           
-            return Ok();
-
-
-        }
-
-        [HttpGet("admin-get-cancelled-orderlist")]
-        public IActionResult GetCancelledOrderList()
-        {
-            return Ok();
         }
 
 
-      
+
+
     }
 }

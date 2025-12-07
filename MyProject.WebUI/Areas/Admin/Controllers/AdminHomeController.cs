@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Entity.Entities;
 using MyProject.WebUI.Models.AdminModel.DashboardModel;
+using MyProject.WebUI.Models.OrderModel;
 using MyProject.WebUI.Models.UserModel;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -52,13 +53,27 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         }
 
 
-        public IActionResult ActiveOrders()
+        public async Task<IActionResult> ActiveOrders()
         {
+            var activeOrderResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + "/Order/admin-get-active-orderlist");
+            if(activeOrderResponse.IsSuccessStatusCode)
+            {
+                var empResponse = await activeOrderResponse.Content.ReadAsStringAsync();
+                var activeOrderList = JsonConvert.DeserializeObject<List<StateOrderModel>>(empResponse);
+                return View(activeOrderList);
+            }
             return View();
         }
 
-        public IActionResult CancelledOrders()
+        public async Task<IActionResult> CancelledOrders()
         {
+            var cancelledOrderResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + "/Order/admin-get-cancelled-orderlist");
+            if(cancelledOrderResponse.IsSuccessStatusCode)
+            {
+                var empResponse = await cancelledOrderResponse.Content.ReadAsStringAsync();
+                var cancelledOrderList = JsonConvert.DeserializeObject<List<StateOrderModel>>(empResponse);
+                return View(cancelledOrderList);
+            }   
             return View();
         }
 

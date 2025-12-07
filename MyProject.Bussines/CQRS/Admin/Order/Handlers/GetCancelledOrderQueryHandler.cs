@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using MyProject.Bussines.CQRS.Admin.Order.Queries.Request;
 using MyProject.DataAccess.Abstract;
 using MyProject.DTO.DTOs.OrderDTOs;
@@ -12,22 +11,21 @@ using System.Threading.Tasks;
 
 namespace MyProject.Bussines.CQRS.Admin.Order.Handlers
 {
-    public class GetActiveOrderQueryHandler : IRequestHandler<GetActiveOrderQueryRequest, List<OrderListDto>>
+    public class GetCancelledOrderQueryHandler : IRequestHandler<GetCancelledOrderQueryRequest, List<OrderListDto>>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
 
-        public GetActiveOrderQueryHandler(IOrderRepository orderRepository, IMapper mapper)
+        public GetCancelledOrderQueryHandler(IOrderRepository orderRepository, IMapper mapper)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
         }
 
-        public async Task<List<OrderListDto>> Handle(GetActiveOrderQueryRequest request, CancellationToken cancellationToken)
+        public async Task<List<OrderListDto>> Handle(GetCancelledOrderQueryRequest request, CancellationToken cancellationToken)
         {
-            var activeOrderListExec = await _orderRepository.GetActiveOrderListAsync();
+            var activeOrderListExec = await _orderRepository.GetCanceledOrderListAsync();
             return _mapper.Map<List<OrderListDto>>(activeOrderListExec);
-           
         }
     }
 }

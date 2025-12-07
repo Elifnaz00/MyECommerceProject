@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MyProject.DataAccess.Abstract;
@@ -17,6 +18,7 @@ namespace MyProject.DataAccess.Concrate
 {
     public class OrderRepository : GenericRepository<Order>, IOrderRepository
     {
+       
         private readonly MyProjectContext _context;
         public OrderRepository(MyProjectContext myProjectContext) : base(myProjectContext)
         {
@@ -46,8 +48,9 @@ namespace MyProject.DataAccess.Concrate
             return _context.Orders.AsNoTracking().Sum(o => o.TotalAmount);
         }
 
-        public async Task<List<OrderListDto>> GetActiveOrderListAsync()
+        public async Task<List<Order>> GetActiveOrderListAsync()
         {
+            /*
             var value = await _context.Orders.Include(b => b.OrderStatus).Select(a => new OrderListDto()
             {
                 Id = a.Id,
@@ -57,11 +60,24 @@ namespace MyProject.DataAccess.Concrate
                 IsDeleted = a.IsDeleted
             }).Where(a=>a.IsDeleted== false).ToListAsync();
 
-            return value;
+            */
+
+            return await _context.Orders
+                .Select(u => new Order() { Id = u.Id, IsDeleted = u.IsDeleted, OrderStatus = u.OrderStatus, CreateDate= u.CreateDate , TotalAmount= u.TotalAmount})
+                .AsNoTracking().Where(a => a.IsDeleted == false).ToListAsync();
+
+         
             
         }
 
-       
+        public async Task<List<Order>> GetCanceledOrderListAsync()
+        { 
+            return await _context.Orders
+                .Select(u => new Order() { Id = u.Id, IsDeleted = u.IsDeleted, OrderStatus = u.OrderStatus, CreateDate = u.CreateDate, TotalAmount = u.TotalAmount })
+                .AsNoTracking().Where(a => a.IsDeleted == true).ToListAsync();
+        }
+
+
 
     }
 }

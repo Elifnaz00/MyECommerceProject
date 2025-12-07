@@ -17,9 +17,10 @@ namespace MyProject.DataAccess.Abstract
         int GetOrderCount();
         decimal GetOrderTotalAmount();
 
-        Task<List<OrderListDto>> GetActiveOrderListAsync();
+        Task<List<Order>> GetActiveOrderListAsync();
+        Task<List<Order>> GetCanceledOrderListAsync();
 
-     
+
     }
 }
  
