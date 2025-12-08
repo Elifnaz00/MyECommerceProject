@@ -56,12 +56,9 @@ namespace MyProject.DataAccess.Concrate
         }
 
 
-        public async Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(T entity)
         {
-             var value= await this.entity.FirstOrDefaultAsync(x => x.Id == id);
-             if (value is null) return false;
-             
-             EntityEntry<T> entityEntry = this.entity.Remove(value);
+             EntityEntry<T> entityEntry = this.entity.Remove(entity);
              await _myProjectContext.SaveChangesAsync();
              return true;
 

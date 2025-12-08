@@ -95,10 +95,5 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         {
             return View();
         }
-
-
-
-
-
     }
 }

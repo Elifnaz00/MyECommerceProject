@@ -110,13 +110,15 @@ namespace MyProject.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEntranceAsync(Guid id)
         {
-            if (await _entranceRepository.GetByIdAsync(id) != null)
+            var value = await _entranceRepository.GetByIdAsync(id);
+            if (value is null)
             {
-                await _entranceRepository.DeleteAsync(id);
-                return NoContent();
+                return NotFound();
             }
 
-            return NotFound();
+            await _entranceRepository.DeleteAsync(value);
+            return NoContent();
+ 
         }
     }
 }

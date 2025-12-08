@@ -43,10 +43,11 @@ namespace MyProject.Api.Controllers.Admin
         }
 
 
-        [HttpDelete("admin-cancel-order/{id}")]
+        [HttpPut("admin-cancel-order/{id}")]
         public async Task<IActionResult> CancelOrder([FromRoute] Guid id)
         {
-            return Ok();
+            await _mediator.Send(new CancelOrderCommandRequest());
+            return NoContent();
         }
 
 
@@ -57,9 +58,6 @@ namespace MyProject.Api.Controllers.Admin
             return Ok(response);
 
         }
-
-
-
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using MyProject.Bussines.CQRS.Admin.Order.Queries.Request;
+using MyProject.Bussines.Exceptions;
 using MyProject.DataAccess.Abstract;
 using MyProject.DTO.DTOs.OrderDTOs;
 using System;
@@ -26,9 +27,11 @@ namespace MyProject.Bussines.CQRS.Admin.Order.Handlers
         {
 
             var orderDetailobj = await _orderRepository.GetOrderDetailAsync(request.Id);
-            var mapped=  _mapper.Map<OrderDetailDto>(orderDetailobj);
-            return mapped;
-
+            if(orderDetailobj is null)
+            {
+                throw new NotFoundException("Sipariş detayı bulunamadı.");
+            }
+            return _mapper.Map<OrderDetailDto>(orderDetailobj);
         }
     }
 }

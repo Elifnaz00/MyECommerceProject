@@ -67,6 +67,17 @@ namespace MyProject.DataAccess.Concrate
             return _context.Products.AsNoTracking().Count();
         }   
 
+        public async Task<List<Product>> GetAvailableProductsAsync()
+        {
+            return await _context.Products.AsNoTracking().Include(m => m.Category).Where(a => a.Stock > 0).ToListAsync();
+        }
+
+        public async Task<List<Product>> GetFinishedProductsAsync()
+        {
+            return await _context.Products.AsNoTracking().Include(m => m.Category).Where(a => a.Stock == 0).ToListAsync();
+        }
+
+
 
 
     }

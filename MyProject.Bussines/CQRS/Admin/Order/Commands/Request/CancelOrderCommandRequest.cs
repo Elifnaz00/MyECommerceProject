@@ -1,16 +1,14 @@
 ﻿using MediatR;
-using MyProject.DTO.DTOs.OrderDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyProject.Bussines.CQRS.Orders.Queries.Request
+namespace MyProject.Bussines.CQRS.Admin.Order.Commands.Request
 {
-    public class UserOrderDetailQueryRequest: IRequest<OrderDetailDto>
+    public class CancelOrderCommandRequest : IRequest<Unit> 
     {
         public Guid OrderId { get; set; }
-   
     }
 }

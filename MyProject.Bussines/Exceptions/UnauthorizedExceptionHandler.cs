@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace MyProject.Bussines.Exceptions
 {
-    internal sealed class UnauthorizedAccessExceptionHandler(ILogger<UnauthorizedAccessExceptionHandler> logger) : IExceptionHandler
+    internal sealed class UnauthorizedExceptionHandler(ILogger<UnauthorizedExceptionHandler> logger) : IExceptionHandler
     {
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
-            if (exception is not UnauthorizedAccessException unauthorizedAccessException)
+            if (exception is not UnauthorizedException unauthorizedAccessException)
             {
                 return false;
             }

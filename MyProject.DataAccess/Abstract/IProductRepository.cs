@@ -16,8 +16,9 @@ namespace MyProject.DataAccess.Abstract
         //Task<Product?> GetProductIncludeCategory(Guid id);
         IQueryable<Product> GetNewArrivalProducts();
         IQueryable<Product> GetFilteredProduct(FilteredProductDto filtered);
-
         int GetProductCount();
+        Task<List<Product>> GetAvailableProductsAsync();
+        Task<List<Product>> GetFinishedProductsAsync();
 
 
     }

@@ -16,10 +16,11 @@ namespace MyProject.DataAccess.Abstract
         Task<List<Order>> GetOrdersByUserId(string userId);
         int GetOrderCount();
         decimal GetOrderTotalAmount();
-
         Task<List<Order>> GetActiveOrderListAsync();
         Task<List<Order>> GetCanceledOrderListAsync();
         Task<Order> GetOrderDetailAsync(Guid id);
+        Task<Order> GetUserOrderDetailAsync(Guid id,string userId);
+       
 
 
     }

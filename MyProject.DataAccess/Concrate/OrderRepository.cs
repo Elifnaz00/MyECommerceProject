@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MyProject.DataAccess.Abstract;
@@ -75,15 +76,24 @@ namespace MyProject.DataAccess.Concrate
                 .AsNoTracking().ToListAsync();
         }
 
-        public async Task<Order> GetOrderDetailAsync(Guid id)
+        public async Task<Order> GetUserOrderDetailAsync(Guid id, string userId)
         {
-            var value= await _context.Orders.Include(o => o.Basket)
+            
+            return await _context.Orders.Where(m => m.AppUserId == userId && m.Id == id).Include(o => o.Basket)
                 .ThenInclude(b => b.BasketItems)
                 .ThenInclude(bi => bi.Product)
                 .Include(o => o.AppUser)
-                .SingleOrDefaultAsync(t => t.Id == id);  
-
-            return value;
+                .SingleOrDefaultAsync();
         }
+
+        public async Task<Order> GetOrderDetailAsync(Guid id)
+        {
+            return await _context.Orders.Include(o => o.Basket)
+                .ThenInclude(b => b.BasketItems)
+                .ThenInclude(bi => bi.Product)
+                .Include(o => o.AppUser)
+                .SingleOrDefaultAsync(t => t.Id == id);   
+        }
+
     }
 }

@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using MyProject.Bussines.CQRS.Orders.Queries.Request;
+using MyProject.Bussines.Exceptions;
 using MyProject.DataAccess.Abstract;
 using MyProject.DTO.DTOs.OrderDTOs;
 using System;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MyProject.Bussines.CQRS.Orders.Handlers.QueryHandlers
 {
-    public class UserOrderDetailQueryHandler : IRequestHandler<UserOrderDetailQueryRequest, List<OrderDetailDto>>
+    public class UserOrderDetailQueryHandler : IRequestHandler<UserOrderDetailQueryRequest, OrderDetailDto>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
@@ -26,16 +27,19 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers.QueryHandlers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<List<OrderDetailDto>> Handle(UserOrderDetailQueryRequest request, CancellationToken cancellationToken)
+        public async Task<OrderDetailDto> Handle(UserOrderDetailQueryRequest request, CancellationToken cancellationToken)
         {
             var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (string.IsNullOrEmpty(userId))
             {
-               throw new UnauthorizedAccessException("Lütfen giriş yapınız.");
+               throw new UnauthorizedException("Lütfen giriş yapınız.");
             }
-            var userOrderDetail= await _orderRepository.GetOrderDetailAsync(request.OrderId);
-            return _mapper.Map<List<OrderDetailDto>>(userOrderDetail); 
+            var userOrderDetail= await _orderRepository.GetUserOrderDetailAsync(request.OrderId, userId);
+            if (userOrderDetail is null)
+                throw new NotFoundException("Sipariş bulunamadı.");
+
+            return _mapper.Map<OrderDetailDto>(userOrderDetail); 
         }
     }
 }

@@ -52,11 +52,9 @@ namespace MyProject.Api.Controllers
         [HttpDelete("cancel-order/{id}")]    
         public async Task<IActionResult> CancelOrder([FromRoute] Guid id)
         {
-            await _mediator.Send(new CancelOrderCommandRequest() { OrderId = id });
+            await _mediator.Send(new Bussines.CQRS.Orders.Commands.Request.CancelOrderCommandRequest() { OrderId = id });
             return NoContent();
         }
-
-
     }
         
 }

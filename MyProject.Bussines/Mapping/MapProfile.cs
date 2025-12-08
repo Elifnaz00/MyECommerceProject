@@ -14,6 +14,7 @@ using MyProject.Bussines.CQRS.Orders.Commands.Request;
 using MyProject.Bussines.CQRS.Products.Queries.Request;
 using MyProject.Bussines.CQRS.Products.Queries.Response;
 using MyProject.DataAccess.UnıtOfWorks;
+using MyProject.DTO.DTOs.AdminDTOs.ProductDto;
 using MyProject.DTO.DTOs.AdminDTOs.RoleDto;
 using MyProject.DTO.DTOs.AdminDTOs.UserDto;
 using MyProject.DTO.DTOs.BasketDTOs;
@@ -107,9 +108,11 @@ namespace MyProject.Bussines.Mapping
 
             CreateMap<IUnitOfWork, UnitOfWork>().ReverseMap();
 
+            CreateMap<Product, ProductListDto>();
 
+            CreateMap<UpdateProductDto,Product>();
 
-
+            
 
 
         }
