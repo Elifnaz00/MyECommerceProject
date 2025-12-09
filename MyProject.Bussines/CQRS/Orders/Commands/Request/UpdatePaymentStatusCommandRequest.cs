@@ -7,7 +7,7 @@ using MediatR;
 
 namespace MyProject.Bussines.CQRS.Orders.Commands.Request
 {
-    public class UpdatePaymentStatusCommandRequest: IRequest<bool>
+        public class UpdatePaymentStatusCommandRequest : IRequest<Unit>
     {
         public Guid OrderId { get; set; }
         public Guid PaymentStatusId { get; set; }

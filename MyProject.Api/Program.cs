@@ -29,11 +29,9 @@ services.AddCors(options =>
 // Add services to the container.
 
 services.AddDbContext<MyProjectContext>(options =>
-  options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"), options =>
-  {
-      options.EnableRetryOnFailure();
-  }
-  ));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"))
+         .EnableSensitiveDataLogging()
+);
 
 
 services.AddIdentity<AppUser, AppRole>(

@@ -47,7 +47,7 @@ namespace MyProject.Bussines.Services
         public async Task<bool> UpdateQuantityAsync(UpdateBasketItemViewModel updateBasketItemViewModel)
         {
             var existingItem = await _basketItemRepository.GetByIdAsync(updateBasketItemViewModel.Id);
-            if (existingItem == null) return false;
+            if (existingItem is null) return false;
 
             existingItem.Quantity += 1; 
 

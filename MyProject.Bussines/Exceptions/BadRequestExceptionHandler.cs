@@ -35,7 +35,9 @@ namespace MyProject.Bussines.Exceptions
             {
                 Status = StatusCodes.Status400BadRequest,
                 Title = "Bad Request",
-                Detail = badRequestException.Message
+                Detail = badRequestException.Message,
+                Instance = httpContext.Request.Path
+                
             };
 
             httpContext.Response.StatusCode = problemDetails.Status.Value;

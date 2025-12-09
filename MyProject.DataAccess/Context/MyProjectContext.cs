@@ -14,6 +14,10 @@ namespace MyProject.DataAccess.Context
 {
     public class MyProjectContext : IdentityDbContext<AppUser, AppRole, string>
     {
+        public MyProjectContext()
+        {
+        }
+
         public MyProjectContext(DbContextOptions<MyProjectContext> options)
             : base(options)
         {

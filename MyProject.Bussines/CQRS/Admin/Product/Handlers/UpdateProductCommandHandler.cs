@@ -24,10 +24,12 @@ namespace MyProject.Bussines.CQRS.Admin.Product.Handlers
 
         public async Task<Unit> Handle(UpdateProductCommandRequest request, CancellationToken cancellationToken)
         {
-            var hasDeleteProduct= await _productRepository.FindByIdAsync(request.UpdateProductDto.Id);
-            if(hasDeleteProduct != null)
+            var hasDeleteProduct = await _productRepository.GetByIdAsync(request.Id);
+
+            if (hasDeleteProduct != null)
             {
-                var mappedProduct= _mapper.Map<MyProject.Entity.Entities.Product>(request.UpdateProductDto); 
+                var mappedProduct= _mapper.Map<MyProject.Entity.Entities.Product>(request.UpdateProductDto);
+                
                 await _productRepository.UpdateAsync(mappedProduct);
                 return Unit.Value;
 

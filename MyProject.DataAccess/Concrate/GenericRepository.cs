@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Options;
 using MyProject.DataAccess.Abstract;
 using MyProject.DataAccess.Context;
 
@@ -18,12 +19,13 @@ namespace MyProject.DataAccess.Concrate
     public class GenericRepository<T> : IBaseEntityRepository<T> where T :  BaseEntity
     {
         private readonly MyProjectContext _myProjectContext;
-        //private readonly ILogger _logger;
+       
 
         public GenericRepository(MyProjectContext myProjectContext)
         {
             _myProjectContext = myProjectContext;
-           
+            
+
         }
 
         protected DbSet<T> entity => _myProjectContext.Set<T>();
@@ -67,8 +69,8 @@ namespace MyProject.DataAccess.Concrate
         public async Task<bool> UpdateAsync(T entity)
         {
              EntityEntry<T> entityEntry = this.entity.Update(entity);
-            await _myProjectContext.SaveChangesAsync();
-            return true;
+             await _myProjectContext.SaveChangesAsync();
+             return true;
          
         }
      

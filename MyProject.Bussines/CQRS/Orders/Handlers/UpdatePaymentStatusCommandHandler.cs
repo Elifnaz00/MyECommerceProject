@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 using MyProject.Bussines.CQRS.Orders.Commands.Request;
+using MyProject.Bussines.Exceptions;
 using MyProject.DataAccess.Abstract;
 
 namespace MyProject.Bussines.CQRS.Orders.Handlers
 {
-    public class UpdatePaymentStatusCommandHandler : IRequestHandler<UpdatePaymentStatusCommandRequest, bool>
+    public class UpdatePaymentStatusCommandHandler : IRequestHandler<UpdatePaymentStatusCommandRequest>
     {
         private readonly IOrderRepository _orderRepository;
 
@@ -18,10 +19,13 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers
             _orderRepository = orderRepository;
         }
 
-        public async Task<bool> Handle(UpdatePaymentStatusCommandRequest request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdatePaymentStatusCommandRequest request, CancellationToken cancellationToken)
         {
             var order = await _orderRepository.GetByIdAsync(request.OrderId);
-            if (order == null) return false;
+            if (order == null)
+            {
+                throw new NotFoundException("Sipariş bulunamadı.");
+            }
 
             order.PaymentStatusId = request.PaymentStatusId;
            
@@ -29,8 +33,9 @@ namespace MyProject.Bussines.CQRS.Orders.Handlers
                 order.OrderStatusId = Guid.Parse("55555555-5555-5555-5555-555555555555"); // Processing
 
             await _orderRepository.UpdateAsync(order);
-
-            return true;
+            return Unit.Value;
         }
+
+       
     }
 }
