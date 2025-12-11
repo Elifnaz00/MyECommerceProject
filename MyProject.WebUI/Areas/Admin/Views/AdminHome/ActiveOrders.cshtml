@@ -3,6 +3,16 @@
 @{
     ViewData["Title"] = "ActiveOrders";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
+
+    // Sipariş durumları için bir liste oluşturuluyor
+    var orderStatusList = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "22222222-2222-2222-2222-222222222222", Text = "Await Payment" },
+        new SelectListItem { Value = "55555555-5555-5555-5555-555555555555", Text = "Processing" },
+        new SelectListItem { Value = "66666666-6666-6666-6666-666666666666", Text = "Shipped(Kargolandı)" },
+        new SelectListItem { Value = "77777777-7777-7777-7777-777777777777", Text = "Delivered(Teslim Edildi)" },
+        new SelectListItem { Value = "88888888-8888-8888-8888-888888888888", Text = "Cancelled(İptal Edildi)" }
+    };
 }
 
 <div class="row">
@@ -15,7 +25,7 @@
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <tr>
-                           
+                            <th>Sipariş id</th>
                             <th>Kullanıcı id</th>
                             <th>Ad Soyad</th>
                             <th>Sipariş Tarihi</th>
@@ -23,28 +33,22 @@
                             <th>Sipariş Durumu</th>    
                             <th>İptal</th>
                             <th>Detay</th>
-                            
                         </tr>
                         @foreach (var order in Model)
                         {
                             <tr>
                                 <td>@order.Id</td>
+                                <td>@order.Id</td>
                                 <td>@order.AppUserNameSurname</td>
                                 <td>@order.CreateDate</td>
                                 <td>@order.TotalAmount</td>
                                 <td>
-
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @order.OrderStatusName
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">İşleniyor</a>
-                                        <a class="dropdown-item" href="#">Kargolandı</a>
-                                        <a class="dropdown-item" href="#">Teslim Edildi</a>
-                                        <a class="dropdown-item" href="#">İptal Edildi</a>
-                                    </div>
-
+                                        <select id="combo-@order.Id" name="OrderStatus">
+                                        @foreach (var status in orderStatusList)
+                                        {
+                                            <option value="@status.Value" @(order.Id == status.Value ? "selected" : "")>@status.Text</option>
+                                        }
+                                    </select>
                                 </td>
                                 <td> 
                                     <button class="btn btn-delete-order btn-danger"> <i class="fas fa-times"></i></button>
@@ -53,10 +57,7 @@
                                     <a href="#" class="btn btn-primary">Sipariş Detay</a>
                                 </td>
                             </tr>
-
                         }
-
-                       
                     </table>
                 </div>
             </div>
@@ -83,6 +84,5 @@
             </div>
         </div>
     </div>
-    
 </div>
 

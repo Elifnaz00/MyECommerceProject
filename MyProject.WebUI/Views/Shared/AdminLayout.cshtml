@@ -261,6 +261,39 @@
     <script>
         $(document).ready(function () {
 
+
+          async function put(request) {
+                  try {
+                    const response = await fetch(request);
+                    const result = await response.json();
+                    console.log("Success:", result);
+                  } catch (error) {
+                    console.error("Error:", error);
+                  }
+                }
+
+          $("#combo").change(function () {
+
+                
+                var orderId= $("#combo option:first-child").val();
+                var orderStatusVal = $('#combo option:selected').val();
+                
+
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+
+                const request1 = new Request(`https://localhost:7177/api/v1/admin/Order/admin-update-ststus-order/${orderId}`, {
+                  method: "PUT",
+                  headers: myHeaders,
+                  body: JSON.stringify({ Id: `${orderStatusVal}` }),
+                });
+
+                put(request1);
+
+      
+            });
+            
+
           $(document).on("click", ".btn-delete-product", function (e) {
                 e.preventDefault();
 
