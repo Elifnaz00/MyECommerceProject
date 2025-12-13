@@ -275,14 +275,23 @@
           $("#combo").change(function () {
 
                 
-                var orderId= $("#combo option:first-child").val();
-                var orderStatusVal = $('#combo option:selected').val();
+                //var orderId= $("tr td:first").text;
+                var orderStatus = $('#combo option:selected');
+                var selectedOrderId= orderStatus.closest("tr");
+                var orderStatusVal= orderStatus.val();
+
+                var value=$('#combo option:selected').closest("tr");
+                console.log(value);
+                console.log(orderStatus);
+                alert(orderStatusVal);
+                console.log(selectedOrderId);
+
                 
 
                 const myHeaders = new Headers();
                 myHeaders.append("Content-Type", "application/json");
 
-                const request1 = new Request(`https://localhost:7177/api/v1/admin/Order/admin-update-ststus-order/${orderId}`, {
+                const request1 = new Request(`https://localhost:7177/api/v1/admin/Order/admin-update-ststus-order/${selectedOrderId}`, {
                   method: "PUT",
                   headers: myHeaders,
                   body: JSON.stringify({ Id: `${orderStatusVal}` }),
