@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using MyProject.DTO.DTOs.AdminDTOs.ProductDto;
+using MyProject.DTO.DTOs.OrderDTOs;
 using MyProject.Entity.Entities;
 using MyProject.WebUI.Models.AdminModel.DashboardModel;
-using MyProject.WebUI.Models.OrderModel;
+using MyProject.WebUI.Models.AdminModel.OrderModel;
+using MyProject.WebUI.Models.AdminModel.ProductModel;
 using MyProject.WebUI.Models.UserModel;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -58,9 +61,18 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
             var activeOrderResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + "/Order/admin-get-active-orderlist");
             if(activeOrderResponse.IsSuccessStatusCode)
             {
-                var empResponse = await activeOrderResponse.Content.ReadAsStringAsync();
-                var activeOrderList = JsonConvert.DeserializeObject<List<StateOrderModel>>(empResponse);
-                return View(activeOrderList);
+                var activeOrderList  = await activeOrderResponse.Content.ReadFromJsonAsync<GetActiveOrderListDto>();
+                if (activeOrderList == null)
+                {
+                    return View(new ActiveOrderViewModel());
+                }
+
+                var activeOrderListVm = new ActiveOrderViewModel
+                {
+                    Orders = _mapper.Map<List<OrderListModel>>(activeOrderList.OrderListDtos),
+                    OrderStatuses = _mapper.Map<List<OrderStatusViewModel>>(activeOrderList.OrderStatusDtos)
+                };
+                return View(activeOrderListVm);
             }
             return View();
         }
@@ -70,9 +82,9 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
             var cancelledOrderResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + "/Order/admin-get-cancelled-orderlist");
             if(cancelledOrderResponse.IsSuccessStatusCode)
             {
-                var empResponse = await cancelledOrderResponse.Content.ReadAsStringAsync();
-                var cancelledOrderList = JsonConvert.DeserializeObject<List<StateOrderModel>>(empResponse);
-                return View(cancelledOrderList);
+                var cancelledOrderList = await cancelledOrderResponse.Content.ReadFromJsonAsync<List<OrderListDto>>();
+                var cancelledOrderListVm = _mapper.Map<List<OrderListModel>>(cancelledOrderList);
+                return View(cancelledOrderListVm);
             }   
             return View();
         }
@@ -84,8 +96,15 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         }
 
 
-        public IActionResult AvailableProducts()
+        public async Task<IActionResult> AvailableProducts()
         {
+            var availableProductsResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + "/Product/get-avaiable-product-list");
+            if (availableProductsResponse.IsSuccessStatusCode)
+            {
+                var availableProductList = await availableProductsResponse.Content.ReadFromJsonAsync<List<ProductListDto>>();
+                var cancelledOrderListVm = _mapper.Map<List<ProductListViewModel>>(availableProductList);
+                return View(cancelledOrderListVm);
+            }
             return View();
             
         }

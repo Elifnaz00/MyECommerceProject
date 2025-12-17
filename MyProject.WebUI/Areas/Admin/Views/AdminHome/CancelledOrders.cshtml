@@ -1,5 +1,6 @@
-﻿@using MyProject.WebUI.Models.OrderModel
-@model IEnumerable<StateOrderModel>
+﻿@using MyProject.WebUI.Models.AdminModel.OrderModel
+@model IEnumerable<OrderListModel>
+
 @{
     ViewData["Title"] = "CancelledOrders";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
@@ -15,12 +16,11 @@
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <tr>
-                            <th>Kullanıcı id</th>
+                            <th>Sipariş id</th>
                             <th>Ad Soyad</th>
                             <th>Sipariş Tarihi</th>
-                            <th>Sipariş Tutarı</th>
-                            <th>Ödeme Durumu</th>
-                            <th>İptal</th>
+                            <th>Sipariş Tutarı</th> 
+                            <th>Durum</th>
                             <th>Detay</th>
                         </tr>
 
@@ -31,29 +31,12 @@
                                 <td>@order.AppUserNameSurname</td>
                                 <td>@order.CreateDate</td>
                                 <td>@order.TotalAmount</td>
+                                <td><span class="badge badge-danger"> @order.OrderStatusName</span></td>
+                                
                                 <td>
-
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @order.OrderStatusName
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">İşleniyor</a>
-                                        <a class="dropdown-item" href="#">Kargolandı</a>
-                                        <a class="dropdown-item" href="#">Teslim Edildi</a>
-                                        <a class="dropdown-item" href="#">İptal Edildi</a>
-                                    </div>
-
-                                </td>
-                                <td>
-                                   
-                                    <button class="btn btn-delete-order btn-danger"> <i class="fas fa-times"></i></button>
-                                </td>
-                                <td>
-                                    <a href="#" class="btn btn-primary">Sipariş Detay</a>
+                                    <a asp-action="OrderDetail" asp-route-id="@order.Id" class="btn btn-primary">Sipariş Detay</a>
                                 </td>
                             </tr>
-
                         }
                       
                     </table>

@@ -21,6 +21,7 @@ using MyProject.DTO.DTOs.BasketDTOs;
 using MyProject.DTO.DTOs.BasketItemDTOs;
 using MyProject.DTO.DTOs.ContactDTOs;
 using MyProject.DTO.DTOs.OrderDTOs;
+using MyProject.DTO.DTOs.OrderStatusDTOs;
 using MyProject.DTO.DTOs.ProductDTOs;
 using MyProject.DTO.Models.AdminRoleViewModel;
 using MyProject.DTO.Models.BasketItemViewModel;
@@ -81,7 +82,7 @@ namespace MyProject.Bussines.Mapping
             CreateMap<UpdateOrderStatusDto, OrderStatus>().ReverseMap();
 
             CreateMap<UserListDto, AppUser>().ReverseMap();
-            CreateMap<OrderListDto, Order>().ReverseMap();
+           
 
             CreateMap<Order, UserOrderDto>()
     .ForMember(dest => dest.OrderStatusName,
@@ -111,8 +112,8 @@ namespace MyProject.Bussines.Mapping
             CreateMap<Product, ProductListDto>();
 
             CreateMap<UpdateProductDto,Product>();
-
-            
+            CreateMap<OrderStatus, OrderStatusDto>();
+            CreateMap<Order, OrderListDto>();
 
 
         }

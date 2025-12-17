@@ -64,7 +64,7 @@ namespace MyProject.DataAccess.Concrate
             */
 
             return await _context.Orders
-                .Select(u => new Order() { AppUser = u.AppUser, Id = u.Id, IsDeleted = u.IsDeleted, OrderStatus = u.OrderStatus, CreateDate= u.CreateDate , TotalAmount= u.TotalAmount})
+                .Select(u => new Order() { AppUser = u.AppUser, Id = u.Id, OrderStatusId= u.OrderStatusId, IsDeleted = u.IsDeleted, OrderStatus = u.OrderStatus, CreateDate= u.CreateDate , TotalAmount= u.TotalAmount})
                 .AsNoTracking().Where(a => a.IsDeleted == false).ToListAsync();
 
         }

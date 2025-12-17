@@ -1,4 +1,5 @@
-﻿
+﻿@using MyProject.WebUI.Models.AdminModel.ProductModel
+@model IEnumerable<ProductListViewModel>
 @{
     ViewData["Title"] = "AvailableProducts";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
@@ -28,28 +29,32 @@
                             <th>Düzenle</th>
                             <th>Detay</th>
                         </tr>
-                        <tr>
+                        @foreach(var item in Model)
+                        {
+                            <tr>
 
-                            <td>Ecommerce</td>
-                            <td>Ecommerce website</td>
-                            <td>Ecommerce website Ecommerce website</td>
-                            <td> 100  </td>
-                            <td>s</td>
-                            <td>sarı</td>
-                            <td> elbise </td>
-                            <td> 10/10/2022  </td>
-                            <td> 100  </td>
-                            <td>
-                                
-                                <button class="btn btn-edit-product btn-primary"> <i class="far fa-edit"></i></button>
-                                <button class="btn btn-delete-product btn-danger"> <i class="fas fa-times"></i></button>
-                               
-                            </td>
-                            <td>
-                                <a href="#" class="btn btn-primary">Ürün Detay</a>
-                            </td>
+                                <td>@item.Id</td>
+                                <td>@item.Title</td>
+                                <td>@item.Description</td>
+                                <td> @item.Price  </td>
+                                <td>@item.Size</td>
+                                <td>@item.Color</td>
+                                <td> @item.CategoryCategoryName </td>
+                                <td> @item.CreatedDate </td>
+                                <td> @item.Stock  </td>
+                                <td>
 
-                        </tr>
+                                    <button class="btn btn-edit-product btn-primary"> <i class="far fa-edit"></i></button>
+                                    <button class="btn btn-delete-product btn-danger"> <i class="fas fa-times"></i></button>
+
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-primary">Ürün Detay</a>
+                                </td>
+
+                            </tr>
+                        }
+                       
                     </table>
                 </div>
             </div>

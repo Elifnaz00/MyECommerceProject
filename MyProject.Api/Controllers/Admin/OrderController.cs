@@ -43,15 +43,18 @@ namespace MyProject.Api.Controllers.Admin
         }
 
 
-        [HttpPut("admin-cancel-order/{id}")]
+        [HttpDelete("admin-cancel-order/{id}")]
         public async Task<IActionResult> CancelOrder([FromRoute] Guid id)
         {
-            await _mediator.Send(new CancelOrderCommandRequest());
+            await _mediator.Send(new CancelOrderCommandRequest()
+            {
+                OrderId= id
+            });
             return NoContent();
         }
 
 
-        [HttpPut("admin-update-ststus-order/{id}")]
+        [HttpPut("admin-update-status-order/{id}")]
         public async Task<IActionResult> UpdateOrderStatus([FromRoute] Guid id, [FromBody] UpdateOrderStatusDto updateOrderDto)
         {
             var response = await _mediator.Send(new UpdateOrderStatusCommandRequest() { OrderId = id, StatusId = updateOrderDto.Id });

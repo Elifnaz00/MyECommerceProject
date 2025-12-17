@@ -262,44 +262,78 @@
         $(document).ready(function () {
 
 
-          async function put(request) {
+          async function putItem(requestUpdate) {
                   try {
-                    const response = await fetch(request);
-                    const result = await response.json();
-                    console.log("Success:", result);
+                    const response = await fetch(requestUpdate);
+                     if(!response.status == 204)
+                    {
+                         Swal.fire({
+                            title: "Bulunamadı",
+                            text: "Güncelleme işlemi başarılı olamadı.",
+                            icon: "danger"
+                        });
+                        return;
+                    }
+
                   } catch (error) {
-                    console.error("Error:", error);
+                      Swal.fire({
+                            title: "Başarısız!",
+                            text: "Güncellenirken hatayla karşılaşıldı.",
+                            icon: "danger"
+                        });
                   }
-                }
+           }
 
-          $("#combo").change(function () {
+            async function deleteItem(requestDelete, objectDelete) {
+                  try {
+                    const response = await fetch(requestDelete);
+                                       
+                    if(response.status == 204)
+                    {
+                        Swal.fire({
+                            title: "Silindi!",
+                            text: "Başarıyla silindi.",
+                            icon: "success"
+                        });
+                        objectDelete.closest("tr").remove();
+                        
+                        return;
+                    }
+                     Swal.fire({
+                            title: "Bulunamadı",
+                            text: "Silme işlemi başarılı olamadı.",
+                            icon: "danger"
+                        });
+                    
+                     
+                  } catch (error) {
+                     Swal.fire({
+                            title: "Başarısız!",
+                            text: "Silme işlemi sırasında hatayla karşılaşıldı.",
+                            icon: "danger"
+                        });
+                  }
+           }
 
-                
-                //var orderId= $("tr td:first").text;
-                var orderStatus = $('#combo option:selected');
-                var selectedOrderId= orderStatus.closest("tr");
-                var orderStatusVal= orderStatus.val();
 
-                var value=$('#combo option:selected').closest("tr");
-                console.log(value);
-                console.log(orderStatus);
-                alert(orderStatusVal);
-                console.log(selectedOrderId);
+            $(".combo").on("change", function(e){
 
-                
+                 var selectedVal = $(this).val();
 
-                const myHeaders = new Headers();
-                myHeaders.append("Content-Type", "application/json");
+                 var orderId = $(this).closest("tr").find("td:first").text().trim();
 
-                const request1 = new Request(`https://localhost:7177/api/v1/admin/Order/admin-update-ststus-order/${selectedOrderId}`, {
-                  method: "PUT",
-                  headers: myHeaders,
-                  body: JSON.stringify({ Id: `${orderStatusVal}` }),
-                });
+         
+                 const myHeaders = new Headers();
+                 myHeaders.append("Content-Type", "application/json");
 
-                put(request1);
+                  const request1 = new Request(`https://localhost:7177/api/v1/admin/Order/admin-update-status-order/${orderId}`, {
+                          method: "PUT",
+                          headers: myHeaders,
+                          body: JSON.stringify({ Id: `${selectedVal}` }),
+                  });
 
-      
+                  putItem(request1);
+
             });
             
 
@@ -316,18 +350,28 @@
                     confirmButtonText: "Delete"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Swal.fire({
-                            title: "Silindi!",
-                            text: "Ürün başarıyla silindi.",
-                            icon: "success"
+
+                        var productId = $(this).closest("tr").find("td:first").text().trim();
+
+                         const myHeaders = new Headers();
+                         myHeaders.append("Content-Type", "application/json");
+
+                          const request2 = new Request(`https://localhost:7177/api/v1/admin/Product/"delete-product/${productId}`, {
+                          method: "DELETE",
+                          headers: myHeaders,
+
                         });
+
+                          var deleteProduct= $(this);
+                          deleteItem(request2, deleteProduct);
+                         
                     }
                 });
             });
 
 
              $(document).on("click", ".btn-delete-order", function (e) {
-                e.preventDefault();
+                
 
                 Swal.fire({
                     title: "Siparişi iptal etmek istediğinize emin misiniz?",
@@ -339,11 +383,22 @@
                     confirmButtonText: "Delete"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Swal.fire({
-                            title: "İptal!",
-                            text: "Sipariş başarıyla iptal edildi.",
-                            icon: "success"
+
+                         var orderId2 = $(this).closest("tr").find("td:first").text().trim();
+
+                         const myHeaders = new Headers();
+                         myHeaders.append("Content-Type", "application/json");
+
+                          const request3 = new Request(`https://localhost:7177/api/v1/admin/Order/admin-cancel-order/${orderId2}`, {
+                          method: "DELETE",
+                          headers: myHeaders,
+
                         });
+
+                        var deleteOrder= $(this);
+                        deleteItem(request3, deleteOrder );
+                        
+                        
                     }
                 });
             });

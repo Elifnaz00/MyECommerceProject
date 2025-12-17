@@ -47,6 +47,7 @@ namespace MyProject.Bussines
             services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IOrderStatusRepository, OrderStatusRepository>();
           
             services.AddScoped<ITokenHandler, TokenHandler>();
             services.AddScoped<IValidator<ContactUsCommandRequest>, CreateContactCommandValidator>();
