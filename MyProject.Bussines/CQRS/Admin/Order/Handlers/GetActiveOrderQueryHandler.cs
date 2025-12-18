@@ -33,8 +33,8 @@ namespace MyProject.Bussines.CQRS.Admin.Order.Handlers
             var orderStatusLists= await _orderStatusRepository.GetAll().ToListAsync();
             return new GetActiveOrderListDto
             {
-                OrderListDtos = _mapper.Map<List<OrderListDto>>(activeOrderListExec),
-                OrderStatusDtos = _mapper.Map<List<OrderStatusDto>>(orderStatusLists)
+                Orders = _mapper.Map<List<OrderListDto>>(activeOrderListExec),
+                OrderStatuses = _mapper.Map<List<OrderStatusDto>>(orderStatusLists)
             };
 
         }

@@ -2,7 +2,6 @@
 using MediatR;
 using MyProject.DataAccess.Abstract;
 using MyProject.Bussines.CQRS.Categories.Queries.Request;
-using MyProject.Bussines.CQRS.Categories.Queries.Response;
 using MyProject.TokenDTOs.DTOs.CategoryDTOs;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MyProject.Bussines.CQRS.Categories.Handlers.QueryHandlers
 {
-    public class GetAllCategoryQueryHandler : IRequestHandler<GetAllCategoriesQueryRequest, IList<GetAllCategoriesQueryResponse>>
+    public class GetAllCategoryQueryHandler : IRequestHandler<GetAllCategoriesQueryRequest, IList<CategoryListDTO>>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
@@ -23,11 +22,11 @@ namespace MyProject.Bussines.CQRS.Categories.Handlers.QueryHandlers
             _mapper = mapper;
         }
 
-        async Task<IList<GetAllCategoriesQueryResponse>> IRequestHandler<GetAllCategoriesQueryRequest, IList<GetAllCategoriesQueryResponse>>.Handle(GetAllCategoriesQueryRequest request, CancellationToken cancellationToken)
+        async Task<IList<CategoryListDTO>> IRequestHandler<GetAllCategoriesQueryRequest, IList<CategoryListDTO>>.Handle(GetAllCategoriesQueryRequest request, CancellationToken cancellationToken)
         {
             var value = _categoryRepository.GetAll();
-            var categoryDto = _mapper.Map<IList<GetAllCategoriesQueryResponse>>(value);
-            return categoryDto;
+            return _mapper.Map<IList<CategoryListDTO>>(value);
+            
         }
     }
 }

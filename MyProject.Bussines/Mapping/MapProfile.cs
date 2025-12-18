@@ -8,7 +8,6 @@ using MyProject.Bussines.CQRS.AppUsers.Commands.Request;
 using MyProject.Bussines.CQRS.BasketItem.Commands.Request;
 using MyProject.Bussines.CQRS.BasketItem.Queries.Request;
 using MyProject.Bussines.CQRS.Baskets.Queries.Request;
-using MyProject.Bussines.CQRS.Categories.Queries.Response;
 using MyProject.Bussines.CQRS.Contacts.Commands.Request;
 using MyProject.Bussines.CQRS.Orders.Commands.Request;
 using MyProject.Bussines.CQRS.Products.Queries.Request;
@@ -27,6 +26,7 @@ using MyProject.DTO.Models.AdminRoleViewModel;
 using MyProject.DTO.Models.BasketItemViewModel;
 using MyProject.DTO.Models.OrderStatusViewModel;
 using MyProject.Entity.Entities;
+using MyProject.TokenDTOs.DTOs.CategoryDTOs;
 using MyProject.TokenDTOs.DTOs.EntranceDTOs;
 using System;
 using System.Collections.Generic;
@@ -61,12 +61,13 @@ namespace MyProject.Bussines.Mapping
             CreateMap<Product, OrderDetailProductDto>().ReverseMap();
             CreateMap<Order, CreateOrderCommandRequest>().ReverseMap();
 
-            CreateMap<Category, GetAllCategoriesQueryResponse>().ReverseMap();
+            
             CreateMap<Product, GetAllProductQueryResponse>().ReverseMap();
             CreateMap<Product, GetProductByCategoryQueryResponse>().ReverseMap();
             CreateMap<Product, GetProductDetailQueryResponse>().ReverseMap();
             CreateMap<Product, GetNewProductsQueryResponse>().ReverseMap();
             CreateMap<Product, GetFilteredProductQueryResponse>().ReverseMap();
+            CreateMap<Category, CategoryListDTO>();
             CreateMap<WhyUs, GetAboutQueryResponse>().ReverseMap();
             CreateMap<Contact, ContactUsCommandRequest>().ReverseMap();
             CreateMap<AppUser, CreateUserCommandRequest>().ReverseMap();

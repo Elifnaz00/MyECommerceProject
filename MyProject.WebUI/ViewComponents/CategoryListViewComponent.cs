@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using MyProject.TokenDTOs.DTOs.CategoryDTOs;
 using MyProject.WebUI.Models.CategoryModel;
 using MyProject.WebUI.Models.EntranceModel;
 
@@ -10,11 +11,12 @@ namespace MyProject.WebUI.ViewComponents
     {
        
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IMapper _mapper;
 
         public CategoryListViewComponent(IHttpClientFactory httpClientFactory, IMapper mapper)
         {
             _httpClientFactory = httpClientFactory;
-        
+            _mapper = mapper;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
@@ -25,8 +27,9 @@ namespace MyProject.WebUI.ViewComponents
 
             if (response.IsSuccessStatusCode)
             {
-                var entrances = await response.Content.ReadFromJsonAsync<IEnumerable<CategoryListViewModel>>();
-                return View(entrances);
+                var categoryList = await response.Content.ReadFromJsonAsync<List<CategoryListDTO>>();
+                var categoryListVM = _mapper.Map<List<CategoryListViewModel>>(categoryList);
+                return View(categoryListVM);
             }
             else
                 response.EnsureSuccessStatusCode();

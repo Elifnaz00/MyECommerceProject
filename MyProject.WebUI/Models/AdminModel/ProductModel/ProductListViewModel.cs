@@ -13,9 +13,8 @@
         public string? Size { get; set; }
 
         public string? Color { get; set; }
-
         public string? CategoryCategoryName { get; set; }
 
-        public DateTime? CreatedDate { get; set; } 
+        public DateTime CreateDate { get; set; }
     }
 }

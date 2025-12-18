@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyProject.Entity.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,11 +20,9 @@ namespace MyProject.DTO.DTOs.AdminDTOs.ProductDto
         public string? Size { get; set; }
 
         public string? Color { get; set; }
-
         public string? CategoryCategoryName { get; set; }
 
-        public DateTime? CreatedDate { get; set; }
-
+        public DateTime CreateDate { get; set; }
 
     }
 }

@@ -16,8 +16,8 @@ namespace MyProject.WebUI.Models.ProductModel
 
         public string? Color { get; set; }
 
+        public string? CategoryCategoryName { get; set; }
 
-        public Guid CategoryId { get; set; }
-        public virtual Category? Category { get; set; }
+        public DateTime? CreatedDate { get; set; }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using MyProject.DTO.DTOs.AdminDTOs.ProductDto;
+using MyProject.DTO.DTOs.AdminDTOs.UserDto;
 using MyProject.DTO.DTOs.OrderDTOs;
 using MyProject.DTO.DTOs.OrderStatusDTOs;
 using MyProject.Entity.Entities;
+using MyProject.TokenDTOs.DTOs.CategoryDTOs;
 using MyProject.WebUI.Models.AdminModel.OrderModel;
 using MyProject.WebUI.Models.CategoryModel;
 using MyProject.WebUI.Models.ContactModel;
@@ -17,7 +19,7 @@ namespace MyProject.WebUI.Mapping
     {
         public Map() {
             CreateMap<Entrance, CreateEntranceViewModel>().ReverseMap();
-            CreateMap<Category, CategoryListViewModel>().ReverseMap();
+            CreateMap<CategoryListDTO, CategoryListViewModel>().ReverseMap();
             CreateMap<Product, ProductListViewModel>().ReverseMap();
             CreateMap<Product, ProductByCategoryViewModel>().ReverseMap();
             CreateMap<Product, ProductDetailViewModel>().ReverseMap();
@@ -26,10 +28,15 @@ namespace MyProject.WebUI.Mapping
             CreateMap<Basket, ShoppingCartGetItemsViewModel>().ReverseMap();
             CreateMap<Basket, ShoppingCartViewModel>().ReverseMap();
 
-            CreateMap<OrderStatusDto, OrderStatusViewModel>().ReverseMap();  
-            CreateMap<OrderListDto, OrderListModel>().ReverseMap(); 
+            CreateMap<UserListDto, CustomerListViewModel>();
+           
+            CreateMap<OrderListDto, OrderListModel>();
+            CreateMap<OrderStatusDto, OrderStatusViewModel>();
+            CreateMap<ProductListDto, ProductListViewModel>();  
+              
 
-            CreateMap<ProductListDto, ProductListViewModel>().ReverseMap(); 
+           
+         
             
              
           

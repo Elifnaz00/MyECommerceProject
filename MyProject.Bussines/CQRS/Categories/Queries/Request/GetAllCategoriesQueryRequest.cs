@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MyProject.DataAccess.Abstract;
 using MyProject.DataAccess.Context;
-using MyProject.Bussines.CQRS.Categories.Queries.Response;
 using MyProject.TokenDTOs.DTOs.CategoryDTOs;
 using System;
 using System.Collections.Generic;
@@ -13,8 +12,8 @@ using System.Threading.Tasks;
 
 namespace MyProject.Bussines.CQRS.Categories.Queries.Request
 {
-    public class GetAllCategoriesQueryRequest : IRequest<IList<GetAllCategoriesQueryResponse>>
-    {
+    public class GetAllCategoriesQueryRequest : IRequest<IList<CategoryListDTO>>
+    { 
 
     }
 

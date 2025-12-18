@@ -9,7 +9,7 @@ namespace MyProject.DTO.DTOs.OrderDTOs
 {
     public class GetActiveOrderListDto
     {
-        public List<OrderListDto> OrderListDtos { get; set; }
-        public List<OrderStatusDto> OrderStatusDtos { get; set; }
+        public List<OrderListDto> Orders { get; set; }
+        public List<OrderStatusDto> OrderStatuses { get; set; }
     }
 }
