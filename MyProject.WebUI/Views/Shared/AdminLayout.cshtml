@@ -122,7 +122,7 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="nav-link">
+                            <a class="nav-link" asp-area="Admin" asp-controller="AdminHome" asp-action="RoleAssignUser">
                                 <i data-feather="shopping-bag"></i><span>Rol İşlemleri</span>
                             </a>
                         </li>
@@ -253,156 +253,170 @@
 
     <script src="~/Themes/otika-bootstrap-admin-template/assets/bundles/apexcharts/apexcharts.min.js"></script>
     <script src="~/Themes/otika-bootstrap-admin-template/assets/js/page/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- 
+            <script>
+
+        axios.defaults.baseURL = "https://localhost:7177/api/v1";
+
+        axios.interceptors.request.use(
+            function (config) {
+                const token = localStorage.getItem("token");
+
+                if (token) {
+                    config.headers.Authorization = `Bearer ${token}`;
+                }
+
+                return config;
+            },
+            function (error) {
+                return Promise.reject(error);
+            }
+        );
+    </script>
+    -->
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script src="~/Themes/otika-bootstrap-admin-template/assets/js/custom.js"></script>
 
     <script>
+               async function deleteEntity(url, clickedElement) {
+            try {
+                await axios.delete(url);
+
+                await Swal.fire({
+                    title: "Silindi!",
+                    text: "İşlem başarıyla tamamlandı.",
+                    icon: "success"
+                });
+
+                clickedElement.closest("tr").remove();
+
+            } catch (error) {
+                Swal.fire({
+                    title: "Başarısız!",
+                    text: "Silme işlemi sırasında hata oluştu.",
+                    icon: "error"
+                });
+            }
+        }
+
+
+        async function updateEntity(url, body) {
+            try {
+                await axios.put(url, body);
+
+                Swal.fire({
+                    title: "Güncellendi!",
+                    text: "Başarıyla güncellendi.",
+                    icon: "success"
+                });
+
+            } catch (error) {
+                Swal.fire({
+                    title: "Hata!",
+                    text: "Güncelleme işlemi başarısız.",
+                    icon: "error"
+                });
+            }
+        }
+
+
         $(document).ready(function () {
 
+           
+            $(".combo").on("change", async function () {
 
-          async function putItem(requestUpdate) {
-                  try {
-                    const response = await fetch(requestUpdate);
-                     if(!response.status == 204)
-                    {
-                         Swal.fire({
-                            title: "Bulunamadı",
-                            text: "Güncelleme işlemi başarılı olamadı.",
-                            icon: "danger"
-                        });
-                        return;
-                    }
+                const selectedStatusId = $(this).val();
+                const orderId = $(this).closest("tr").find(".order-id").text().trim();
 
-                  } catch (error) {
-                      Swal.fire({
-                            title: "Başarısız!",
-                            text: "Güncellenirken hatayla karşılaşıldı.",
-                            icon: "danger"
-                        });
-                  }
-           }
-
-            async function deleteItem(requestDelete, objectDelete) {
-                  try {
-                    const response = await fetch(requestDelete);
-                                       
-                    if(response.status == 204)
-                    {
-                        Swal.fire({
-                            title: "Silindi!",
-                            text: "Başarıyla silindi.",
-                            icon: "success"
-                        });
-                        objectDelete.closest("tr").remove();
-                        
-                        return;
-                    }
-                     Swal.fire({
-                            title: "Bulunamadı",
-                            text: "Silme işlemi başarılı olamadı.",
-                            icon: "danger"
-                        });
-                    
-                     
-                  } catch (error) {
-                     Swal.fire({
-                            title: "Başarısız!",
-                            text: "Silme işlemi sırasında hatayla karşılaşıldı.",
-                            icon: "danger"
-                        });
-                  }
-           }
-
-
-            $(".combo").on("change", function(e){
-
-                 var selectedVal = $(this).val();
-
-                 var orderId = $(this).closest("tr").find("td:first").text().trim();
-
-         
-                 const myHeaders = new Headers();
-                 myHeaders.append("Content-Type", "application/json");
-
-                  const request1 = new Request(`https://localhost:7177/api/v1/admin/Order/admin-update-status-order/${orderId}`, {
-                          method: "PUT",
-                          headers: myHeaders,
-                          body: JSON.stringify({ Id: `${selectedVal}` }),
-                  });
-
-                  putItem(request1);
-
+                await updateEntity(
+                    `https://localhost:7177/api/v1/admin/Order/admin-update-status-order/${orderId}`,
+                    { id: selectedStatusId }
+                );
             });
-            
 
-          $(document).on("click", ".btn-delete-product", function (e) {
+
+           
+            $(document).on("click", ".btn-delete-order", async function (e) {
                 e.preventDefault();
 
-                Swal.fire({
-                    title: "Ürünü silmek istediğinize emin misiniz?",
-                    text: "Ürünü kalıcı olarak silinecek.",
-                    icon: "warning",
-                    showCancelButton: true,  
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Delete"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-
-                        var productId = $(this).closest("tr").find("td:first").text().trim();
-
-                         const myHeaders = new Headers();
-                         myHeaders.append("Content-Type", "application/json");
-
-                          const request2 = new Request(`https://localhost:7177/api/v1/admin/Product/"delete-product/${productId}`, {
-                          method: "DELETE",
-                          headers: myHeaders,
-
-                        });
-
-                          var deleteProduct= $(this);
-                          deleteItem(request2, deleteProduct);
-                         
-                    }
-                });
-            });
-
-
-             $(document).on("click", ".btn-delete-order", function (e) {
-                
-
-                Swal.fire({
-                    title: "Siparişi iptal etmek istediğinize emin misiniz?",
-                    text: "Sipariş kalıcı olarak iptal edilecek..",
+                const result = await Swal.fire({
+                    title: "Siparişi iptal etmek istiyor musunuz?",
+                    text: "Sipariş iptal edilecektir.",
                     icon: "warning",
                     showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Delete"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-
-                         var orderId2 = $(this).closest("tr").find("td:first").text().trim();
-
-                         const myHeaders = new Headers();
-                         myHeaders.append("Content-Type", "application/json");
-
-                          const request3 = new Request(`https://localhost:7177/api/v1/admin/Order/admin-cancel-order/${orderId2}`, {
-                          method: "DELETE",
-                          headers: myHeaders,
-
-                        });
-
-                        var deleteOrder= $(this);
-                        deleteItem(request3, deleteOrder );
-                        
-                        
-                    }
+                    confirmButtonText: "Evet",
+                    cancelButtonText: "Vazgeç"
                 });
+
+                if (!result.isConfirmed) return;
+
+                const orderId = $(this).closest("tr").find(".order-id").text().trim();
+
+                await deleteEntity(
+                    `https://localhost:7177/api/v1/admin/Order/admin-cancel-order/${orderId}`,
+                    $(this)
+                );
             });
+
+
+         
+            $(document).on("click", ".btn-delete-product", async function (e) {
+                e.preventDefault();
+
+                const result = await Swal.fire({
+                    title: "Ürünü silmek istiyor musunuz?",
+                    text: "Ürün kalıcı olarak silinecek.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Evet",
+                    cancelButtonText: "Vazgeç"
+                });
+
+                if (!result.isConfirmed) return;
+
+                const productId = $(this).closest("tr").find(".product-id").text().trim();
+
+                await deleteEntity(
+                    `https://localhost:7177/api/v1/admin/Product/delete-product/${productId}`,
+                    $(this)
+                );
+            });
+
         });
+
+            $(document).on("click", ".btn-change-role", async function () {
+
+            const userId = $(this).data("userid");
+            const newRole = $(this).closest("tr").find(".role-select").val();
+
+            const result = await Swal.fire({
+                title: "Rol Değiştirilsin mi?",
+                text: `Yeni rol: ${newRole}`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Evet",
+                cancelButtonText: "Vazgeç"
+            });
+
+            if (!result.isConfirmed) return;
+
+            try {
+                await axios.post("/api/v1/admin/User/change-role", {
+                    userId,
+                    role: newRole
+                });
+
+                Swal.fire("Başarılı", "Rol güncellendi", "success");
+
+                $(this).closest("tr").find(".user-role").text(newRole);
+
+            } catch {
+                Swal.fire("Hata", "Rol güncellenemedi", "error");
+            }
+        });
+
 
 
     </script>

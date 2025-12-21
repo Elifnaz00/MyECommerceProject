@@ -1,0 +1,50 @@
+﻿@using MyProject.WebUI.Models.AdminModel.UserModel
+@model IEnumerable<UserRoleViewModel>
+
+@{
+    ViewData["Title"] = "RoleAssignUser";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Kullanıcı Yetkilendirme</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Ad Soyad</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>İşlem</th>
+                        </tr>
+                        @foreach( var user in Model)
+                        {
+                            <tr>
+                                <td>@user.FullName</td>
+                                <td>@user.Email</td>
+                                <td class="user-role">@user.Role</td>
+                                <td>
+                                    <select class="form-control role-select">
+                                        <option value="User" selected="@("User" == user.Role)">User</option>
+                                        <option value="Admin" selected="@("Admin" == user.Role)">Admin</option>
+                                    </select>
+
+                                    <button class="btn btn-sm btn-primary mt-2 btn-change-role"
+                                            data-userid="@user.UserId">
+                                        Kaydet
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

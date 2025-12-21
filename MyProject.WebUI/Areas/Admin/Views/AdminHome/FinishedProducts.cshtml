@@ -1,4 +1,6 @@
-﻿
+﻿@using MyProject.WebUI.Models.AdminModel.ProductModel
+@model IEnumerable<ProductListViewModel>
+
 @{
     ViewData["Title"] = "FinishedProducts";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
@@ -14,25 +16,35 @@
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <tr>
+
                             <th>Ürün İd</th>
                             <th>Ürün Adı</th>
                             <th>Ürün Açıklaması</th>
                             <th>Fiyat</th>
                             <th>Beden</th>
                             <th>Renk</th>
-                            <th>Kategori</th> 
+                            <th>Kategori</th>
+                            <th>Oluşturulma Tarihi</th>
+                        
                         </tr>
-                        <tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
 
-                            <td>Ecommerce</td>
-                            <td>Ecommerce website</td>
-                            <td>Ecommerce website Ecommerce website</td>
-                            <td>100</td>
-                            <td>s</td>
-                            <td>sarı</td>
-                            <td> elbise </td>
-                           
-                        </tr>
+                                <td>@item.Id</td>
+                                <td>@item.Title</td>
+                                <td>@item.Description</td>
+                                <td> @item.Price  </td>
+                                <td>@item.Size</td>
+                                <td>@item.Color</td>
+                                <td> @item.CategoryCategoryName </td>
+                                <td> @item.CreateDate </td>
+                                <td>
+                                    <a href="#" class="btn btn-primary">Ürün Detay</a>
+                                </td>
+
+                            </tr>
+                        }
 
                     </table>
                 </div>
@@ -62,4 +74,5 @@
     </div>
 
 </div>
+
 

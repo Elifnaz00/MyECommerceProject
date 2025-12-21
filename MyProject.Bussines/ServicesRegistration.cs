@@ -53,7 +53,8 @@ namespace MyProject.Bussines
             services.AddScoped<IValidator<ContactUsCommandRequest>, CreateContactCommandValidator>();
             services.AddValidatorsFromAssemblyContaining<CreateContactCommandValidator>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddAutoMapper(typeof(MapProfile));
+            
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMediatR(typeof(GetAllCategoryQueryHandler).Assembly);
             services.AddMediatR(typeof(GetDashboardDataQueryHandler).Assembly);
             services.AddExceptionHandler<NotFoundExceptionHandler>();

@@ -22,5 +22,15 @@ namespace MyProject.Api.Controllers.Admin
             var responseCustomer= await _mediator.Send(new GetCustomerRequest());
             return Ok(responseCustomer);
         }
+
+
+
+        [HttpGet("admin-get-users-with-roles")]
+        public async Task<IActionResult> GetUsersWithRoles()
+        {
+            var response = await _mediator.Send(new GetUsersWithRolesQueryRequest());
+            return Ok(response);
+        }
+
     }
 }
