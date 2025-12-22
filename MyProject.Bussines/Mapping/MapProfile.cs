@@ -115,6 +115,7 @@ namespace MyProject.Bussines.Mapping
             CreateMap<UpdateProductDto,Product>();
             CreateMap<OrderStatus, OrderStatusDto>();
             CreateMap<Order, OrderListDto>();
+            CreateMap<Product, ProductEditDto>();
             
 
 

@@ -78,6 +78,11 @@ namespace MyProject.DataAccess.Concrate
         }
 
 
+        public async Task<Product?> GetProductWithCategoryByIdAsync(Guid id)
+        {
+            return await _context.Products.AsNoTracking().Include(m => m.Category).FirstOrDefaultAsync(p => p.Id == id);
+        }
+
 
 
     }

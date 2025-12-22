@@ -55,5 +55,13 @@ namespace MyProject.Api.Controllers.Admin
             return NoContent();
 
         }
+
+        [HttpGet("get-by-id-product/{id}")]
+        public async Task<IActionResult> GetByIdProduct([FromRoute] Guid id)
+        {
+            var productResponse = await _mediator.Send(new GetByIdProductQueryRequest() { Id = id });
+            return Ok(productResponse);
+        }
+
     }
 }

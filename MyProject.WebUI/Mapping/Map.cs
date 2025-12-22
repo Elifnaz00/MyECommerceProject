@@ -36,6 +36,7 @@ namespace MyProject.WebUI.Mapping
             CreateMap<OrderStatusDto, OrderStatusViewModel>();
             CreateMap<UserWithRoleDto, UserRoleViewModel>();
             CreateMap<ProductListDto, Models.AdminModel.ProductModel.ProductListViewModel>();  
+            CreateMap<ProductEditDto, Models.AdminModel.ProductModel.EditProductViewModel>();  
               
 
            

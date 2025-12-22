@@ -20,6 +20,8 @@ namespace MyProject.DataAccess.Abstract
         Task<List<Product>> GetAvailableProductsAsync();
         Task<List<Product>> GetFinishedProductsAsync();
 
+        Task<Product?> GetProductWithCategoryByIdAsync(Guid id);
+
 
     }
 }
