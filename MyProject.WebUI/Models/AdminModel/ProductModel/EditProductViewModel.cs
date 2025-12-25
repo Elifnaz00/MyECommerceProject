@@ -1,4 +1,7 @@
-﻿using MyProject.Entity.Enums;
+﻿using MyProject.DTO.DTOs.AdminDTOs;
+using MyProject.DTO.Models;
+using MyProject.Entity.Enums;
+using MyProject.TokenDTOs.DTOs.CategoryDTOs;
 
 namespace MyProject.WebUI.Models.AdminModel.ProductModel
 {
@@ -19,5 +22,6 @@ namespace MyProject.WebUI.Models.AdminModel.ProductModel
 
         public Guid CategoryId { get; set; }
         public string? CategoryCategoryName { get; set; }
+        public IEnumerable<MyProject.DTO.DTOs.AdminDTOs.CategoryDto.CategoryDto> CategoryDtos { get; set; }
     }
 }

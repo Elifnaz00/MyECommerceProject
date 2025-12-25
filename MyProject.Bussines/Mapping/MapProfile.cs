@@ -13,6 +13,7 @@ using MyProject.Bussines.CQRS.Orders.Commands.Request;
 using MyProject.Bussines.CQRS.Products.Queries.Request;
 using MyProject.Bussines.CQRS.Products.Queries.Response;
 using MyProject.DataAccess.UnıtOfWorks;
+using MyProject.DTO.DTOs.AdminDTOs.CategoryDto;
 using MyProject.DTO.DTOs.AdminDTOs.ProductDto;
 using MyProject.DTO.DTOs.AdminDTOs.RoleDto;
 using MyProject.DTO.DTOs.AdminDTOs.UserDto;
@@ -116,6 +117,7 @@ namespace MyProject.Bussines.Mapping
             CreateMap<OrderStatus, OrderStatusDto>();
             CreateMap<Order, OrderListDto>();
             CreateMap<Product, ProductEditDto>();
+            CreateMap<Category, CategoryDto>();
             
 
 

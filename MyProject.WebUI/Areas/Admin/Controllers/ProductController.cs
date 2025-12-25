@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using MyProject.DTO.Models;
 using MyProject.Entity.Enums;
 using MyProject.WebUI.Models.AdminModel.DashboardModel;
 using MyProject.WebUI.Models.AdminModel.ProductModel;
@@ -28,8 +29,21 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
             if (getByIdProductResponse.IsSuccessStatusCode)
             {
                 var getByIdProductVM = await getByIdProductResponse.Content.ReadFromJsonAsync<EditProductViewModel>();
-                
-                return View(getByIdProductVM);
+                var colorListVM= Enum.GetValues(typeof(Renkler)).Cast<Renkler>().Select(d => new ColorSelectListItemVM
+                {
+                    Text = d.ToString(),
+                    Value= ((int)d).ToString()  
+                }).ToList();
+
+                var SizeListVM = Enum.GetValues(typeof(Bedenler)).Cast<Bedenler>().Select(d => new SizeSelectListItemVM
+                {
+                    Text = d.ToString(),
+                    Value = ((int)d).ToString()
+                }).ToList();
+
+                var mappedProductItem= _mapper.Map<EditProductViewModel>(getByIdProductVM);
+
+                return View(mappedProductItem);
             }
 
             return View();

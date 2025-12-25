@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyProject.DTO.DTOs.AdminDTOs.CategoryDto;
 
 namespace MyProject.DTO.DTOs.AdminDTOs.ProductDto
 {
@@ -22,5 +23,7 @@ namespace MyProject.DTO.DTOs.AdminDTOs.ProductDto
 
         public Guid CategoryId { get; set; }
         public string? CategoryCategoryName { get; set; }
+
+        public List<MyProject.DTO.DTOs.AdminDTOs.CategoryDto.CategoryDto> CategoryDtos { get; set; }
     }
 }

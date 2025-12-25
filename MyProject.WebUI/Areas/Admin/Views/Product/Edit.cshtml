@@ -1,4 +1,5 @@
-﻿@model EditProductViewModel
+﻿@using MyProject.Entity.Enums
+@model EditProductViewModel
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
@@ -24,9 +25,13 @@
                         <div class="form-group">
                             <label>Categori</label>
                             <select class="form-control">
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                                <option>Option 3</option>
+                                @foreach (var category in Model.CategoryDtos)
+                                {
+                                    <option value="@category.Id"
+                                            selected="@(category.Id == Model.CategoryId)">
+                                        @category.CategoryName
+                                    </option>
+                                }
                             </select>
                         </div>
                         <div class="form-group">
@@ -39,34 +44,30 @@
                         </div>
                         <div class="form-group">
                             <label>Renk</label>
-                            <select class="form-control">
-                                <option>Kırmızı</option>
-                                <option>Pembe</option>
-                                <option>Siyah</option>
-                            </select>
+                            <select asp-for="Renkler" asp-items="Html.GetEnumSelectList<Renkler>()" class="form-control">
+                             </select>
                         </div>
 
 
                         <div class="form-group">
                             <label class="d-block">Beden Seçimi</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" checked>
-                                <label class="form-check-label" for="exampleRadios1">
-                                    S
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" checked>
-                                <label class="form-check-label" for="exampleRadios2">
-                                    M
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" checked>
-                                <label class="form-check-label" for="exampleRadios2">
-                                    L
-                                </label>
-                            </div>
+
+                            @foreach (Bedenler beden in Enum.GetValues(typeof(Bedenler)))
+                            {
+                                var id = $"beden_{(int)beden}";
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           asp-for="Bedenler"
+                                           value="@beden"
+                                           id="@id"
+                                           checked="@(Model.Bedenler == beden)" />
+
+                                    <label class="form-check-label" for="@id">
+                                        @beden
+                                    </label>
+                                </div>
+                            }
                         </div>
                         <div class="form-group">
                             <label>Ürün Görselleri</label>
