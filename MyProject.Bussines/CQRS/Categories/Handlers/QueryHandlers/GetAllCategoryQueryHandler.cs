@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MyProject.Bussines.CQRS.Categories.Handlers.QueryHandlers
 {
-    public class GetAllCategoryQueryHandler : IRequestHandler<GetAllCategoriesQueryRequest, IList<CategoryListDTO>>
+    public class GetAllCategoryQueryHandler : IRequestHandler<GetAllCategoriesQueryRequest, List<CategoryListDTO>>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
@@ -22,10 +22,10 @@ namespace MyProject.Bussines.CQRS.Categories.Handlers.QueryHandlers
             _mapper = mapper;
         }
 
-        async Task<IList<CategoryListDTO>> IRequestHandler<GetAllCategoriesQueryRequest, IList<CategoryListDTO>>.Handle(GetAllCategoriesQueryRequest request, CancellationToken cancellationToken)
+        async Task<List<CategoryListDTO>> IRequestHandler<GetAllCategoriesQueryRequest, List<CategoryListDTO>>.Handle(GetAllCategoriesQueryRequest request, CancellationToken cancellationToken)
         {
             var value = _categoryRepository.GetAll();
-            return _mapper.Map<IList<CategoryListDTO>>(value);
+            return _mapper.Map<List<CategoryListDTO>>(value);
             
         }
     }

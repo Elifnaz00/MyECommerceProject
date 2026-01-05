@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Azure;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Bussines.CQRS.Admin.Product.Command.Request;
@@ -60,6 +61,24 @@ namespace MyProject.Api.Controllers.Admin
         public async Task<IActionResult> GetByIdProduct([FromRoute] Guid id)
         {
             var productResponse = await _mediator.Send(new GetByIdProductQueryRequest() { Id = id });
+            return Ok(productResponse);
+        }
+
+
+        [HttpPost("create-product")]
+        public async Task<IActionResult> CreateProduct([FromBody] AdminAddProductDto addProductDto)
+        {
+            await _mediator.Send(new AddProductCommandRequest{
+                AdminAddProductDto = addProductDto
+            });
+            return Ok();
+        }
+
+
+        [HttpGet("detail-product/{id}")]
+        public async Task<IActionResult> DetailProduct([FromRoute] Guid id)
+        {
+            var productResponse = await _mediator.Send(new GetDetailProductQueryRequest() { Id = id });
             return Ok(productResponse);
         }
 

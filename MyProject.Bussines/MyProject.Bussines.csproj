@@ -40,6 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="CQRS\Admin\Category\Queries\Response\" />
     <Folder Include="CQRS\Admin\Order\Commands\Response\" />
     <Folder Include="CQRS\Admin\Order\Queries\Response\" />
     <Folder Include="CQRS\Categories\Queries\Response\" />

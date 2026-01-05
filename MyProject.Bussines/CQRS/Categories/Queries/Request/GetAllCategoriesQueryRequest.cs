@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MyProject.Bussines.CQRS.Categories.Queries.Request
 {
-    public class GetAllCategoriesQueryRequest : IRequest<IList<CategoryListDTO>>
+    public class GetAllCategoriesQueryRequest : IRequest<List<CategoryListDTO>>
     { 
 
     }

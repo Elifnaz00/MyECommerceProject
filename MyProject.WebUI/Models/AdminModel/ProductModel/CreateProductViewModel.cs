@@ -1,23 +1,18 @@
-﻿using MyProject.Entity.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyProject.DTO.DTOs.AdminDTOs.CategoryDto;
+using MyProject.Entity.Enums;
 
-namespace MyProject.DTO.DTOs.AdminDTOs.ProductDto
+namespace MyProject.WebUI.Models.AdminModel.ProductModel
 {
-    public class UpdateProductDto
+    public class CreateProductViewModel
     {
-        public Bedenler Bedenler { get; set; }
         public Renkler Renkler { get; set; }
-        public Guid Id { get; set; }
+        public Bedenler Bedenler { get; set; }
         public string? Title { get; set; }
-
         public int Stock { get; set; }
         public string? Description { get; set; }
         public long Price { get; set; }
         public string? ImageUrl { get; set; }
+        public List<CategoryDto> CategoryDtos { get; set; }
         public Guid CategoryId { get; set; }
     }
 }

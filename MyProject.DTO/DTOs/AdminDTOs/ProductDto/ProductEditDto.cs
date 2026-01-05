@@ -9,7 +9,7 @@ namespace MyProject.DTO.DTOs.AdminDTOs.ProductDto
 {
     public class ProductEditDto
     {
-       
+        public Guid Id { get; set; }    
         public string? Title { get; set; }
 
         public int Stock { get; set; }

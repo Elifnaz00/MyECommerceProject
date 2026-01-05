@@ -1,9 +1,10 @@
 ﻿@using MyProject.Entity.Enums
-@model EditProductViewModel
+@model CreateProductViewModel
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
+
 
 <section class="section">
     <div class="section-body">
@@ -13,15 +14,15 @@
                     <div class="card-header">
                         <h4>Ürün Güncelle</h4>
                     </div>
-                    <form method="post"  asp-area="Admin" asp-controller="Product" asp-action="Edit">
-                    <div class="card-body">
+                    <form method="post" asp-area="Admin" asp-controller="Product" asp-action="Create">
+                        <div class="card-body">
                             <div class="form-group">
                                 <label>Ürün Başlığı</label>
-                                <input type="text" class="form-control" asp-for="Title" value="@Model.Title">
+                                <input type="text" class="form-control" asp-for="Title" >
                             </div>
                             <div class="form-group">
                                 <label>Ürün Açıklaması</label>
-                                <textarea asp-for="Description" class ="form-control">@Model.Description</textarea>
+                                <textarea asp-for="Description" class="form-control"></textarea>
                             </div>
                             <div class="form-group">
                                 <label>Categori</label>
@@ -29,7 +30,7 @@
                                     @foreach (var category in Model.CategoryDtos)
                                     {
                                         <option value="@category.Id"
-                                                selected="@(category.Id == Model.CategoryId)">
+                                                >
                                             @category.CategoryName
                                         </option>
                                     }
@@ -37,25 +38,20 @@
                             </div>
                             <div class="form-group">
                                 <label>Fiyat</label>
-                                <input type="text" asp-for="Price" class="form-control" value="@Model.Price">
+                                <input type="text" asp-for="Price" class="form-control" >
                             </div>
                             <div class="form-group">
                                 <label>Stok</label>
-                                <input asp-for="Stock" type="text" class="form-control" value="@Model.Stock">
+                                <input asp-for="Stock" type="text" class="form-control" >
                             </div>
                             <div class="form-group">
                                 <label>Renk</label>
-                                <select asp-for="Renkler"  class="form-control" >
+                                <select asp-for="Renkler" class="form-control">
                                     @foreach (var e in Enum.GetValues(typeof(Renkler)).Cast<int>())
                                     {
-                                        if (Enum.GetName(typeof(Renkler), e) == Model.Color)
-                                            {
-                                            <option value="@e.ToString()" selected>@Enum.GetName(typeof(Renkler), e)</option>
-                                            }
-                                        else
-                                        {
-                                            <option value="@e.ToString()">@Enum.GetName(typeof(Renkler), e)</option>
-                                        }
+                                     
+                                        <option value="@e.ToString()">@Enum.GetName(typeof(Renkler), e)</option>
+                                        
                                     }
                                 </select>
                             </div>
@@ -73,7 +69,7 @@
                                                asp-for="Bedenler"
                                                value="@beden"
                                                id="@id"
-                                               checked="@(Model.Size == beden.ToString())" />
+                                                />
 
                                         <label class="form-check-label" for="@id">
                                             @beden
@@ -85,21 +81,22 @@
                                 <label>Ürün Görselleri</label>
                                 <input type="file" class="form-control" asp-for="ImageUrl">
                             </div>
-                       
-                    </div>
 
-                    <div class="card-footer text-right">
-                        <button class="btn btn-primary mr-1" type="submit">Güncelle</button>
-                        <button class="btn btn-secondary" type="reset">İptal</button>
-                    </div>
-                   </form>
+                        </div>
+
+                        <div class="card-footer text-right">
+                            <button class="btn btn-primary mr-1" type="submit">Ekle</button>
+                            <button class="btn btn-secondary" type="reset">İptal</button>
+                        </div>
+                    </form>
                 </div>
-                
+
 
             </div>
-            
+
 
         </div>
     </div>
 </section>
+
 

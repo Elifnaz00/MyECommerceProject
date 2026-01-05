@@ -10,5 +10,6 @@ namespace MyProject.DTO.DTOs.AdminDTOs.CategoryDto
     {
         public Guid Id { get; set; }
         public string? CategoryName { get; set; }
+        
     }
 }

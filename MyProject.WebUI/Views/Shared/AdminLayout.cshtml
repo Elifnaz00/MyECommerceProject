@@ -417,7 +417,23 @@
             }
         });
 
+            $(document).on("click", ".btn-product-detail", function () {
 
+            var productId = $(this).data("id");
+
+            $.ajax({
+                url: "/Admin/Product/ProductDetailModal",
+                type: "GET",
+                data: { id: productId },
+                success: function (response) {
+                    $("#productDetailContent").html(response);
+                    $("#productDetailModal").modal("show");
+                },
+                error: function () {
+                    alert("Ürün detayları yüklenemedi");
+                }
+            });
+        });
 
     </script>
   

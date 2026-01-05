@@ -1,10 +1,16 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using MyProject.DTO.DTOs.AdminDTOs.CategoryDto;
+using MyProject.DTO.DTOs.AdminDTOs.ProductDto;
 using MyProject.DTO.Models;
 using MyProject.Entity.Enums;
 using MyProject.WebUI.Models.AdminModel.DashboardModel;
 using MyProject.WebUI.Models.AdminModel.ProductModel;
+using MyProject.WebUI.Models.ProductModel;
+using Newtonsoft.Json;
 using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text;
 
 namespace MyProject.WebUI.Areas.Admin.Controllers
 {
@@ -28,19 +34,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
             
             if (getByIdProductResponse.IsSuccessStatusCode)
             {
-                var getByIdProductVM = await getByIdProductResponse.Content.ReadFromJsonAsync<EditProductViewModel>();
-                var colorListVM= Enum.GetValues(typeof(Renkler)).Cast<Renkler>().Select(d => new ColorSelectListItemVM
-                {
-                    Text = d.ToString(),
-                    Value= ((int)d).ToString()  
-                }).ToList();
-
-                var SizeListVM = Enum.GetValues(typeof(Bedenler)).Cast<Bedenler>().Select(d => new SizeSelectListItemVM
-                {
-                    Text = d.ToString(),
-                    Value = ((int)d).ToString()
-                }).ToList();
-
+                var getByIdProductVM = await getByIdProductResponse.Content.ReadFromJsonAsync<ProductEditDto>();   
                 var mappedProductItem= _mapper.Map<EditProductViewModel>(getByIdProductVM);
 
                 return View(mappedProductItem);
@@ -52,10 +46,59 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
 
         
         [HttpPost]
-        public IActionResult Edit(Guid id, EditProductViewModel editProductViewModel)
+        public async Task<IActionResult> Edit(EditProductViewModel editProductViewModel)
         {
-            return View();
+           
+            var content = new StringContent(
+            JsonConvert.SerializeObject(editProductViewModel),
+            Encoding.UTF8,
+            "application/json"
+);
+            var getByIdProductResponse = await _httpClient.PutAsync(_httpClient.BaseAddress + $"/Product/update-product/{editProductViewModel.Id}", content);
+            return RedirectToAction("AvailableProducts", "AdminHome");
         }
-        
+
+
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            var getCategorytResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + $"/Category/get-categories");
+            var categoryList = await getCategorytResponse.Content.ReadFromJsonAsync<List<CategoryDto>>();
+            var cerateProductVM = new CreateProductViewModel{
+                CategoryDtos = categoryList ?? new List<CategoryDto>()
+            };
+            return View(cerateProductVM);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateProductViewModel createProductViewModel)
+        {
+
+            var content = new StringContent(
+            JsonConvert.SerializeObject(createProductViewModel),
+            Encoding.UTF8,
+            "application/json"
+);
+            var getByIdProductResponse = await _httpClient.PostAsync(_httpClient.BaseAddress + $"/Product/create-product", content);
+            return RedirectToAction("AvailableProducts", "AdminHome");
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ProductDetailModal(Guid id)
+        {
+            var detailProductResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + $"/Product/detail-product/{id}");
+            if (detailProductResponse.IsSuccessStatusCode)
+            {
+                var detailProductVM = await detailProductResponse.Content.ReadFromJsonAsync<ProductDetailDto>();
+                var mappedDetailProductItem = _mapper.Map<DetailProductViewModel>(detailProductVM);
+                return PartialView("_ProductDetailModalPartial", mappedDetailProductItem);
+            }
+            return RedirectToAction("AvailableProducts", "AdminHome");
+
+
+        }
+        }
+
     }
-}

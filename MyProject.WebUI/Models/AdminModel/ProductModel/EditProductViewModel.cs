@@ -9,6 +9,8 @@ namespace MyProject.WebUI.Models.AdminModel.ProductModel
     {
         public Renkler Renkler { get; set; }
         public Bedenler Bedenler { get; set; }
+
+        public Guid Id { get; set; }
         public string? Title { get; set; }
 
         public int Stock { get; set; }

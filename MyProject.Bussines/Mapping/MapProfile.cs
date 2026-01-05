@@ -46,7 +46,7 @@ namespace MyProject.Bussines.Mapping
             CreateMap<Entrance, ListEntranceDTO>().ReverseMap();
             CreateMap<Entrance, EntranceDetailsDTO>().ReverseMap();
             CreateMap<Entrance, UpdateEntranceDTO>().ReverseMap();
-            CreateMap<Product, AddProductDto>().ReverseMap();
+            CreateMap<Product, DTO.DTOs.ProductDTOs.AddProductDto>().ReverseMap();
             CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<Contact,ContactDto>().ReverseMap();
             CreateMap<Order,CreatedOrderDto>().ReverseMap();
@@ -113,10 +113,13 @@ namespace MyProject.Bussines.Mapping
 
             CreateMap<Product, ProductListDto>();
 
-            CreateMap<UpdateProductDto,Product>();
+            CreateMap<UpdateProductDto,Product>()
+                .ForMember(x => x.Size, opt=> opt.MapFrom(src => src.Bedenler.ToString()))
+                .ForMember(x => x.Color, opt=> opt.MapFrom(src => src.Renkler.ToString()));
             CreateMap<OrderStatus, OrderStatusDto>();
             CreateMap<Order, OrderListDto>();
             CreateMap<Product, ProductEditDto>();
+            CreateMap<AdminAddProductDto, Product>();
             CreateMap<Category, CategoryDto>();
             
 

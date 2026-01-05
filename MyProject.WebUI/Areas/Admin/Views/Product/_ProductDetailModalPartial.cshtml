@@ -1,0 +1,36 @@
+﻿@model DetailProductViewModel
+
+<table class="table table-bordered">
+    <tr>
+        <th>Ürün Adı</th>
+        <td>@Model.Title</td>
+    </tr>
+    <tr>
+        <th>Açıklama</th>
+        <td>@Model.Description</td>
+    </tr>
+    <tr>
+        <th>Fiyat</th>
+        <td>@Model.Price ₺</td>
+    </tr>
+    <tr>
+        <th>Stok</th>
+        <td>@Model.Stock</td>
+    </tr>
+    <tr>
+        <th>Beden</th>
+        <td>@Model.Size</td>
+    </tr>
+    <tr>
+        <th>Renk</th>
+        <td>@Model.Color</td>
+    </tr>
+    <tr>
+        <th>Kategori</th>
+        <td>@Model.CategoryCategoryName</td>
+    </tr>
+    <tr>
+        <th>Oluşturulma</th>
+        <td>@Model.CreateDate</td>
+    </tr>
+</table>
