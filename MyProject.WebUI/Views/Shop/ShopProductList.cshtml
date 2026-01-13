@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ProductListViewModel>
+﻿@using MyProject.Entity.Enums
+@model ProductwithCategoryViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -14,8 +15,8 @@
                 <div class="col-lg-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
-                            <li class="breadcrumb-item"><a href="index.html">Anasayfa</a></li>
-                            <li class="breadcrumb-item"><a href="#">Ürünler</a></li>
+                            <li class="breadcrumb-item"><a href="/Home/Index">Anasayfa</a></li>
+                            <li class="breadcrumb-item"><a href="/Shop/ShopProductList">Ürünler</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -34,52 +35,50 @@
                 </div>
             </div>
             <div class="row">
-                <!--? Left content -->
+              
                 <div class="col-xl-3 col-lg-3 col-md-4 ">
-                    <!-- Job Category Listing start -->
+                  
                     <div class="category-listing mb-50">
-                        <!-- single one -->
+                   
                         <div class="single-listing">
-                            <!-- Select City items start -->
-                          
-                                <div class="select-job-items2">
-                                    <select name="select2" id="categorySelect">
-                                        <option value="">Category </option>
-                                        <option value="Pantalon">Pantalon</option>
-                                        <option value="Kazak">Kazak</option>
-                                        <option value="Ceket">Ceket</option>
-                                        <option value="Elbise">Elbise</option>
-                                    </select>
-                                </div>
-                                <!--  Select City items End-->
-                                <!-- Select State items start -->
-                                <div class="select-job-items2">
+                            <!--  Select size items Start-->
+                            <div class="select-job-items2">
                                     <select name="select3" id="sizeSelect">
-                                        <option value="">Beden</option>
-                                        <option value="S">S</option>
-                                        <option value="M">M</option>
-                                        <option value="L">L</option>
-                                        <option value="XL">XL</option>
+                                    <option value="">Beden Seçimi</option>
+                                    @foreach (var e in Enum.GetValues(typeof(Bedenler)))
+                                    {
+                                        <option value="@e.ToString()">@Enum.GetName(typeof(Bedenler), e)</option>
+                                    }
+
                                     </select>
                                 </div>
-                                <!--  Select State items End-->
-                                <!-- Select km items start -->
-                              
-                                <!--  Select km items End-->
-                                <!-- Select km items start -->
+                            <!--  Select size items End-->
+                            <!--  Select color items Start-->
                                 <div class="select-job-items2">
                                 <select name="select4" id="colorSelect">
-                                        <option value="">Renk</option>
-                                        <option value="Beyaz">Beyaz</option>
-                                        <option value="Siyah">Siyah</option>
-                                        <option value="Mor">Mor</option>
-                                        <option value="Kırmızı">Kırmızı</option>
-                                        
+                                    <option value="">Renk Seçimi</option>
+                                    @foreach (var e in Enum.GetValues(typeof(Renkler)))
+                                    {
+                                         <option value="@e.ToString()">@Enum.GetName(typeof(Renkler), e)</option> 
+                                    }
+                                  
                                     </select>
                                 </div>
+                            <!--  Select color items End-->
+                            <!--  Select category items Start-->
+                            <div class="select-job-items2">
+                                <select name="select4" id="categorySelect">
+                                    <option value="">Categori Seçimi</option>
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <option value="@category.CategoryName"> @category.CategoryName</option>
+                                    }
 
-                            <!--  Select km items End-->
-                            <!-- Select km items start -->
+                                </select>
+                            </div>
+
+                            <!--  Select category items End-->
+                            <!-- Select price items start -->
                             <div class="select-job-items2">
                                 <select name="select5" id="priceSelect">
                                     <option value="">Fiyat Aralığı</option>
@@ -91,22 +90,24 @@
                                     <option value="180">$500 to $600</option>
                                 </select>
                             </div>
-                            <!--  Select km items End-->
+
+                            <!-- Select price items End -->
+                           
                         </div>
                         <button id="btnfilteredlist" class="btn default btn-xs red" >
                              Ürünleri Filtrele
                         </button>
                       
                     </div>
-                    <!-- Job Category Listing End -->
+                  
                 </div>
-                <!--?  Right content -->
+             
               
                     <div class="col-xl-9 col-lg-9 col-md-8 ">
                         <!--? New Arrival Start -->
                         <div class="new-arrival new-arrival2">
                             <div class="row">
-                                @foreach (var item in Model)
+                            @foreach (var item in Model.Products)
                                 {
                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                                         <div class="single-new-arrival mb-50 text-center">
@@ -131,25 +132,18 @@
                                             <span>@($"{item.Price.ToString("N2", new System.Globalization.CultureInfo("tr-TR"))} TL")</span>
                                                
                                             </div>
-                                          
-                                           
+                                                                                    
                                                 <button class="add-to-cart-btn btn btn-primary" type="submit" data-product-id="@item.Id" >Sepete Ekle</button>
-                                           
                                         </div>
                                         
                                     </div>
 
                                 }
 
-
-
                             </div>
                         </div>
                         <!--? New Arrival End -->
                     </div>
-              
-            
-               
             </div>
         </div>
     </div>

@@ -20,9 +20,10 @@ namespace MyProject.Bussines.CQRS.Products.Handlers.QueryHandlers
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
-        public GetFilteredProductQueryHandler(IProductRepository productRepository, IMapper mapper)
+        public GetFilteredProductQueryHandler(IProductRepository productRepository, ICategoryRepository categoryRepository, IMapper mapper)
         {
             _productRepository = productRepository;
+          
             _mapper = mapper;
         }
 

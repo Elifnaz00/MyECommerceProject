@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyProject.Entity.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +20,8 @@ namespace MyProject.DTO.DTOs.ProductDTOs
         public string? Size { get; set; }
 
         public string? Color { get; set; }
+        public Guid CategoryId { get; set; }
+        
+
     }
 }

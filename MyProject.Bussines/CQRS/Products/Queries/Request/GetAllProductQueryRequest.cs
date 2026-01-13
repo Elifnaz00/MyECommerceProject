@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MyProject.Bussines.CQRS.Products.Queries.Request
 {
-    public class GetAllProductQueryRequest : IRequest<IList<GetAllProductQueryResponse>>
+    public class GetAllProductQueryRequest : IRequest<GetAllProductQueryResponse>
     {
 
 

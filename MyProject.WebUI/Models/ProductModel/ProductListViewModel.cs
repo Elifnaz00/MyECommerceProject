@@ -1,23 +1,26 @@
-﻿using MyProject.Entity.Entities;
+﻿using MyProject.DTO.DTOs.ProductDTOs;
+using MyProject.Entity.Entities;
+using MyProject.Entity.Enums;
+using MyProject.TokenDTOs.DTOs.CategoryDTOs;
 
 namespace MyProject.WebUI.Models.ProductModel
 {
     public class ProductListViewModel
     {
-        public Guid Id { get; set; }    
+        public Guid Id { get; set; }
         public string? Title { get; set; }
 
         public int Stock { get; set; }
         public string? Description { get; set; }
-        public decimal Price { get; set; }
+        public long Price { get; set; }
         public string? ImageUrl { get; set; }
 
         public string? Size { get; set; }
 
         public string? Color { get; set; }
+        public Guid CategoryId { get; set; }
 
-        public string? CategoryCategoryName { get; set; }
 
-        public DateTime? CreatedDate { get; set; }
+
     }
 }

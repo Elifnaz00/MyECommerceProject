@@ -41,8 +41,8 @@ namespace MyProject.WebUI.Controllers
             HttpResponseMessage httpResponseMessage = await client.GetAsync(client.BaseAddress + "/Product/GetProduct");
             httpResponseMessage.EnsureSuccessStatusCode();
 
-            var allProducts = await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<ProductListViewModel>>()
-                              ?? new List<ProductListViewModel>();
+            var allProducts = await httpResponseMessage.Content.ReadFromJsonAsync<ProductwithCategoryViewModel>();
+                              
             return View(allProducts);
         }
    
@@ -84,8 +84,8 @@ namespace MyProject.WebUI.Controllers
             HttpResponseMessage httpResponseMessage = await client.GetAsync(client.BaseAddress + $"/Product/Productbycategory/{categoryId}");
             httpResponseMessage.EnsureSuccessStatusCode();
 
-            var products = await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<ProductListViewModel>>()
-                           ?? new List<ProductListViewModel>();
+            var products = await httpResponseMessage.Content.ReadFromJsonAsync<ProductwithCategoryViewModel>();
+                          
             return View("ShopProductList", products);
 
         }

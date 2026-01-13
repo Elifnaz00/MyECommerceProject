@@ -19,6 +19,7 @@ using MyProject.DTO.DTOs.AdminDTOs.RoleDto;
 using MyProject.DTO.DTOs.AdminDTOs.UserDto;
 using MyProject.DTO.DTOs.BasketDTOs;
 using MyProject.DTO.DTOs.BasketItemDTOs;
+using MyProject.DTO.DTOs.CategoryDTOs;
 using MyProject.DTO.DTOs.ContactDTOs;
 using MyProject.DTO.DTOs.OrderDTOs;
 using MyProject.DTO.DTOs.OrderStatusDTOs;
@@ -119,8 +120,10 @@ namespace MyProject.Bussines.Mapping
             CreateMap<OrderStatus, OrderStatusDto>();
             CreateMap<Order, OrderListDto>();
             CreateMap<Product, ProductEditDto>();
+            CreateMap<Product, ProductDetailDto>();
             CreateMap<AdminAddProductDto, Product>();
             CreateMap<Category, CategoryDto>();
+            CreateMap<Category, CategoryTypesDto>();
             
 
 

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using MyProject.DTO.DTOs.AdminDTOs.ProductDto;
 using MyProject.DTO.DTOs.AdminDTOs.UserDto;
+using MyProject.DTO.DTOs.CategoryDTOs;
 using MyProject.DTO.DTOs.OrderDTOs;
 using MyProject.DTO.DTOs.OrderStatusDTOs;
+using MyProject.DTO.DTOs.ProductDTOs;
 using MyProject.Entity.Entities;
 using MyProject.TokenDTOs.DTOs.CategoryDTOs;
 using MyProject.WebUI.Models.AdminModel.OrderModel;
@@ -37,6 +39,9 @@ namespace MyProject.WebUI.Mapping
             CreateMap<UserWithRoleDto, UserRoleViewModel>();
             CreateMap<ProductListDto, Models.AdminModel.ProductModel.ProductListViewModel>();  
             CreateMap<ProductEditDto, Models.AdminModel.ProductModel.EditProductViewModel>();  
+            CreateMap<ProductDetailDto, DetailProductViewModel>();  
+            
+           
               
 
            

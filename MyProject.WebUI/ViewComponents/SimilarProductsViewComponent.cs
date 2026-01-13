@@ -19,7 +19,7 @@ namespace MyProject.WebUI.ViewComponents
         {
             var client = _httpClientFactory.CreateClient("ApiService1");
 
-            // Kategoriye göre filtrele
+            
             HttpResponseMessage httpResponseMessage = await client.GetAsync(client.BaseAddress + $"/Product/Productbycategory/{categoryId}");
             httpResponseMessage.EnsureSuccessStatusCode();
 
@@ -27,8 +27,8 @@ namespace MyProject.WebUI.ViewComponents
                            ?? new List<ProductListViewModel>();
 
             var takeproducts = products.Take(8);
-            // Gerekli işlemleri yapın, model hazırlayın
-            return View(takeproducts); // D
+           
+            return View(takeproducts); 
 
         }
     }

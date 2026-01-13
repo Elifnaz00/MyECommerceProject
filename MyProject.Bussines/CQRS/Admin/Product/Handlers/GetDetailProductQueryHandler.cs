@@ -22,10 +22,10 @@ namespace MyProject.Bussines.CQRS.Admin.Product.Handlers
             _mapper = mapper;
         }
 
-        public Task<ProductDetailDto> Handle(GetDetailProductQueryRequest request, CancellationToken cancellationToken)
+        public async Task<ProductDetailDto> Handle(GetDetailProductQueryRequest request, CancellationToken cancellationToken)
         {
-            var productDetail= _productRepository.GetByIdAsync(request.Id);  
-            return Task.FromResult(_mapper.Map<ProductDetailDto>(productDetail));
+            var productDetail = await _productRepository.GetProductWithCategoryByIdAsync(request.Id);
+            return _mapper.Map<ProductDetailDto>(productDetail);
         }
     }
-}
+}               

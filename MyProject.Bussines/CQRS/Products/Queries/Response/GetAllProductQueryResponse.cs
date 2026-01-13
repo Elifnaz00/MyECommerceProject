@@ -1,4 +1,7 @@
-﻿using MyProject.Entity.Entities;
+﻿using MyProject.DTO.DTOs.CategoryDTOs;
+using MyProject.DTO.DTOs.ProductDTOs;
+using MyProject.Entity.Entities;
+using MyProject.TokenDTOs.DTOs.CategoryDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +12,9 @@ namespace MyProject.Bussines.CQRS.Products.Queries.Response
 {
     public class GetAllProductQueryResponse
     {
-        public Guid Id  { get; set; }
-        public string? Title { get; set; }
+        public List<ProductDto> Products { get; set; }
+        public List<CategoryTypesDto> Categories { get; set; }
 
-        public int Stock { get; set; }
-        public string? Description { get; set; }
-        public long Price { get; set; }
-        public string? ImageUrl { get; set; }
-
-        public string? Size { get; set; }
-
-        public string? Color { get; set; }
-
-
-        public Guid CategoryId { get; set; }
-        public virtual Category? Category { get; set; }
-
+       
     }
 }

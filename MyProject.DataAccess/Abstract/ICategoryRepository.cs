@@ -10,5 +10,6 @@ namespace MyProject.DataAccess.Abstract
 {
     public interface ICategoryRepository: IBaseEntityRepository<Category>
     {
+        Task<List<Category>> GetCategoryTypesListAsync();
     }
 }
