@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.DTO.DTOs.AdminDTOs.ProductDto;
 using MyProject.DTO.DTOs.AdminDTOs.UserDto;
@@ -18,6 +19,7 @@ using System.Net.Http.Json;
 namespace MyProject.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminHomeController : Controller
     {
         private readonly HttpClient _httpClient;

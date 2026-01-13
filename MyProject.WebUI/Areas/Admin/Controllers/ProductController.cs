@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.DTO.DTOs.AdminDTOs.CategoryDto;
 using MyProject.DTO.DTOs.AdminDTOs.ProductDto;
@@ -15,6 +16,7 @@ using System.Text;
 namespace MyProject.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
 

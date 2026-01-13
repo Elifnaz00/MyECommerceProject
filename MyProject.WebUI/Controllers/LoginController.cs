@@ -80,6 +80,14 @@ namespace MyProject.WebUI.Controllers
                  
                     // Token'ı session'da tut (API isteklerinde kullanılabilir)
                     _httpContextAccessor?.HttpContext?.Session.SetString("token", userToken);
+
+                    var user = await _userManager.FindByNameAsync(signAppUser.UserName);
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    if (roles.Contains("Admin"))
+                        return RedirectToAction("Index", "AdminHome", new { area = "Admin" });
+
+                   
                 }
                 return RedirectToAction("Index", "Home");
             }
@@ -138,6 +146,10 @@ namespace MyProject.WebUI.Controllers
             if(response.IsSuccessStatusCode)
             {
                 await _signInManager.SignOutAsync();
+
+                HttpContext.Session.Clear();
+
+                Response.Cookies.Delete(".AspNetCore.Identity.Application");
                 return RedirectToAction("Index", "Login");
             }
             else
