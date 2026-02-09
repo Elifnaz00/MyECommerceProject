@@ -20,7 +20,7 @@ namespace MyProject.WebUI.ViewComponents
             var client = _httpClientFactory.CreateClient("ApiService1");
 
             
-            HttpResponseMessage httpResponseMessage = await client.GetAsync(client.BaseAddress + $"/Product/Productbycategory/{categoryId}");
+            HttpResponseMessage httpResponseMessage = await client.GetAsync($"Product/Productbycategory/{categoryId}");
             httpResponseMessage.EnsureSuccessStatusCode();
 
             var products = await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<ProductListViewModel>>()

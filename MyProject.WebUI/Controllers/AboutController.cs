@@ -10,7 +10,8 @@ using MyProject.WebUI.Models.ProductModel;
 
 namespace MyProject.WebUI.Controllers
 {
-  
+
+    [AllowAnonymous]
     public class AboutController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -27,7 +28,7 @@ namespace MyProject.WebUI.Controllers
            
             var client = _httpClientFactory.CreateClient("ApiService1");
 
-            HttpResponseMessage httpResponseMessage = await client.GetAsync(client.BaseAddress + "/About");
+            HttpResponseMessage httpResponseMessage = await client.GetAsync("About");
             if (httpResponseMessage.IsSuccessStatusCode)
             {
 

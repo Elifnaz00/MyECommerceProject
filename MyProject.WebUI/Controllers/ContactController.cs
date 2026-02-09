@@ -11,7 +11,7 @@ using System;
 
 namespace MyProject.WebUI.Controllers
 {
-    [Authorize(Roles = "Denemelik")]
+    
     public class ContactController : Controller
     {
 
@@ -47,7 +47,7 @@ namespace MyProject.WebUI.Controllers
 
             HttpClient client= _httpClientFactory.CreateClient("ApiService1");
 
-            await client.PostAsJsonAsync(client.BaseAddress + "/Contact", contactUsViewModel);
+            await client.PostAsJsonAsync("Contact", contactUsViewModel);
 
             TempData["notice"] = "Mesajınız Başarıyla Gönderildi!";
             return RedirectToAction("Index");

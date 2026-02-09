@@ -102,12 +102,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
 app.UseRouting();
 app.UseCors("AllowLocalhost7122");
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllers();
 app.UseExceptionHandler();
 app.UseStatusCodePages();
-app.MapControllers();
-
 app.Run();

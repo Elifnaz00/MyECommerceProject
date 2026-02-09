@@ -29,7 +29,7 @@ namespace MyProject.WebUI.Controllers
             
             var client = _httpClientFactory.CreateClient("ApiService1");
             
-            HttpResponseMessage response = await client.GetAsync(client.BaseAddress + "/entrance");
+            HttpResponseMessage response = await client.GetAsync("entrance");
             if (response.IsSuccessStatusCode) {
                 
                 var entrances = await response.Content.ReadFromJsonAsync<IEnumerable<EntranceListViewModel>>();
@@ -44,7 +44,7 @@ namespace MyProject.WebUI.Controllers
         public async Task<IActionResult> GetByEntrance(Guid id) 
         {
             var client = _httpClientFactory.CreateClient("ApiService1");
-            HttpResponseMessage response = await client.GetAsync(client.BaseAddress + $"/entrance/{id}");
+            HttpResponseMessage response = await client.GetAsync($"entrance/{id}");
             
             if (response.IsSuccessStatusCode)
             {
@@ -74,7 +74,7 @@ namespace MyProject.WebUI.Controllers
             }; */
 
             
-            HttpResponseMessage response = await client.PostAsJsonAsync(client.BaseAddress + "/entrance", entrance);
+            HttpResponseMessage response = await client.PostAsJsonAsync("entrance", entrance);
 
             return View();
         }
@@ -84,7 +84,7 @@ namespace MyProject.WebUI.Controllers
         public async Task<IActionResult> EditEntrance(Guid id)
         {
             var client = _httpClientFactory.CreateClient("ApiService1");
-            HttpResponseMessage response = await client.GetAsync(client.BaseAddress + $"/entrance/{id}");
+            HttpResponseMessage response = await client.GetAsync($"entrance/{id}");
             if (response.IsSuccessStatusCode)
             {
                 var entranceEditViewModel = await response.Content.ReadFromJsonAsync<EntranceEditViewModel>();
@@ -101,7 +101,7 @@ namespace MyProject.WebUI.Controllers
         public async Task<IActionResult> EditEntrance(EntranceEditViewModel entranceEditViewModel)
         {
             var client = _httpClientFactory.CreateClient("ApiService1");
-            await client.PutAsJsonAsync(client.BaseAddress + $"/entrance/{entranceEditViewModel.Id}", entranceEditViewModel);
+            await client.PutAsJsonAsync($"entrance/{entranceEditViewModel.Id}", entranceEditViewModel);
 
             return RedirectToAction(nameof(Index));
         }
@@ -117,7 +117,7 @@ namespace MyProject.WebUI.Controllers
                 HttpResponseMessage response= await sharedClient.DeleteAsync("https://localhost:7177/api/entrance/3fa85f64-5717-4562-b3fc-2c963f66afa5");
             } */
             var client = _httpClientFactory.CreateClient("ApiService1");
-            await client.DeleteAsync(client.BaseAddress + $"/entrance/{id}");
+            await client.DeleteAsync($"entrance/{id}");
             
             return RedirectToAction(nameof(Index));
         }

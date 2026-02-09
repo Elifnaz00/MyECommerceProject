@@ -19,7 +19,7 @@ namespace MyProject.WebUI.ViewComponents
         {
             var client = _httpClientFactory.CreateClient("ApiService1");
            
-            HttpResponseMessage response = await client.GetAsync(client.BaseAddress + "/Product/GetNewArrivalProducts");
+            HttpResponseMessage response = await client.GetAsync("Product/GetNewArrivalProducts");
 
             if (response.IsSuccessStatusCode) {
                 

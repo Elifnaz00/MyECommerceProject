@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using MyProject.Bussines.CQRS.AppUsers.Commands.Request;
+using MyProject.Bussines.CQRS.AppUsers.Commands.Response;
 
 namespace MyProject.Api.Controllers
 {
@@ -42,13 +43,22 @@ namespace MyProject.Api.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> LoginUser([FromBody] LoginUserCommandRequest loginUserCommandRequest)
         {
-            var response= await _mediator.Send(loginUserCommandRequest);
-            if(!response.IsSuccess)
+            var response = await _mediator.Send(loginUserCommandRequest);
+
+            var result = new LoginUserCommandResponse
             {
-                return NotFound(response.Message);
+                IsSuccess = response.IsSuccess,
+                Message = response.Message,
+                Token = response.Token
+            };
+
+            if (!response.IsSuccess)
+            {
+                return Unauthorized(result);
             }
-            return Ok(response.Token.AccessToken);
-         }
+
+            return Ok(result);
+        }
 
 
 

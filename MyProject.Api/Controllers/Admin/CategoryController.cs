@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Bussines.CQRS.Admin.Category.Queries.Request;
@@ -8,6 +9,7 @@ namespace MyProject.Api.Controllers.Admin
 {
     [Route("api/v1/admin/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : ControllerBase
     {
         private readonly IMediator _mediator;

@@ -54,24 +54,16 @@ builder.Services.AddScoped<IValidator<ContactUsViewModel>, ContactUsViewModelVal
 // "ApiService1" adýnda bir named HttpClient örneði
 builder.Services.AddHttpClient("ApiService1", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7177/api/v1");
+    client.BaseAddress = new Uri("https://localhost:7177/api/v1/");
     client.Timeout = TimeSpan.FromMinutes(10);
     client.DefaultRequestHeaders.Clear();
     
 });
 
-builder.Services.AddHttpClient("admin", client =>
-{
-    client.BaseAddress = new Uri("https://localhost:7177/api/admin");
-    client.Timeout = TimeSpan.FromMinutes(10);
-    client.DefaultRequestHeaders.Clear();
-
-});
-
 
 builder.Services.AddHttpClient("admin", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7177/api/v1/admin");
+    client.BaseAddress = new Uri("https://localhost:7177/api/v1/admin/");
     client.Timeout = TimeSpan.FromMinutes(10);
     client.DefaultRequestHeaders.Clear();
 });
@@ -80,8 +72,11 @@ builder.Services.AddHttpContextAccessor();   // IHttpContextAccessor
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Login/Index";
-        options.LogoutPath = "/Login/Logout";
+        options.LoginPath = "/Login/Index";      // Login sayfan
+        options.LogoutPath = "/Login/Logout";    // Logout sayfan
+        options.AccessDeniedPath = "/Login/Index"; // Yetkisiz eriþim
+
+       
     });
 builder.Services.AddSession();
 
@@ -114,7 +109,7 @@ app.UseAuthorization();
 app.MapAreaControllerRoute(
     name: "MyAreaAdmin",
     areaName: "Admin",
-    pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
+    pattern: "Admin/{controller=AdminHome}/{action=Index}/{id?}");
 
 
 app.MapControllerRoute(

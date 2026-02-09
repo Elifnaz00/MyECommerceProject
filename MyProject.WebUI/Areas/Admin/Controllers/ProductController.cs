@@ -17,15 +17,16 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
-    public class ProductController : Controller
+    public class ProductController : BaseAdminController
     {
-
-        private readonly HttpClient _httpClient;
+       
         private readonly IMapper _mapper;
 
-        public ProductController(IHttpClientFactory httpClientFactory, IMapper mapper)
+        public ProductController(HttpClient httpClient,
+        IHttpContextAccessor contextAccessor, IHttpClientFactory httpClientFactory,
+        IMapper mapper) : base(httpClient, contextAccessor, httpClientFactory)
         {
-            _httpClient = _httpClient = httpClientFactory.CreateClient("admin");
+            
             _mapper = mapper;
         }
 

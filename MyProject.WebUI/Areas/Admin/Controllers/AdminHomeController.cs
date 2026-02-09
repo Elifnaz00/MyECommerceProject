@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.DTO.DTOs.AdminDTOs.ProductDto;
 using MyProject.DTO.DTOs.AdminDTOs.UserDto;
@@ -20,21 +21,20 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
-    public class AdminHomeController : Controller
+    public class AdminHomeController : BaseAdminController
     {
-        private readonly HttpClient _httpClient;
+      
         private readonly IMapper _mapper;
-
-        public AdminHomeController(IHttpClientFactory httpClientFactory, IMapper mapper)
+        public AdminHomeController( HttpClient httpClient, IHttpContextAccessor contextAccessor,IMapper mapper, IHttpClientFactory httpClientFactory)
+        : base(httpClient, contextAccessor, httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient("admin");
             _mapper = mapper;
         }
 
-
         public async Task<IActionResult> Index()
         {
-            var dashBoardResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + "/Dashboard/GetDashboardData");
+
+            var dashBoardResponse = await _httpClient.GetAsync("Dashboard/GetDashboardData");
 
             if (dashBoardResponse.IsSuccessStatusCode)
             {
@@ -48,7 +48,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
 
         public async Task<IActionResult> Customers()
         {
-            var dashBoardResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + "/User/admin-get-userlist");
+            var dashBoardResponse = await _httpClient.GetAsync("User/admin-get-userlist");
             dashBoardResponse.EnsureSuccessStatusCode();
 
             if (dashBoardResponse.IsSuccessStatusCode)
@@ -67,7 +67,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
 
         public async Task<IActionResult> ActiveOrders()
         {
-            var activeOrderResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + "/Order/admin-get-active-orderlist");
+            var activeOrderResponse = await _httpClient.GetAsync("Order/admin-get-active-orderlist");
             if (activeOrderResponse.IsSuccessStatusCode)
             {
                 var activeOrderList = await activeOrderResponse.Content.ReadFromJsonAsync<GetActiveOrderListDto>();
@@ -91,7 +91,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
 
         public async Task<IActionResult> CancelledOrders()
         {
-            var cancelledOrderResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + "/Order/admin-get-cancelled-orderlist");
+            var cancelledOrderResponse = await _httpClient.GetAsync("Order/admin-get-cancelled-orderlist");
             if (cancelledOrderResponse.IsSuccessStatusCode)
             {
                 var cancelledOrderList = await cancelledOrderResponse.Content.ReadFromJsonAsync<List<OrderListDto>>();
@@ -114,7 +114,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
 
         public async Task<IActionResult> AvailableProducts()
         {
-            var availableProductsResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + "/Product/get-avaiable-product-list");
+            var availableProductsResponse = await _httpClient.GetAsync("Product/get-avaiable-product-list");
             if (availableProductsResponse.IsSuccessStatusCode)
             {
                 var availableProductList = await availableProductsResponse.Content.ReadFromJsonAsync<List<ProductListDto>>();
@@ -129,7 +129,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
  
         public async Task<IActionResult> FinishedProducts()
         {
-            var finishedProductsResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + "/Product/get-finished-product-list");
+            var finishedProductsResponse = await _httpClient.GetAsync("Product/get-finished-product-list");
             if (finishedProductsResponse.IsSuccessStatusCode)
             {
                 var finishedProductList = await finishedProductsResponse.Content.ReadFromJsonAsync<List<ProductListDto>>();
@@ -144,7 +144,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
 
         public async Task<IActionResult> RoleAssignUser()
         {
-            var userWithRoleResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + "/User/admin-get-users-with-roles/");
+            var userWithRoleResponse = await _httpClient.GetAsync("User/admin-get-users-with-roles/");
             if (userWithRoleResponse.IsSuccessStatusCode)
             {
                 var userWithRoleDto = await userWithRoleResponse.Content.ReadFromJsonAsync<List<UserWithRoleDto>>();

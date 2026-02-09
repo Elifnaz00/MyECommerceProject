@@ -493,6 +493,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MyProject.Bussines\MyProject.Bussines.csproj" />
     <ProjectReference Include="..\MyProject.DataAccess\MyProject.DataAccess.csproj" />
     <ProjectReference Include="..\MyProject.Entity\MyProject.Entity.csproj" />
   </ItemGroup>

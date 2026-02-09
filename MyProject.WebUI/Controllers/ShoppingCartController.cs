@@ -40,7 +40,7 @@ namespace MyProject.WebUI.Controllers
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
 
-            HttpResponseMessage httpResponse = await client.GetAsync(client.BaseAddress + "/Basket/GetBasket");
+            HttpResponseMessage httpResponse = await client.GetAsync("Basket/GetBasket");
             var response = await httpResponse.Content.ReadFromJsonAsync<ShoppingCartViewModel>();
 
             TempData["BasketMessage"] = "Sepetinizde ürün bulunmamaktadır.";
@@ -54,7 +54,7 @@ namespace MyProject.WebUI.Controllers
             };
             async Task<ViewResult> HandleNotFoundAsync()
             {
-                await client.PostAsync(client.BaseAddress + "/Basket/AddBasket", null);
+                await client.PostAsync("Basket/AddBasket", null);
                 return View(); // boş sepet görünümü
             }
         }

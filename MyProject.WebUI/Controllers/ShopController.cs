@@ -38,7 +38,7 @@ namespace MyProject.WebUI.Controllers
             var client = _httpClientFactory.CreateClient("ApiService1");
 
             // Tüm ürünleri al  
-            HttpResponseMessage httpResponseMessage = await client.GetAsync(client.BaseAddress + "/Product/GetProduct");
+            HttpResponseMessage httpResponseMessage = await client.GetAsync("Product/GetProduct");
             httpResponseMessage.EnsureSuccessStatusCode();
 
             var allProducts = await httpResponseMessage.Content.ReadFromJsonAsync<ProductwithCategoryViewModel>();
@@ -57,7 +57,7 @@ namespace MyProject.WebUI.Controllers
            
 
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("token"));
-            var response= await client.PostAsync(client.BaseAddress + "/BasketItem/AddToBasket", content);
+            var response= await client.PostAsync("BasketItem/AddToBasket", content);
             if(!response.IsSuccessStatusCode)
             {
                 return Json(new
@@ -81,7 +81,7 @@ namespace MyProject.WebUI.Controllers
 
             var client = _httpClientFactory.CreateClient("ApiService1");
             
-            HttpResponseMessage httpResponseMessage = await client.GetAsync(client.BaseAddress + $"/Product/Productbycategory/{categoryId}");
+            HttpResponseMessage httpResponseMessage = await client.GetAsync($"Product/Productbycategory/{categoryId}");
             httpResponseMessage.EnsureSuccessStatusCode();
 
             var products = await httpResponseMessage.Content.ReadFromJsonAsync<ProductwithCategoryViewModel>();
@@ -106,7 +106,7 @@ namespace MyProject.WebUI.Controllers
             try
             {
                 
-                var httpResponseMessage = await client.GetAsync($"{client.BaseAddress}/Product/Productdetail/{id}");
+                var httpResponseMessage = await client.GetAsync($"Product/Productdetail/{id}");
 
                 if (!httpResponseMessage.IsSuccessStatusCode)
                 {
@@ -140,7 +140,7 @@ namespace MyProject.WebUI.Controllers
 
             var client = _httpClientFactory.CreateClient("ApiService1");
            
-            var response = await client.GetAsync(client.BaseAddress + "/Product/GetFiltered?" +
+            var response = await client.GetAsync("Product/GetFiltered?" +
             $"category={category}&size={size}&color={color}&price={price}");
                 
             if (!response.IsSuccessStatusCode)

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using MyProject.Bussines.CQRS.AppUsers.Commands.Response;
 using MyProject.DataAccess.Context;
 using MyProject.Entity.Entities;
 using MyProject.WebUI.Models.UserModel;
@@ -13,6 +14,7 @@ using System.ClientModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace MyProject.WebUI.Controllers
 {
@@ -20,19 +22,15 @@ namespace MyProject.WebUI.Controllers
     public class LoginController : Controller
     {
 
-        private readonly SignInManager<AppUser> _signInManager; 
-        private readonly UserManager<AppUser> _userManager;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-
-        public LoginController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
+        public LoginController(
+            IHttpClientFactory httpClientFactory,
+            IHttpContextAccessor httpContextAccessor)
         {
-            _signInManager = signInManager;
-            _userManager = userManager;
             _httpClientFactory = httpClientFactory;
             _httpContextAccessor = httpContextAccessor;
-
         }
 
         [HttpGet]
@@ -41,123 +39,75 @@ namespace MyProject.WebUI.Controllers
             return View();
         }
 
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(UserLoginViewModel userLoginViewModel)
-        {
-            if(!ModelState.IsValid)
-                return View(userLoginViewModel);
-
-            
-             HttpClient client = _httpClientFactory.CreateClient("ApiService1");
-
-             var response = await client.PostAsJsonAsync(client.BaseAddress + "/User/Login", userLoginViewModel);
-
-            if (response.IsSuccessStatusCode)
-            {
-                
-                var signAppUser = await _userManager.FindByNameAsync(userLoginViewModel.UserName);
-                if (signAppUser != null)
-                {
-                    await _signInManager.SignInAsync(signAppUser, isPersistent: false);
-                    string userToken= await response.Content.ReadAsStringAsync();
-
-                    // Token'dan claim'leri al
-                    var handler = new JwtSecurityTokenHandler();
-                    var token = handler.ReadJwtToken(userToken);
-
-                    var claims = token.Claims.ToList();
-
-                    // Cookie Authentication için identity oluştur
-                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var principal = new ClaimsPrincipal(identity);
-
-                    // Kullanıcıyı cookie ile login et
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
-                 
-                    // Token'ı session'da tut (API isteklerinde kullanılabilir)
-                    _httpContextAccessor?.HttpContext?.Session.SetString("token", userToken);
-
-                    var user = await _userManager.FindByNameAsync(signAppUser.UserName);
-                    var roles = await _userManager.GetRolesAsync(user);
-
-                    if (roles.Contains("Admin"))
-                        return RedirectToAction("Index", "AdminHome", new { area = "Admin" });
-
-                   
-                }
-                return RedirectToAction("Index", "Home");
-            }
-
-            else
-                {
-
-                string apiResponseMessage = await response.Content.ReadAsStringAsync();
-
-                ModelState.AddModelError(string.Empty, apiResponseMessage);
-                    return View(userLoginViewModel);
-                }}
-
-
-
-        [HttpGet]
-        public IActionResult SignUp()
-        {
-            return View();
-        }
-
-
-
-        [ValidateAntiForgeryToken]
-        [HttpPost]
-        public async Task<IActionResult> SignUp(UserRegisterViewModeL userRegisterViewModel)
+        public async Task<IActionResult> Index(UserLoginViewModel model)
         {
             if (!ModelState.IsValid)
-                return View(userRegisterViewModel);
-               
+                return View(model);
 
-                HttpClient client = _httpClientFactory.CreateClient("ApiService1");
+            var client = _httpClientFactory.CreateClient("ApiService1");
 
-                var response = await client.PostAsJsonAsync(client.BaseAddress + "/User/Register", userRegisterViewModel);
+            var response = await client.PostAsJsonAsync("User/Login", model);
+            var raw = await response.Content.ReadAsStringAsync();
 
-                if (response.IsSuccessStatusCode)
-                {
-                    ViewBag.Success = "Kayıt işlemi başarılı. Giriş yapabilirsiniz.";
-                    return RedirectToAction("Index", "Login");
-                }
-                else
-                {
-                    string errorMessage= await response.Content.ReadAsStringAsync();
-                    ModelState.AddModelError(string.Empty, $"Kayıt işlemi başarısız: {errorMessage}");
+            var loginResponse = JsonSerializer.Deserialize<LoginUserCommandResponse>(raw,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            // 🔴 Null check ve fallback message
+            if (loginResponse == null)
+            {
+                ModelState.AddModelError("", "Sunucudan geçersiz yanıt alındı.");
+                return View(model);
             }
-            
-            return View(userRegisterViewModel);}
 
+            if (!loginResponse.IsSuccess)
+            {
+                var errorMessage = string.IsNullOrWhiteSpace(loginResponse.Message)
+                                   ? "Kullanıcı adı veya şifre hatalı."
+                                   : loginResponse.Message;
 
-        [HttpPost("Logout")]
+                ModelState.AddModelError("", errorMessage);
+                return View(model);
+            }
+
+            if (loginResponse.Token == null || string.IsNullOrWhiteSpace(loginResponse.Token.AccessToken))
+            {
+                ModelState.AddModelError("", "Token alınamadı.");
+                return View(model);
+            }
+
+            var accessToken = loginResponse.Token.AccessToken;
+
+            // 🔑 JWT → CLAIMS
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(accessToken);
+            var claims = jwtToken.Claims.ToList();
+
+            // 🍪 COOKIE LOGIN
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+            // 🔐 TOKEN SESSION
+            _httpContextAccessor.HttpContext!.Session.SetString("token", accessToken);
+
+            // 🔁 ROLE BASED REDIRECT
+            if (claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Admin"))
+               return RedirectToAction("Index", "AdminHome", new { area = "Admin" });
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            HttpClient client = _httpClientFactory.CreateClient("ApiService1");
-            var response = await client.PostAsync(client.BaseAddress + "/User/Logout", null);
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme);
 
-            if(response.IsSuccessStatusCode)
-            {
-                await _signInManager.SignOutAsync();
+            HttpContext.Session.Clear();
 
-                HttpContext.Session.Clear();
-
-                Response.Cookies.Delete(".AspNetCore.Identity.Application");
-                return RedirectToAction("Index", "Login");
-            }
-            else
-            {
-                string errorMessage = await response.Content.ReadAsStringAsync();
-                ModelState.AddModelError(string.Empty, $"Çıkış işlemi başarısız: {errorMessage}");
-
-            }
             return RedirectToAction("Index", "Login");
         }
     }

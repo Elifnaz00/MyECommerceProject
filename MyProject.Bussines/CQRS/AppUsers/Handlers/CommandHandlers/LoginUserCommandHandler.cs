@@ -3,14 +3,16 @@ using Azure;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using MyProject.Bussines.CQRS.AppUsers.Commands.Request;
 using MyProject.Bussines.CQRS.AppUsers.Commands.Response;
 using MyProject.Bussines.TokenServices;
-using MyProject.Bussines.CQRS.AppUsers.Commands.Request;
 using MyProject.Entity.Entities;
 using MyProject.TokenDTOs.Token;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,33 +38,21 @@ namespace MyProject.DataAccess.CQRS.AppUsers.Handlers.CommandHandlers
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user is null)
-            {
-                return new LoginUserCommandResponse
-                {
-                    Message = "Kullanıcı bulunamadı",
-                    IsSuccess= false
-                };
-            }
-            var result = await _userManager.CheckPasswordAsync(user, request.Password);
+                return new LoginUserCommandResponse { Message = "Kullanıcı bulunamadı", IsSuccess = false };
 
-            if (result)
-            {
-                Token token = _tokenHandler.CreateAccesToken(60, user.UserName, user.Id);
+            var passwordValid = await _userManager.CheckPasswordAsync(user, request.Password);
+            if (!passwordValid)
+                return new LoginUserCommandResponse { Message = "Kullanıcı adı veya şifre hatalı.", IsSuccess = false };
 
+            // ✅ Async token üret, rol claim dahil
+            Token token = await _tokenHandler.CreateAccessTokenAsync(user, _userManager, 60);
 
-                return new LoginUserCommandResponse
-                {
-                    Message = "Başarılı bir şekilde giriş yapıldı.",
-                    Token = token,
-                    IsSuccess = true,
-                };
-            }
             return new LoginUserCommandResponse
             {
-                Message = "Kullanıcı adı veya şifre hatalı.",
-                IsSuccess= false
+                IsSuccess = true,
+                Message = "Başarılı giriş.",
+                Token = token
             };
-
         }
     }
 }
