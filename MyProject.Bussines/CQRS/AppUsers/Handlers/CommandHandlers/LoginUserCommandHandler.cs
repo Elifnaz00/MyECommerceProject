@@ -44,6 +44,8 @@ namespace MyProject.DataAccess.CQRS.AppUsers.Handlers.CommandHandlers
             if (!passwordValid)
                 return new LoginUserCommandResponse { Message = "Kullanıcı adı veya şifre hatalı.", IsSuccess = false };
 
+            await _signInManager.PasswordSignInAsync(user, request.Password, false, false);
+
             // ✅ Async token üret, rol claim dahil
             Token token = await _tokenHandler.CreateAccessTokenAsync(user, _userManager, 60);
 

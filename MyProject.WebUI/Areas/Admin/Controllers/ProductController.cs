@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.DTO.DTOs.AdminDTOs.CategoryDto;
@@ -33,7 +34,8 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var getByIdProductResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + $"/Product/get-by-id-product/{id}");
+            var client = CreateClient();
+            var getByIdProductResponse = await client.GetAsync(_httpClient.BaseAddress + $"/Product/get-by-id-product/{id}");
             
             if (getByIdProductResponse.IsSuccessStatusCode)
             {
@@ -51,13 +53,13 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditProductViewModel editProductViewModel)
         {
-           
+            var client = CreateClient();
             var content = new StringContent(
             JsonConvert.SerializeObject(editProductViewModel),
             Encoding.UTF8,
             "application/json"
 );
-            var getByIdProductResponse = await _httpClient.PutAsync(_httpClient.BaseAddress + $"/Product/update-product/{editProductViewModel.Id}", content);
+            var getByIdProductResponse = await client.PutAsync(_httpClient.BaseAddress + $"/Product/update-product/{editProductViewModel.Id}", content);
             return RedirectToAction("AvailableProducts", "AdminHome");
         }
 
@@ -65,7 +67,8 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var getCategorytResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + $"/Category/get-categories");
+            var client = CreateClient();
+            var getCategorytResponse = await client.GetAsync(_httpClient.BaseAddress + $"/Category/get-categories");
             var categoryList = await getCategorytResponse.Content.ReadFromJsonAsync<List<CategoryDto>>();
             var cerateProductVM = new CreateProductViewModel{
                 CategoryDtos = categoryList ?? new List<CategoryDto>()
@@ -77,13 +80,13 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductViewModel createProductViewModel)
         {
-
+            var client = CreateClient();
             var content = new StringContent(
             JsonConvert.SerializeObject(createProductViewModel),
             Encoding.UTF8,
             "application/json"
 );
-            var getByIdProductResponse = await _httpClient.PostAsync(_httpClient.BaseAddress + $"/Product/create-product", content);
+            var getByIdProductResponse = await client.PostAsync(_httpClient.BaseAddress + $"/Product/create-product", content);
             return RedirectToAction("AvailableProducts", "AdminHome");
         }
 
@@ -91,7 +94,8 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ProductDetailModal(Guid id)
         {
-            var detailProductResponse = await _httpClient.GetAsync(_httpClient.BaseAddress + $"/Product/detail-product/{id}");
+            var client = CreateClient();
+            var detailProductResponse = await client.GetAsync(_httpClient.BaseAddress + $"/Product/detail-product/{id}");
             if (detailProductResponse.IsSuccessStatusCode)
             {
                 var detailProductVM = await detailProductResponse.Content.ReadFromJsonAsync<ProductDetailDto>();

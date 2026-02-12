@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using MyProject.Bussines.CQRS.AppUsers.Commands.Response;
 using MyProject.DataAccess.Context;
@@ -24,13 +25,15 @@ namespace MyProject.WebUI.Controllers
 
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        readonly UserManager<AppUser> _userManager;
 
         public LoginController(
             IHttpClientFactory httpClientFactory,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor, UserManager<AppUser> userManager)
         {
             _httpClientFactory = httpClientFactory;
             _httpContextAccessor = httpContextAccessor;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -77,25 +80,40 @@ namespace MyProject.WebUI.Controllers
                 return View(model);
             }
 
-            var accessToken = loginResponse.Token.AccessToken;
-
-            // 🔑 JWT → CLAIMS
+            // JWT token'dan kullanıcı bilgilerini al
             var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(accessToken);
-            var claims = jwtToken.Claims.ToList();
+            var jwtToken = handler.ReadJwtToken(loginResponse.Token.AccessToken);
 
-            // 🍪 COOKIE LOGIN
+            var userName = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name || c.Type == "unique_name")?.Value;
+            var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier || c.Type == "sub")?.Value;
+            var roleName = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, userName ?? ""),
+                new Claim(ClaimTypes.NameIdentifier, userId ?? ""),
+                new Claim(ClaimTypes.Role, roleName ?? "")
+            };
+
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, principal);
 
-            // 🔐 TOKEN SESSION
-            _httpContextAccessor.HttpContext!.Session.SetString("token", accessToken);
+            Response.Cookies.Append("ApiAccessToken",
+            loginResponse.Token.AccessToken,
+            new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTimeOffset.UtcNow.AddMinutes(60)
+            });
 
-            // 🔁 ROLE BASED REDIRECT
-            if (claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Admin"))
-               return RedirectToAction("Index", "AdminHome", new { area = "Admin" });
+            HttpContext.Session.SetString("IsLoggedIn", "true");
+            // 🔁 Role-based redirect  
+            if (roleName == "Admin")
+                return RedirectToAction("Index", "AdminHome", new { area = "Admin" });
 
             return RedirectToAction("Index", "Home");
         }
@@ -106,6 +124,7 @@ namespace MyProject.WebUI.Controllers
             await HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme);
 
+            Response.Cookies.Delete("ApiAccessToken");
             HttpContext.Session.Clear();
 
             return RedirectToAction("Index", "Login");

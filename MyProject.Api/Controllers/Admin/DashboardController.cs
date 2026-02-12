@@ -17,7 +17,7 @@ namespace MyProject.Api.Controllers.Admin
             _mediator = mediator;
         }
 
-        [HttpGet("GetDashboardData")]
+        [HttpGet("get-dashboard-data")]
         public async Task<IActionResult> GetDashboardData()
         {
             var dashboardResponse= await _mediator.Send(new GetDashboardDataQueryRequest());

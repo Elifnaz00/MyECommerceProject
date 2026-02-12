@@ -1,5 +1,6 @@
-using FluentValidation;
+ï»¿using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,12 +22,6 @@ builder.Services.AddAutoMapper(typeof(Map));
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(120); // oturum süresi
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
 
 
 builder.Services.AddDbContext<MyProjectContext>(options =>
@@ -39,19 +34,21 @@ builder.Services.AddDbContext<MyProjectContext>(options =>
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.User.AllowedUserNameCharacters =
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+çðýöþüÇÐÝÖÞÜ";
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+Ã§ÄŸÄ±Ã¶ÅŸÃ¼Ã‡ÄžÄ°Ã–ÅžÃœ";
 
     options.User.RequireUniqueEmail = true;
 });
 
-// 2. Sonra Identity eklenir
+
 builder.Services.AddIdentity<AppUser, AppRole>()
     .AddEntityFrameworkStores<MyProjectContext>()
     .AddDefaultTokenProviders();
+
+
+
 builder.Services.AddScoped<IValidator<ContactUsViewModel>, ContactUsViewModelValidator>();
 
 
-// "ApiService1" adýnda bir named HttpClient örneði
 builder.Services.AddHttpClient("ApiService1", client =>
 {
     client.BaseAddress = new Uri("https://localhost:7177/api/v1/");
@@ -69,21 +66,37 @@ builder.Services.AddHttpClient("admin", client =>
 });
 
 builder.Services.AddHttpContextAccessor();   // IHttpContextAccessor
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Login/Index";      // Login sayfan
-        options.LogoutPath = "/Login/Logout";    // Logout sayfan
-        options.AccessDeniedPath = "/Login/Index"; // Yetkisiz eriþim
 
-       
-    });
-builder.Services.AddSession();
+
+builder.Services.ConfigureApplicationCookie(opts => // birden fazla yÃ¶nlerdirme hatasÃ½ aldÃ½m bunun ile Ã§Ã¶zÃ¼ldÃ¼
+{
+    //Cookie settings
+    opts.Cookie.HttpOnly = true;
+    opts.ExpireTimeSpan = TimeSpan.FromMinutes(100);
+    opts.AccessDeniedPath = new PathString("/Login/AccessDenied/");  //yetkisi olmayan sayfalarda gideceÃ°i path 
+    opts.LoginPath = "/Login";
+    opts.SlidingExpiration = true;
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.DefaultPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+});
+
+builder.Services.AddSession(options => {
+    options.Cookie.Name = ".DotNetCore.Session";
+    options.IdleTimeout = TimeSpan.FromMinutes(1);
+    options.Cookie.IsEssential = true;
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddDistributedMemoryCache(); 
 
 
 var app = builder.Build();
-// Middleware’lere session'ý ekle
-app.UseSession();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -100,10 +113,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 
 app.MapAreaControllerRoute(

@@ -33,7 +33,7 @@ namespace MyProject.Bussines.TokenServices
 
             // 3️⃣ Rol claim ekle
             claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
-
+            
             // 4️⃣ SymmetricSecurityKey
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
 
