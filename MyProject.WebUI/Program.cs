@@ -11,6 +11,8 @@ using MyProject.Entity.Entities;
 using MyProject.WebUI.Mapping;
 using MyProject.WebUI.Models.ContactModel;
 using MyProject.WebUI.Validations;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
 
 
@@ -48,13 +50,15 @@ builder.Services.AddIdentity<AppUser, AppRole>()
 
 builder.Services.AddScoped<IValidator<ContactUsViewModel>, ContactUsViewModelValidator>();
 
-
+builder.Services.AddHttpClient();
 builder.Services.AddHttpClient("ApiService1", client =>
 {
     client.BaseAddress = new Uri("https://localhost:7177/api/v1/");
     client.Timeout = TimeSpan.FromMinutes(10);
-    client.DefaultRequestHeaders.Clear();
-    
+    client.DefaultRequestHeaders
+      .Accept
+      .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
 });
 
 
@@ -62,7 +66,8 @@ builder.Services.AddHttpClient("admin", client =>
 {
     client.BaseAddress = new Uri("https://localhost:7177/api/v1/admin/");
     client.Timeout = TimeSpan.FromMinutes(10);
-    client.DefaultRequestHeaders.Clear();
+    
+
 });
 
 builder.Services.AddHttpContextAccessor();   // IHttpContextAccessor

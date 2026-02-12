@@ -10,16 +10,15 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class BaseAdminController : Controller
     {
-        protected readonly HttpClient _httpClient;
-        protected readonly IHttpContextAccessor _contextAccessor;
         protected readonly IHttpClientFactory _httpClientFactory;
+        protected readonly IHttpContextAccessor _contextAccessor;
 
-        protected BaseAdminController(HttpClient httpClient, IHttpContextAccessor contextAccessor, IHttpClientFactory httpClientFactory)
+        protected BaseAdminController(
+            IHttpClientFactory httpClientFactory,
+            IHttpContextAccessor contextAccessor)
         {
-            _contextAccessor = contextAccessor;
-
             _httpClientFactory = httpClientFactory;
-
+            _contextAccessor = contextAccessor;
         }
 
         protected HttpClient CreateClient()
@@ -27,7 +26,6 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
             var client = _httpClientFactory.CreateClient("admin");
 
             var token = HttpContext.Request.Cookies["ApiAccessToken"];
-
             if (!string.IsNullOrEmpty(token))
             {
                 client.DefaultRequestHeaders.Authorization =

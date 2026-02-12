@@ -23,9 +23,10 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
        
         private readonly IMapper _mapper;
 
-        public ProductController(HttpClient httpClient,
-        IHttpContextAccessor contextAccessor, IHttpClientFactory httpClientFactory,
-        IMapper mapper) : base(httpClient, contextAccessor, httpClientFactory)
+        public ProductController(IHttpClientFactory httpClientFactory,
+             IHttpContextAccessor contextAccessor,
+             IMapper mapper)
+             : base(httpClientFactory, contextAccessor)
         {
             
             _mapper = mapper;
@@ -35,7 +36,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(Guid id)
         {
             var client = CreateClient();
-            var getByIdProductResponse = await client.GetAsync(_httpClient.BaseAddress + $"/Product/get-by-id-product/{id}");
+            var getByIdProductResponse = await client.GetAsync("Product/get-by-id-product/{id}");
             
             if (getByIdProductResponse.IsSuccessStatusCode)
             {
@@ -59,7 +60,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
             Encoding.UTF8,
             "application/json"
 );
-            var getByIdProductResponse = await client.PutAsync(_httpClient.BaseAddress + $"/Product/update-product/{editProductViewModel.Id}", content);
+            var getByIdProductResponse = await client.PutAsync("Product/update-product/{editProductViewModel.Id}", content);
             return RedirectToAction("AvailableProducts", "AdminHome");
         }
 
@@ -68,7 +69,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> Create()
         {
             var client = CreateClient();
-            var getCategorytResponse = await client.GetAsync(_httpClient.BaseAddress + $"/Category/get-categories");
+            var getCategorytResponse = await client.GetAsync("Category/get-categories");
             var categoryList = await getCategorytResponse.Content.ReadFromJsonAsync<List<CategoryDto>>();
             var cerateProductVM = new CreateProductViewModel{
                 CategoryDtos = categoryList ?? new List<CategoryDto>()
@@ -86,7 +87,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
             Encoding.UTF8,
             "application/json"
 );
-            var getByIdProductResponse = await client.PostAsync(_httpClient.BaseAddress + $"/Product/create-product", content);
+            var getByIdProductResponse = await client.PostAsync( "Product/create-product", content);
             return RedirectToAction("AvailableProducts", "AdminHome");
         }
 
@@ -95,7 +96,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> ProductDetailModal(Guid id)
         {
             var client = CreateClient();
-            var detailProductResponse = await client.GetAsync(_httpClient.BaseAddress + $"/Product/detail-product/{id}");
+            var detailProductResponse = await client.GetAsync("Product/detail-product/{id}");
             if (detailProductResponse.IsSuccessStatusCode)
             {
                 var detailProductVM = await detailProductResponse.Content.ReadFromJsonAsync<ProductDetailDto>();

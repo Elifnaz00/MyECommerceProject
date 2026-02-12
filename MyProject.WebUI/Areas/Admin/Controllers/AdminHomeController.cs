@@ -26,16 +26,19 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
     {
       
         private readonly IMapper _mapper;
-        public AdminHomeController( HttpClient httpClient, IHttpContextAccessor contextAccessor,IMapper mapper, IHttpClientFactory httpClientFactory)
-        : base(httpClient, contextAccessor, httpClientFactory)
+        public AdminHomeController(
+             IHttpClientFactory httpClientFactory,
+             IHttpContextAccessor contextAccessor,
+             IMapper mapper)
+             : base(httpClientFactory, contextAccessor)
         {
             _mapper = mapper;
         }
-
         public async Task<IActionResult> Index()
         {
             var client = CreateClient();
             var dashBoardResponse = await client.GetAsync("Dashboard/get-dashboard-data");
+            
 
             if (dashBoardResponse.IsSuccessStatusCode)
             {
