@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -39,7 +40,6 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
             var client = CreateClient();
             var dashBoardResponse = await client.GetAsync("Dashboard/get-dashboard-data");
             
-
             if (dashBoardResponse.IsSuccessStatusCode)
             {
                 var EmpResponse = await dashBoardResponse.Content.ReadFromJsonAsync<DashboardViewModel>() ;

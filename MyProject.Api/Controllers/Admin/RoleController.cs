@@ -1,18 +1,19 @@
-﻿using System.Web.Http.Results;
-using MediatR;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Bussines.CQRS.Admin.Role.Commands.Request;
 using MyProject.Bussines.CQRS.Admin.Role.Queries.Request;
 using MyProject.DTO.DTOs.AdminDTOs.RoleDto;
+using System.Web.Http.Results;
 
 
 namespace MyProject.Api.Controllers.Admin
 {
     [Route("api/v1/admin/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     public class RoleController : ControllerBase
     {
 

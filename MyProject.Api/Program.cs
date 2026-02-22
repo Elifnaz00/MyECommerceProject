@@ -49,7 +49,7 @@ services.AddIdentity<AppUser, AppRole>(
     }).AddEntityFrameworkStores<MyProjectContext>()
     .AddDefaultTokenProviders().AddErrorDescriber<CustomIdentityErrorDescriber>();
 
-services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme) 
     .AddJwtBearer(options =>
     {
     options.TokenValidationParameters = new()

@@ -66,7 +66,11 @@ builder.Services.AddHttpClient("admin", client =>
 {
     client.BaseAddress = new Uri("https://localhost:7177/api/v1/admin/");
     client.Timeout = TimeSpan.FromMinutes(10);
-    
+    client.DefaultRequestHeaders
+      .Accept
+      .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+
 
 });
 
