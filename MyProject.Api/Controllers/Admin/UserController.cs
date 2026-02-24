@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyProject.Bussines.CQRS.Admin.User.Commands.Request;
 using MyProject.Bussines.CQRS.Admin.User.Queries.Request;
+using MyProject.Bussines.CQRS.AppUsers.Commands.Request;
 
 namespace MyProject.Api.Controllers.Admin
 {
@@ -35,5 +37,11 @@ namespace MyProject.Api.Controllers.Admin
             return Ok(response);
         }
 
+        [HttpPost("admin-logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var response = await _mediator.Send(new LogoutAdminCommandRequest());
+            return Ok(response);
+        }
     }
 }

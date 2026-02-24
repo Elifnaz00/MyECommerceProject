@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Azure;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.DTO.DTOs.AdminDTOs.ProductDto;
 using MyProject.DTO.DTOs.AdminDTOs.UserDto;
@@ -25,7 +28,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminHomeController : BaseAdminController
     {
-      
+
         private readonly IMapper _mapper;
         public AdminHomeController(
              IHttpClientFactory httpClientFactory,
@@ -39,10 +42,10 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         {
             var client = CreateClient();
             var dashBoardResponse = await client.GetAsync("Dashboard/get-dashboard-data");
-            
+
             if (dashBoardResponse.IsSuccessStatusCode)
             {
-                var EmpResponse = await dashBoardResponse.Content.ReadFromJsonAsync<DashboardViewModel>() ;
+                var EmpResponse = await dashBoardResponse.Content.ReadFromJsonAsync<DashboardViewModel>();
                 return View(EmpResponse);
             }
 
@@ -134,7 +137,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         }
 
 
- 
+
         public async Task<IActionResult> FinishedProducts()
         {
             var client = CreateClient();
@@ -166,5 +169,21 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         }
 
 
+        public async Task<IActionResult> Logout()
+        {
+            var client = CreateClient();
+            var logoutResponse = await client.PostAsync("User/admin-logout", null);
+            if (logoutResponse.IsSuccessStatusCode)
+            {
+                await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+                Response.Cookies.Delete("ApiAccessToken");
+                HttpContext.Session.Clear();
+
+                return RedirectToAction("Index", "Home", new { area = "" });
+            }
+            return RedirectToAction("Index", "AdminHome", new { area = "Admin" });
+
+
+        }
     }
 }

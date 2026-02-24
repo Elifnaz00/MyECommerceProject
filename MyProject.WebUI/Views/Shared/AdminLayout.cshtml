@@ -1,9 +1,11 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
+
 @{
+    var token = Context.Request.Cookies["ApiAccessToken"];
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en">    
 
 
 <!-- blank.html  21 Nov 2019 03:54:41 GMT -->
@@ -78,7 +80,8 @@
                         </div>
                     </li>
                     <form id="logoutForm"
-                          asp-controller="Login"
+                        asp-area="Admin"
+                          asp-controller="AdminHome"
                           asp-action="Logout"
                           method="post"
                           style="display:none;">
@@ -289,10 +292,16 @@
     <script src="~/Themes/otika-bootstrap-admin-template/assets/js/custom.js"></script>
 
     <script>
+           const token = "@(token ?? "")";
+        
                async function deleteEntity(url, clickedElement) {
             try {
-                await axios.delete(url);
 
+                await axios.delete(url, {
+                     headers: {
+                     Authorization: `Bearer ${token}`
+          }
+        });
                 await Swal.fire({
                     title: "Silindi!",
                     text: "İşlem başarıyla tamamlandı.",
@@ -313,7 +322,11 @@
 
         async function updateEntity(url, body) {
             try {
-                await axios.put(url, body);
+                await axios.put(url, body, {
+                    headers: {
+                     Authorization: `Bearer ${token}`
+          }
+                });
 
                 Swal.fire({
                     title: "Güncellendi!",

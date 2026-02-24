@@ -36,7 +36,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(Guid id)
         {
             var client = CreateClient();
-            var getByIdProductResponse = await client.GetAsync("Product/get-by-id-product/{id}");
+            var getByIdProductResponse = await client.GetAsync($"Product/get-by-id-product/{id}");
             
             if (getByIdProductResponse.IsSuccessStatusCode)
             {
@@ -60,7 +60,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
             Encoding.UTF8,
             "application/json"
 );
-            var getByIdProductResponse = await client.PutAsync("Product/update-product/{editProductViewModel.Id}", content);
+            var getByIdProductResponse = await client.PutAsync($"Product/update-product/{editProductViewModel.Id}", content);
             return RedirectToAction("AvailableProducts", "AdminHome");
         }
 
