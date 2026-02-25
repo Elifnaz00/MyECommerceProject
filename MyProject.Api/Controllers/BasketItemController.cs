@@ -1,5 +1,5 @@
-﻿using System.Security.Claims;
-using MediatR;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,12 +8,14 @@ using MyProject.Bussines.CQRS.BasketItem.Commands.Request;
 using MyProject.Bussines.CQRS.BasketItem.Queries.Request;
 using MyProject.DTO.DTOs.BasketItemDTOs;
 using MyProject.Entity.Entities;
+using System.Security.Claims;
 
 namespace MyProject.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     public class BasketItemController : Controller
     {
         private readonly IMediator _mediator;

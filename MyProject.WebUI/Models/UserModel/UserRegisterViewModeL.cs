@@ -19,6 +19,7 @@ namespace MyProject.WebUI.Models.UserModel
         [EmailAddress(ErrorMessage = "Geçerli bir e-posta adresi giriniz.")]
         public string Email { get; set; }
 
+
         [Required(ErrorMessage ="Şifre Gereklidir.")]
         [Display(Name = "Şifre")]
         public string Password { get; set; }

@@ -40,7 +40,7 @@ services.AddIdentity<AppUser, AppRole>(
         // Password settings
         options.Password.RequireDigit = true;
         options.Password.RequireNonAlphanumeric = true;
-        options.Password.RequireUppercase = false;
+        options.Password.RequireUppercase = true;
         options.Password.RequireLowercase = true;
         options.User.AllowedUserNameCharacters =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+çðýöþüÇÐÝÖÞÜ";

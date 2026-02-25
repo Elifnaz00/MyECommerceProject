@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/Layout.cshtml";
+    var token = Context.Request.Cookies["ApiAccessToken"];
 }
 
 
@@ -159,6 +160,7 @@
 
 @section scripts{
     <script>
+         const token = "@(token ?? "")";
 
         $(document).ready(function () {
            $(document).on('click', '.add-to-cart-btn', function (e) {
@@ -201,8 +203,11 @@
                                 if (result.isConfirmed) {
                                     window.location.href = '/ShoppingCart/Index'; 
                             }
+                               
 								            });
-							} else {
+                                 
+							} 
+                            else {
 								// Sepete ekleme başarısızsa
 								Swal.fire({
 									icon: 'error',

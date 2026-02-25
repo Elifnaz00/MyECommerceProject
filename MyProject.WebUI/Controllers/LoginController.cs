@@ -42,6 +42,8 @@ namespace MyProject.WebUI.Controllers
             return View();
         }
 
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(UserLoginViewModel model)
@@ -118,16 +120,49 @@ namespace MyProject.WebUI.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme);
+               IdentityConstants.ApplicationScheme);
 
             Response.Cookies.Delete("ApiAccessToken");
             HttpContext.Session.Clear();
 
             return RedirectToAction("Index", "Login");
+        }
+
+
+        [HttpGet]
+        public IActionResult SignUp()
+        {
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> SignUp(UserRegisterViewModeL userRegisterViewModeL)
+        {
+            if (!ModelState.IsValid)
+                return View(userRegisterViewModeL);
+
+            var client = _httpClientFactory.CreateClient("ApiService1");
+
+            var response = await client.PostAsJsonAsync("User/Register", userRegisterViewModeL);
+
+            if (response.IsSuccessStatusCode)
+            {
+                ViewBag.Success = "Kayıt başarılı. Giriş yapabilirsiniz.";
+                return View();
+            }
+
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError(string.Empty, errorMessage);
+
+            return View(userRegisterViewModeL);
         }
     }
 }

@@ -1,15 +1,13 @@
-﻿using System.Drawing;
-using System.Text;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using MyProject.DTO.DTOs.BasketItemDTOs;
 using MyProject.DTO.Models.BasketViewModel;
-
 using MyProject.WebUI.Models.ProductModel;
-
 using MyProject.WebUI.Models.ShoppingCartModel;
 using Newtonsoft.Json;
+using System.Drawing;
+using System.Net.Http.Headers;
+using System.Text;
 
 
 namespace MyProject.WebUI.Controllers
@@ -29,15 +27,15 @@ namespace MyProject.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var token = HttpContext?.Session.GetString("token");
-            if (string.IsNullOrEmpty(token))
-            {
-                return RedirectToAction("Index", "Login");
-            }
+            
 
             HttpClient client = _httpClientFactory.CreateClient("ApiService1");
-
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            var token = HttpContext.Request.Cookies["ApiAccessToken"];
+            if (!string.IsNullOrEmpty(token))
+            {
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+            }
 
 
             HttpResponseMessage httpResponse = await client.GetAsync("Basket/GetBasket");

@@ -1,19 +1,20 @@
-﻿using System.Security.Claims;
-using MediatR;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Bussines.CQRS.Baskets.Queries.Request;
-
 using MyProject.DTO.DTOs.BasketDTOs;
 using MyProject.DTO.Models.BasketViewModel;
 using MyProject.Entity.Entities;
+using System.Security.Claims;
 
 namespace MyProject.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     public class BasketController : ControllerBase
     {
 

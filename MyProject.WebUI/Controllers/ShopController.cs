@@ -1,20 +1,19 @@
 ﻿using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
+using Microsoft.OpenApi.Writers;
 using MyProject.DataAccess.Context;
+using MyProject.DTO.Models.BasketItemViewModel;
 using MyProject.Entity.Entities;
-
+using MyProject.WebUI.Models.BasketItemModel;
 using MyProject.WebUI.Models.ProductModel;
-
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.CodeAnalysis;
-using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
-using Microsoft.OpenApi.Writers;
-using MyProject.DTO.Models.BasketItemViewModel;
-using MyProject.WebUI.Models.BasketItemModel;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 
 namespace MyProject.WebUI.Controllers
@@ -54,9 +53,15 @@ namespace MyProject.WebUI.Controllers
                                             {
                                                 ProductId = productId,   
                                             }), Encoding.UTF8, "application/json"  );
-           
 
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("token"));
+            var token = HttpContext.Request.Cookies["ApiAccessToken"];
+            if (!string.IsNullOrEmpty(token))
+            {
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+            }
+
+           
             var response= await client.PostAsync("BasketItem/AddToBasket", content);
             if(!response.IsSuccessStatusCode)
             {

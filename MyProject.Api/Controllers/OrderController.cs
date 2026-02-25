@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +10,10 @@ using MyProject.DTO.DTOs.OrderDTOs;
 
 namespace MyProject.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     public class OrderController : ControllerBase
     {
         private readonly IMediator _mediator;

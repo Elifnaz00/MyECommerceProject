@@ -41,6 +41,8 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = true;
 });
 
+builder.Services.AddAuthentication()
+    .AddBearerToken(IdentityConstants.BearerScheme);
 
 builder.Services.AddIdentity<AppUser, AppRole>()
     .AddEntityFrameworkStores<MyProjectContext>()
@@ -83,7 +85,7 @@ builder.Services.ConfigureApplicationCookie(opts => // birden fazla yönlerdirme
     opts.Cookie.HttpOnly = true;
     opts.ExpireTimeSpan = TimeSpan.FromMinutes(100);
     opts.AccessDeniedPath = new PathString("/Login/AccessDenied/");  //yetkisi olmayan sayfalarda gideceði path 
-    opts.LoginPath = "/Login";
+    opts.LoginPath = "/Login/Index";
     opts.SlidingExpiration = true;
 });
 
