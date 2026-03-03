@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MyProject.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class dataa : Migration
+    public partial class sonhalii : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +17,7 @@ namespace MyProject.DataAccess.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false, defaultValueSql: "NEWID()"),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -100,20 +100,6 @@ namespace MyProject.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Galleries",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Galleries", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "OrderStatuses",
                 columns: table => new
                 {
@@ -139,22 +125,6 @@ namespace MyProject.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaymentStatuses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SocialMedias",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SocialMediaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SocialMedias", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -425,11 +395,11 @@ namespace MyProject.DataAccess.Migrations
                 columns: new[] { "Id", "CreateDate", "IsDeleted", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("22222222-2222-2222-2222-222222222222"), new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1401), false, "Await Payment" },
-                    { new Guid("55555555-5555-5555-5555-555555555555"), new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1405), false, "Processing" },
-                    { new Guid("66666666-6666-6666-6666-666666666666"), new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1407), false, "Shipped" },
-                    { new Guid("77777777-7777-7777-7777-777777777777"), new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1409), false, "Delivered" },
-                    { new Guid("88888888-8888-8888-8888-888888888888"), new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1412), false, "Cancelled" }
+                    { new Guid("22222222-2222-2222-2222-222222222222"), new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9795), false, "Await Payment" },
+                    { new Guid("55555555-5555-5555-5555-555555555555"), new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9799), false, "Processing" },
+                    { new Guid("66666666-6666-6666-6666-666666666666"), new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9801), false, "Shipped" },
+                    { new Guid("77777777-7777-7777-7777-777777777777"), new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9803), false, "Delivered" },
+                    { new Guid("88888888-8888-8888-8888-888888888888"), new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9815), false, "Cancelled" }
                 });
 
             migrationBuilder.InsertData(
@@ -437,9 +407,9 @@ namespace MyProject.DataAccess.Migrations
                 columns: new[] { "Id", "CreateDate", "IsDeleted", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1248), false, "Pending" },
-                    { new Guid("33333333-3333-3333-3333-333333333333"), new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1264), false, "Paid" },
-                    { new Guid("44444444-4444-4444-4444-444444444444"), new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1266), false, "Refunded" }
+                    { new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9640), false, "Pending" },
+                    { new Guid("33333333-3333-3333-3333-333333333333"), new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9660), false, "Paid" },
+                    { new Guid("44444444-4444-4444-4444-444444444444"), new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9663), false, "Refunded" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -551,13 +521,7 @@ namespace MyProject.DataAccess.Migrations
                 name: "Contacts");
 
             migrationBuilder.DropTable(
-                name: "Galleries");
-
-            migrationBuilder.DropTable(
                 name: "Orders");
-
-            migrationBuilder.DropTable(
-                name: "SocialMedias");
 
             migrationBuilder.DropTable(
                 name: "Subscrabes");

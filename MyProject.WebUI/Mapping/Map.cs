@@ -22,7 +22,7 @@ namespace MyProject.WebUI.Mapping
     public class Map: Profile
     {
         public Map() {
-            CreateMap<Entrance, CreateEntranceViewModel>().ReverseMap();
+          
             CreateMap<CategoryListDTO, CategoryListViewModel>().ReverseMap();
             CreateMap<Product, Models.ProductModel.ProductListViewModel>().ReverseMap();
             CreateMap<Product, ProductByCategoryViewModel>().ReverseMap();

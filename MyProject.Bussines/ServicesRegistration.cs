@@ -35,7 +35,6 @@ namespace MyProject.Bussines
         public static void AddServices(IServiceCollection services)
         {
             
-            services.AddScoped<IEntranceRepository, EntranceRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();

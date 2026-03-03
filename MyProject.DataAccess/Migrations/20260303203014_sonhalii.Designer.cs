@@ -12,15 +12,15 @@ using MyProject.DataAccess.Context;
 namespace MyProject.DataAccess.Migrations
 {
     [DbContext(typeof(MyProjectContext))]
-    [Migration("20251117210522_dataa")]
-    partial class dataa
+    [Migration("20260303203014_sonhalii")]
+    partial class sonhalii
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.22")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -143,7 +143,9 @@ namespace MyProject.DataAccess.Migrations
             modelBuilder.Entity("MyProject.Entity.Entities.AppRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -363,26 +365,6 @@ namespace MyProject.DataAccess.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("MyProject.Entity.Entities.Gallery", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Galleries");
-                });
-
             modelBuilder.Entity("MyProject.Entity.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
@@ -473,35 +455,35 @@ namespace MyProject.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("22222222-2222-2222-2222-222222222222"),
-                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1401),
+                            CreateDate = new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9795),
                             IsDeleted = false,
                             Name = "Await Payment"
                         },
                         new
                         {
                             Id = new Guid("55555555-5555-5555-5555-555555555555"),
-                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1405),
+                            CreateDate = new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9799),
                             IsDeleted = false,
                             Name = "Processing"
                         },
                         new
                         {
                             Id = new Guid("66666666-6666-6666-6666-666666666666"),
-                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1407),
+                            CreateDate = new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9801),
                             IsDeleted = false,
                             Name = "Shipped"
                         },
                         new
                         {
                             Id = new Guid("77777777-7777-7777-7777-777777777777"),
-                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1409),
+                            CreateDate = new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9803),
                             IsDeleted = false,
                             Name = "Delivered"
                         },
                         new
                         {
                             Id = new Guid("88888888-8888-8888-8888-888888888888"),
-                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1412),
+                            CreateDate = new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9815),
                             IsDeleted = false,
                             Name = "Cancelled"
                         });
@@ -530,21 +512,21 @@ namespace MyProject.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1248),
+                            CreateDate = new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9640),
                             IsDeleted = false,
                             Name = "Pending"
                         },
                         new
                         {
                             Id = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1264),
+                            CreateDate = new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9660),
                             IsDeleted = false,
                             Name = "Paid"
                         },
                         new
                         {
                             Id = new Guid("44444444-4444-4444-4444-444444444444"),
-                            CreateDate = new DateTime(2025, 11, 18, 0, 5, 21, 978, DateTimeKind.Local).AddTicks(1266),
+                            CreateDate = new DateTime(2026, 3, 3, 23, 30, 13, 147, DateTimeKind.Local).AddTicks(9663),
                             IsDeleted = false,
                             Name = "Refunded"
                         });
@@ -591,32 +573,6 @@ namespace MyProject.DataAccess.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("MyProject.Entity.Entities.SocialMedia", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Icon")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("SocialMediaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SocialMedias");
                 });
 
             modelBuilder.Entity("MyProject.Entity.Entities.Subscrabe", b =>

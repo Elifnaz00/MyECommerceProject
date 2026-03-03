@@ -43,10 +43,7 @@ namespace MyProject.Bussines.Mapping
     {
         public MapProfile()
         {
-            CreateMap<Entrance, CreateEntranceDTO>().ReverseMap();
-            CreateMap<Entrance, ListEntranceDTO>().ReverseMap();
-            CreateMap<Entrance, EntranceDetailsDTO>().ReverseMap();
-            CreateMap<Entrance, UpdateEntranceDTO>().ReverseMap();
+            
             CreateMap<Product, DTO.DTOs.ProductDTOs.AddProductDto>().ReverseMap();
             CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<Contact,ContactDto>().ReverseMap();

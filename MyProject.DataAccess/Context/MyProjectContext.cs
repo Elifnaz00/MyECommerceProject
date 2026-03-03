@@ -27,8 +27,6 @@ namespace MyProject.DataAccess.Context
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Contact> Contacts { get; set; }
-        public DbSet<Gallery> Galleries { get; set; }
-        public DbSet<SocialMedia> SocialMedias { get; set; }   
         public DbSet<Subscrabe> Subscrabes { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
