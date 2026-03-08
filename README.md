@@ -76,11 +76,6 @@ WebUI tarafında kullanıcı oturumu **Cookie Authentication** kullanılarak yö
 ### Session Kullanımı
 
 UI tarafında kullanıcı giriş durumunun kontrol edilmesi ve bazı kullanıcı bilgilerinin geçici olarak saklanması için **Session mekanizması** kullanılmıştır.
-
-### Sonuç
-
-Bu yapı sayesinde:
-
 - **API tarafında stateless JWT güvenliği**
 - **WebUI tarafında cookie tabanlı oturum yönetimi**
 
@@ -90,26 +85,9 @@ birlikte kullanılarak daha **esnek bir kimlik doğrulama sistemi** oluşturulmu
 
 Projede uygulama ilk çalıştırıldığında **roller ve admin kullanıcı** otomatik olarak oluşturulmaktadır.
 
-### İşleyiş
-
 1️⃣ **Role Oluşturma**
 - `RoleManager<AppRole>` ile roller (`Admin`, `User`) kontrol edilir.
 - Mevcut değilse, roller otomatik oluşturulur.
-## 🔐 Authentication Flow
-
-```mermaid
-flowchart LR
-User[User] -->|Login Request| WebUI
-WebUI -->|Credentials| API
-API --> Identity[ASP.NET Core Identity]
-Identity -->|Validate User| API
-API -->|Generate JWT Token| WebUI
-WebUI -->|Store Auth Cookie| Browser
-Browser -->|Requests with Cookie| WebUI
-WebUI -->|API Requests with JWT| API
-API -->|Validate Token| JWT[JWT Middleware]
-JWT -->|Authorize Request| Controller
-```
 
 ## 🛠️ Hata Yönetimi (Exception Handling & Logging)
 - **IExceptionHandler** yapısı kullanılarak merkezi hata yönetimi (global exception handling) uygulandı.
@@ -164,6 +142,22 @@ WebUI --> Cookie[Cookie Authentication]
 WebUI --> Session[Session Management]
 ```
 
+## 🔐 Authentication Flow
+
+```mermaid
+flowchart LR
+User[User] -->|Login Request| WebUI
+WebUI -->|Credentials| API
+API --> Identity[ASP.NET Core Identity]
+Identity -->|Validate User| API
+API -->|Generate JWT Token| WebUI
+WebUI -->|Store Auth Cookie| Browser
+Browser -->|Requests with Cookie| WebUI
+WebUI -->|API Requests with JWT| API
+API -->|Validate Token| JWT[JWT Middleware]
+JWT -->|Authorize Request| Controller
+```
+
 
 ## ⚡ CQRS & MediatR Flow
 
@@ -187,6 +181,7 @@ CommandHandler --> Repository
 
 Repository --> Database[(SQL Server)]
 ```
+
 
 
 
