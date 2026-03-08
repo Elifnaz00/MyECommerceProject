@@ -40,7 +40,7 @@ Amaç, modern yazılım geliştirme pratiklerini uygulayarak öğrenmek ve gerç
 - **CQRS + MediatR** → Komut ve sorgu işlemleri ayrılarak temiz mimari sağlandı.  
 - **AutoMapper** → Entity ↔ DTO dönüşümleri kolaylaştırıldı.  
 - **Repository Pattern** → Veri erişimi soyutlandı, test edilebilirlik ve esneklik sağlandı.
--  
+  
 ## 🔐 ASP.NET Core Identity + JWT + Cookie Authentication
 
 Projede kullanıcı yönetimi ve kimlik doğrulama süreçleri için birden fazla güvenlik mekanizması birlikte kullanılmıştır.
@@ -126,6 +126,7 @@ JWT -->|Authorize Request| Controller
 - `MyProject.DTO` → DTO sınıfları  
 
 ---
+
 
 
 
