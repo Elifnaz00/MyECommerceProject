@@ -127,6 +127,57 @@ JWT -->|Authorize Request| Controller
 
 ---
 
+## 🏗️ Project Architecture
+
+```mermaid
+flowchart LR
+
+User[User / Client]
+
+User --> WebUI[ASP.NET Core WebUI]
+
+WebUI -->|HTTP Requests| API[ASP.NET Core Web API]
+
+API --> Business[Business Layer]
+
+Business --> DataAccess[DataAccess Layer]
+
+DataAccess --> DB[(SQL Server Database)]
+
+API --> Auth[Authentication System]
+
+Auth --> Identity[ASP.NET Core Identity]
+
+Auth --> JWT[JWT Authentication]
+
+WebUI --> Cookie[Cookie Authentication]
+
+WebUI --> Session[Session Management]
+```
+
+
+## ⚡ CQRS & MediatR Flow
+
+```mermaid
+flowchart LR
+
+User[Client]
+
+User --> Controller[API Controller]
+
+Controller --> MediatR[MediatR]
+
+MediatR --> Query[Query]
+MediatR --> Command[Command]
+
+Query --> QueryHandler[Query Handler]
+Command --> CommandHandler[Command Handler]
+
+QueryHandler --> Repository[Repository Layer]
+CommandHandler --> Repository
+
+Repository --> Database[(SQL Server)]
+```
 
 
 
