@@ -86,6 +86,15 @@ Bu yapı sayesinde:
 
 birlikte kullanılarak daha **esnek bir kimlik doğrulama sistemi** oluşturulmuştur.
 
+## 🛠️ Seed Data – Roles & Admin User
+
+Projede uygulama ilk çalıştırıldığında **roller ve admin kullanıcı** otomatik olarak oluşturulmaktadır.
+
+### İşleyiş
+
+1️⃣ **Role Oluşturma**
+- `RoleManager<AppRole>` ile roller (`Admin`, `User`) kontrol edilir.
+- Mevcut değilse, roller otomatik oluşturulur.
 ## 🔐 Authentication Flow
 
 ```mermaid
@@ -178,6 +187,7 @@ CommandHandler --> Repository
 
 Repository --> Database[(SQL Server)]
 ```
+
 
 
 
