@@ -86,31 +86,21 @@ Bu yapı sayesinde:
 
 birlikte kullanılarak daha **esnek bir kimlik doğrulama sistemi** oluşturulmuştur.
 
-```markdown
 ## 🔐 Authentication Flow
 
 ```mermaid
 flowchart LR
-
 User[User] -->|Login Request| WebUI
-
 WebUI -->|Credentials| API
-
 API --> Identity[ASP.NET Core Identity]
-
 Identity -->|Validate User| API
-
 API -->|Generate JWT Token| WebUI
-
 WebUI -->|Store Auth Cookie| Browser
-
 Browser -->|Requests with Cookie| WebUI
-
 WebUI -->|API Requests with JWT| API
-
 API -->|Validate Token| JWT[JWT Middleware]
-
 JWT -->|Authorize Request| Controller
+```
 
 ## 🛠️ Hata Yönetimi (Exception Handling & Logging)
 - **IExceptionHandler** yapısı kullanılarak merkezi hata yönetimi (global exception handling) uygulandı.
@@ -136,6 +126,7 @@ JWT -->|Authorize Request| Controller
 - `MyProject.DTO` → DTO sınıfları  
 
 ---
+
 
 
 
