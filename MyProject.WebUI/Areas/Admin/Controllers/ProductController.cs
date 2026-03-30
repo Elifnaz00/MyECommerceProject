@@ -96,7 +96,7 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> ProductDetailModal(Guid id)
         {
             var client = CreateClient();
-            var detailProductResponse = await client.GetAsync("Product/detail-product/{id}");
+            var detailProductResponse = await client.GetAsync($"Product/detail-product/{id}");
             if (detailProductResponse.IsSuccessStatusCode)
             {
                 var detailProductVM = await detailProductResponse.Content.ReadFromJsonAsync<ProductDetailDto>();

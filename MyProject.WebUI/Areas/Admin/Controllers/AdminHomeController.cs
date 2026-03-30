@@ -153,11 +153,10 @@ namespace MyProject.WebUI.Areas.Admin.Controllers
         }
 
 
-
         public async Task<IActionResult> RoleAssignUser()
         {
             var client = CreateClient();
-            var userWithRoleResponse = await client.GetAsync("User/admin-get-users-with-roles/");
+            var userWithRoleResponse = await client.GetAsync("User/admin-get-users-with-roles");
             if (userWithRoleResponse.IsSuccessStatusCode)
             {
                 var userWithRoleDto = await userWithRoleResponse.Content.ReadFromJsonAsync<List<UserWithRoleDto>>();

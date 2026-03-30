@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿
 
 @{
     var token = Context.Request.Cookies["ApiAccessToken"];
@@ -154,6 +154,27 @@
                         @RenderBody()
                     </div>
                 </section>
+
+               
+                <div class="modal fade" id="productDetailModal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title">Ürün Detayı</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <div class="modal-body" id="productDetailContent">
+                                <!-- AJAX dolduracak -->
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
                 <div class="settingSidebar">
                     <a href="javascript:void(0)" class="settingPanelToggle">
                         <i class="fa fa-spin fa-cog"></i>
@@ -248,45 +269,28 @@
                     </div>
                 </div>
             </div>
-            
+           
             <footer class="main-footer">
                 <div class="footer-left">
-                    <a href="templateshub.net">Templateshub</a></a>
+                    <a href="templateshub.net">Templateshub</a>
                 </div>
                 <div class="footer-right">
                 </div>
             </footer>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="~/Themes/otika-bootstrap-admin-template/assets/js/bootstrap.bundle.min.js"></script>
  
     <script src="~/Themes/otika-bootstrap-admin-template/assets/js/app.min.js"></script>
 
     <script src="~/Themes/otika-bootstrap-admin-template/assets/js/scripts.js"></script>
 
     <script src="~/Themes/otika-bootstrap-admin-template/assets/bundles/apexcharts/apexcharts.min.js"></script>
-    <script src="~/Themes/otika-bootstrap-admin-template/assets/js/page/index.js"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- 
-            <script>
 
-        axios.defaults.baseURL = "https://localhost:7177/api/v1";
-
-        axios.interceptors.request.use(
-            function (config) {
-                const token = localStorage.getItem("token");
-
-                if (token) {
-                    config.headers.Authorization = `Bearer ${token}`;
-                }
-
-                return config;
-            },
-            function (error) {
-                return Promise.reject(error);
-            }
-        );
-    </script>
-    -->
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/Themes/otika-bootstrap-admin-template/assets/js/custom.js"></script>
@@ -413,49 +417,54 @@
                 );
             });
 
-        });
-
-            $(document).on("click", ".btn-change-role", async function () {
+             $(document).on("click", ".btn-change-role", async function () {
 
             const userId = $(this).data("userid");
+           
             const newRole = $(this).closest("tr").find(".role-select").val();
 
-            const result = await Swal.fire({
-                title: "Rol Değiştirilsin mi?",
-                text: `Yeni rol: ${newRole}`,
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Evet",
-                cancelButtonText: "Vazgeç"
+         
+            const url= `https://localhost:7177/api/v1/admin/Role/RoleAssign`;
+            const data = { userId : userId,
+                          adminRoleAssignViewModels: [
+                              {
+                                name: newRole,
+                                hasAssign: true
+							}
+                          ]
+            };
+               
+            const config = {
+                  headers: {
+                    'Authorization': `Bearer ${token}`, 
+                    'Content-Type': 'application/json' 
+                  }
+                };
+
+             axios.post(url, data, config)
+            .then(response => {
+                Swal.fire("Başarılı", "Rol güncellendi", "success");
+                $(this).closest("tr").find(".user-role").text(newRole);
+            })
+            .catch(error => {
+                Swal.fire("Hata", "Rol güncellenemedi", "error");
             });
 
-            if (!result.isConfirmed) return;
 
-            try {
-                await axios.post("/api/v1/admin/User/change-role", {
-                    userId,
-                    role: newRole
-                });
+             });
+      
 
-                Swal.fire("Başarılı", "Rol güncellendi", "success");
-
-                $(this).closest("tr").find(".user-role").text(newRole);
-
-            } catch {
-                Swal.fire("Hata", "Rol güncellenemedi", "error");
-            }
-        });
-
-            $(document).on("click", ".btn-product-detail", function () {
+                  $(document).on("click", ".btn-product-detail", function () {
 
             var productId = $(this).data("id");
 
             $.ajax({
                 url: `/Admin/Product/ProductDetailModal?id=${productId}`,
                 type: "GET",
-                data: { id: productId },
                 success: function (response) {
+
                     $("#productDetailContent").html(response);
+
                     $("#productDetailModal").modal("show");
                 },
                 error: function () {
@@ -464,26 +473,26 @@
             });
         });
 
+                $('#productDetailModal').on('hidden.bs.modal', function () {
+            $("#productDetailContent").html("");
+        });
+
+                $(document).on("click", ".close", function () {
+            $("#productDetailModal").modal("hide");
+        });
+
+
+                $('#productDetailModal').on('hidden.bs.modal', function () {
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+        });
+
+        });
+
+           
     </script>
 
-    <div class="modal fade" id="productDetailModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5 class="modal-title">Ürün Detayı</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body" id="productDetailContent">
-                    <!-- AJAX ile dolacak -->
-                </div>
-
-            </div>
-        </div>
-    </div>
+  
    
 </body>
 </html>

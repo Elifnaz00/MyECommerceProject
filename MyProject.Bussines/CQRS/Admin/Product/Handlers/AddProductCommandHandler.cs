@@ -24,7 +24,9 @@ namespace MyProject.Bussines.CQRS.Admin.Product.Handlers
 
         public async Task<Unit> Handle(AddProductCommandRequest request, CancellationToken cancellationToken)
         {
-           await _productRepository.AddAsync(_mapper.Map<Entity.Entities.Product>(request.AdminAddProductDto));
+
+           var mappedCreateProduct = _mapper.Map<Entity.Entities.Product>(request.AdminAddProductDto);
+           await _productRepository.AddAsync(mappedCreateProduct);
            return Unit.Value;
         }
     }

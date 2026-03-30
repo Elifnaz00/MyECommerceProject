@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyProject.Entity.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,9 +16,8 @@ namespace MyProject.DTO.DTOs.AdminDTOs.ProductDto
         public long Price { get; set; }
         public string? ImageUrl { get; set; }
 
-        public string? Size { get; set; }
-
-        public string? Color { get; set; }
+        public Renkler Renkler { get; set; }
+        public Bedenler Bedenler { get; set; }
 
         public Guid CategoryId { get; set; }
     }

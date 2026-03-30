@@ -26,14 +26,15 @@ namespace MyProject.Bussines.CQRS.Admin.Product.Handlers
         {
             var hasUpdateProduct = await _productRepository.GetByIdAsync(request.Id);
 
-            if (hasUpdateProduct != null)
-            {
-               _mapper.Map(request.UpdateProductDto, hasUpdateProduct);
+            if (hasUpdateProduct is null)
+                throw new NotFoundException("Güncellenecek ürün bulunamadı");
 
-                await _productRepository.UpdateAsync(hasUpdateProduct);
-                return Unit.Value;
+            _mapper.Map(request.UpdateProductDto, hasUpdateProduct);
 
-            }
+            await _productRepository.UpdateAsync(hasUpdateProduct);
+            return Unit.Value;
+
+            
             throw new NotFoundException("Güncellenecek ürün bulunamadı");
             
         }

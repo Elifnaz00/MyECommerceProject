@@ -1,11 +1,5 @@
 ﻿@model IEnumerable<ProductListViewModel>
 
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
 <div style="height: 100px"> </div>
 <div class="container">
 	<div class="row">
@@ -35,16 +29,8 @@
 												</div>
 												<div class="thumb-content">
 											<h4> <a href="@Url.Action("ProductDetails", "Shop", new { id = item.Id })"></a> @item.Title</h4>
-													<p class="item-price"><strike>$400.00</strike> <span>@item.Price </span></p>
-													<div class="star-rating">
-														<ul class="list-inline">
-															<li class="list-inline-item"><i class="fa fa-star"></i></li>
-															<li class="list-inline-item"><i class="fa fa-star"></i></li>
-															<li class="list-inline-item"><i class="fa fa-star"></i></li>
-															<li class="list-inline-item"><i class="fa fa-star"></i></li>
-															<li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-														</ul>
-													</div>
+													<p class="item-price"> <span>@item.Price </span></p>
+													
 													<a href="#" class="btn btn-primary">Add to Cart</a>
 												</div>
 											</div>
@@ -102,4 +88,4 @@
 			</div>
 		</div>
 	</div>
-</div>
+

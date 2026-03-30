@@ -90,7 +90,7 @@ namespace MyProject.WebUI.Controllers
             httpResponseMessage.EnsureSuccessStatusCode();
 
             var products = await httpResponseMessage.Content.ReadFromJsonAsync<ProductwithCategoryViewModel>();
-                          
+
             return View("ShopProductList", products);
 
         }

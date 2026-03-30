@@ -1,344 +1,170 @@
 ﻿@model ShoppingCartViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Sepet";
     Layout = "~/Views/Shared/Layout.cshtml";
+    var token = Context.Request.Cookies["ApiAccessToken"];
 }
 
-	@if (Model is null)
-{
-	<div style="width: 100%; height: 100%;">
-		<div class="alert alert-success">
-			<span>@TempData["BasketMessage"]</span>
-		</div>
-	</div>
+<div class="container mt-5 mb-5">
+
+    <h2 class="mb-4">Alışveriş Sepeti</h2>
+
+    @if (Model == null || !Model.BasketItems.Any())
+    {
+        <div class="alert alert-info">
+            Sepetinizde ürün bulunmamaktadır.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered text-center align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Ürün</th>
+                    <th>Fiyat</th>
+                    <th>Miktar</th>
+                    <th>Toplam</th>
+                    <th>Sil</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model.BasketItems)
+                {
+                    <tr>
+                        <td class="d-flex align-items-center">
+                            <img src="@item.Product.ImageUrl"
+                                 style="width:80px;height:80px;object-fit:cover;margin-right:15px;" />
+
+                            <div>
+                                <strong>@item.Product.Title</strong>
+                                <br />
+                                <small>@item.Product.Description</small>
+                            </div>
+                        </td>
+
+                        <td>@($"{item.Product.Price:N2} TL")</td>
+
+                        <td>
+                            <div class="d-flex justify-content-center align-items-center" style="gap:5px;">
+
+                                <button class="btn btn-outline-secondary minus-btn" data-id="@item.Id">-</button>
+
+                                <input type="number"
+                                       value="@item.Quantity"
+                                       class="form-control text-center quantity-input"
+                                       data-id="@item.Id"
+                                       min="1"
+                                       max="100"
+                                       style="width:50px;">
+
+                                <button class="btn btn-outline-secondary plus-btn" data-id="@item.Id">+</button>
+
+                            </div> 
+                        </td>
+
+                        <td class="item-total">
+                            @($"{(item.Product.Price * item.Quantity):N2} TL")
+                        </td>
+
+                        <td>
+                            <button class="btn btn-danger btn-sm remove-item" data-id="@item.Id">Sil</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="text-end mt-4">
+            <h4>
+                Toplam : <span id="cart-total">@($"{Model.TotalPrice:N2} TL")</span>
+            </h4>
+
+            <a href="/Order/Index" class="btn btn-primary mt-3">Sepeti Onayla</a>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script>
+
+        const token = "@(token ?? "")";
+
+        $(document).ready(function(){   
+
+            function updateQuantity(id, qty){
+                $.ajax({
+                    url: "https://localhost:7177/api/v1/BasketItem/UpdateBasketItem/"+id,
+                    type: "PUT",
+                    contentType: "application/json",
+                    data: JSON.stringify({ quantity: qty }),
+                    beforeSend: function(xhr){
+                        if(token){
+                            xhr.setRequestHeader("Authorization","Bearer "+token);
+                        }
+                    },
+                    success: function(res){
+                        if(res.isSuccess){
+                            
+                        } else {
+                            alert(res.message || "Sepet güncellenemedi.");
+                        }
+                    },
+                    error: function(){
+                        alert("Sepet güncellenirken hata oluştu.");
+                    }
+                });
+            }
+
+            $(".plus-btn").click(function(){
+                var id = $(this).data("id");
+                var input = $(".quantity-input[data-id='"+id+"']");
+                var qty = parseInt(input.val()) + 1;
+                updateQuantity(id, qty);
+            });
+
+            $(".minus-btn").click(function(){
+                var id = $(this).data("id");
+                var input = $(".quantity-input[data-id='"+id+"']");
+                var qty = parseInt(input.val()) - 1;
+                if(qty < 1) qty = 1;
+                updateQuantity(id, qty);
+            });
+
+            $(".quantity-input").change(function(){
+                var id = $(this).data("id");
+                var qty = parseInt($(this).val());
+                if(qty < 1) qty = 1;
+                updateQuantity(id, qty);
+            });
+
+            $(".remove-item").click(function(){
+                if(!confirm("Ürünü silmek istiyor musunuz?")) return;
+
+                var id = $(this).data("id");
+
+                $.ajax({
+                    url: "https://localhost:7177/api/v1/BasketItem/DeleteBasketItems/"+id,
+                    type: "DELETE",
+                    beforeSend: function(xhr){
+                        if(token){
+                            xhr.setRequestHeader("Authorization","Bearer "+token);
+                        }
+                    },
+                    success: function(res){
+                        if(res.isSuccess){
+                            refreshPage();
+                        } else {
+                            alert(res.message || "Ürün silinemedi.");
+                        }
+                    },
+                    error: function(){
+                        alert("Ürün silinirken hata oluştu.");
+                    }
+                });
+            });
+
+        });
+    </script>
 }
-	else{
-		<section class="ftco-section ftco-cart">
-			<form method="post" asp-controller="ShoppingCart" asp-action="Index">
-			<div class="container">
-				
-				<div class="row">
-					<div class="col-md-12 ftco-animate">
-						<div class="cart-list">
-							<table class="table">
-								<thead class="thead-primary">
-									<tr class="text-center">
-										<th>&nbsp;</th>
-										<th>&nbsp;</th>
-										<th>Ürün</th>
-										<th>Fiyat</th>
-										<th>Miktar</th>
-										<th>Toplam</th>
-									</tr>
-								</thead>
-								
-								<tbody>
-
-										@foreach (var item in Model.BasketItems)
-										{
-
-										<tr class="text-center">
-
-
-												<td class="product-remove"><a class="remove-item" href="#"><span class="ion-ios-close"></span></a></td>
-												<td style="display:none;">
-												
-												<span asp-for="Id" class="basket-item-id">@item.Id</span>
-												</td>
-											<td class="image-prod"><div class="img" style="background-image:url('@item.Product.ImageUrl');"></div></td>
-											<td class="product-name">
-												<h3 name="Title"> @item.Product.Title</h3>
-													<p asp-for="Description"> @item.Product.Description</p>
-											</td>
-
-											<td asp-for="Price" class="price"> @($"{item.Product.Price.ToString("N2", new System.Globalization.CultureInfo("tr-TR"))} TL")</td>
-
-												<td class="quantity">
-													<div class="input-group mb-3">
-														<div class="input-group-prepend">
-															<button type="button" class="quantity-left-minus btn btn-outline-secondary" data-type="minus" data-field="">
-																<i class="ion-ios-remove"></i>
-															</button>
-														</div>
-														<input type="text" name="Quantity" class="form-control input-number" value="@item.Quantity" min="1" max="100">
-														<div class="input-group-append">
-															<button type="button" class="quantity-right-plus btn btn-outline-secondary" data-type="plus" data-field="">
-																<i class="ion-ios-add"></i>
-															</button>
-														<span id="basket-id" style="display:none;"> @item.BasketId</span>
-														</div>
-													</div>
-												</td>
-										</tr>	
-										}
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-				<div class="row justify-content-center">
-					<div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
-						<div class="cart-total mb-3">
-							<h3>Cart Totals</h3>
-							<p class="d-flex total-price">
-								<span>Total</span>
-								<span>@($"{Model.TotalPrice.ToString("N2", new System.Globalization.CultureInfo("tr-TR"))} TL")</span>
-							</p>
-						</div>
-						<p class="text-center"><button type="submit" class="btn btn-primary py-3 px-4">Sepeti Onayla</button></p>
-					</div>
-				</div>
-			</div>
-			</form>
-		</section>
-
-
-	}
-	
-	<!-- loader -->
-	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" /><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg></div>
-
-
-	<script src="~/Themes/winkel-master/js/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-migrate-3.0.1.min.js"></script>
-	<script src="~/Themes/winkel-master/js/popper.min.js"></script>
-	<script src="~/Themes/winkel-master/js/bootstrap.min.js"></script>
-	<script src="~/Themes/winkel-master/js/jquery.easing.1.3.js"></script>
-	<script src="~/Themes/winkel-master/js/jquery.waypoints.min.js"></script>
-	<script src="~/Themes/winkel-master/js/jquery.stellar.min.js"></script>
-	<script src="~/Themes/winkel-master/js/owl.carousel.min.js"></script>
-	<script src="~/Themes/winkel-master/js/jquery.magnific-popup.min.js"></script>
-	<script src="~/Themes/winkel-master/js/aos.js"></script>
-	<script src="~/Themes/winkel-master/js/jquery.animateNumber.min.js"></script>
-	<script src="~/Themes/winkel-master/js/bootstrap-datepicker.js"></script>
-	<script src="~/Themes/winkel-master/js/scrollax.min.js"></script>
-	<script src="~/Themes/winkel-master/js/main.js"></script>
-
-	<script>
-		$(document).ready(function () {
-
-		var token = @Html.Raw(Json.Serialize(Context.Session.GetString("token") ?? ""))
-		
-
-		function updateBasketTotal(basketId, token)
-		{
-			$.ajax({
-				 url: 'https://localhost:7177/api/v1/BasketItem/GetBasketTotal/' + basketId,
-				 type: 'GET',
-				 dataType: "json",
-				 contentType: 'application/json; charset=utf-8',
-				 beforeSend: function (xhr) {
-					 if (token) {
-						 xhr.setRequestHeader("Authorization", "Bearer " + token);
-					 }
-				 },
-				 success: function(response){
-					
-					 if(response.isSuccess){
-
-							 $(".total-price span:last").text(
-	  `${response.totalAmount.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} TL`
-	);
-					 }
-				 },
-				 error: function(xhr){
-					 var response = xhr.responseJSON;
-	alert(response?.Message || "Sepet Toplamı Hesaplanamadı.");
-				 }
-			})
-		}
-
-			$( ".input-group" ).on( "click", ".quantity-left-minus", function() {
-			   var $inputValueMinus= $(this).closest(".input-group").find("input.input-number");
-				basketItemId= $(this).closest("tr").find(".basket-item-id").text().trim();
-				basketId= $(this).closest(".input-group").find("#basket-id").text().trim();
-				
-			  
-			   var quantityMinus = parseInt($inputValueMinus.val()) || 1;
-			   if(quantityMinus > 1 )
-			   {
-					 quantityMinus = quantityMinus - 1 ;
-			   }
-			 
-			   $inputValueMinus.val(quantityMinus);
-			  
-		
-
-			   $.ajax({
-					url: 'https://localhost:7177/api/v1/BasketItem/UpdateBasketItem/' + basketItemId,
-					type: 'PUT',
-					dataType: "json",
-					data: JSON.stringify({ quantity: quantityMinus }),
-					contentType: "application/json",
-					beforeSend: function (xhr) {
-						if (token) {
-							xhr.setRequestHeader("Authorization", "Bearer " + token);
-						}
-					},
-					success: function (response) {
-
-						if (response.isSuccess) {
-							updateBasketTotal(basketId, token);
-						} else {
-							alert(response.Message || "Sipariş adeti güncellenemedi.");
-						}
-					},
-					error: function (xhr, status, error) {
-						var response = xhr.responseJSON;
-	alert(response?.Message || "Sipariş oluşturma işlemi başarısız.");
-
-					}
-				})
-			});
-
-			$( ".input-group" ).on( "click", ".quantity-right-plus", function() {
-			   var $inputValuePlus = $(this).closest(".input-group").find(".input-number");
-			   basketItemId= $(this).closest("tr").find(".basket-item-id").text().trim();
-			   basketId= $(this).closest(".input-group").find("#basket-id").text().trim();
-			   
-
-			   var quantityPlus= parseInt($inputValuePlus.val()) || 1 ;
-			   if(quantityPlus < 100)
-			   {
-				   quantityPlus = quantityPlus + 1 ;
-			   }
-
-			   $inputValuePlus.val(quantityPlus);
-				
-			   
-
-				  $.ajax({
-					url: 'https://localhost:7177/api/v1/BasketItem/UpdateBasketItem/' + basketItemId,
-					type: 'PUT',
-					dataType: "json",
-					data: JSON.stringify({ quantity: quantityPlus }),
-					contentType: "application/json",
-					beforeSend: function (xhr) {
-						if (token) {
-							xhr.setRequestHeader("Authorization", "Bearer " + token);
-						}
-					},
-					success: function (response) {
-
-						if (response.isSuccess) {
-							updateBasketTotal(basketId, token);
-
-						} else {
-							alert(response.Message || "Sipariş adeti güncellenemedi.");
-						}
-					},
-					error: function (xhr, status, error) {
-						var response = xhr.responseJSON;
-	alert(response?.Message || "Sipariş oluşturma işlemi başarısız.");
-
-					}
-				})
-			} );
-
-	
-
-			$("table tbody").on("click", ".remove-item", function (e) {
-				e.preventDefault();
-				
-
-				if (!token) {
-					alert("Kullanıcı oturum bilgisi eksik.");
-					return;
-				}
-
-				var $row = $(this).closest("tr");
-				var basketItemId = $row.find(".basket-item-id").text().trim();
-				var basketId= $("#basket-id").text().trim();
-
-				if (!basketItemId) {
-					alert("Sepet öğesi ID'si bulunamadı.");
-					return;
-				}
-
-				if (!confirm("Bu ürünü silmek istediğinize emin misiniz?")) return;
-				
-
-				$.ajax({
-					url: 'https://localhost:7177/api/v1/BasketItem/DeleteBasketItems/' + basketItemId,
-					type: 'DELETE',
-					beforeSend: function (xhr) {
-						if (token) {
-							xhr.setRequestHeader("Authorization", "Bearer " + token);
-						}
-					},
-					success: function (response) {
-					
-						if (response.isSuccess) {
-							$row.remove();
-							updateBasketTotal(basketId, token);
-							alert(response.Message || "Ürün başarıyla silindi.");
-						} else {
-							alert(response.Message || "Silme işlemi başarısız.");
-						}
-					},
-					error: function (xhr, status, error) {
-						alert("Bir hata oluştu: " + error + "\nDetay: " + xhr.responseText);
-					}
-				});
-			});
-
-	$(".cart-wrap").on("click", ".btn-primary", function(e){
-		e.preventDefault();
-
-		if (!token) {
-					alert("Kullanıcı oturum bilgisi eksik.");
-					return;
-				}
-
-				var basketId= $("#basket-id").text().trim();
-				if(!basketId){
-					alert("Sepet ID'si bulunamadı.");
-					return;
-				}
-
-				var basketItems= [];
-
-				$("table tbody tr").each(function(){
-					 var row = $(this);
-					 var id = row.find(".basket-item-id").text().trim();
-					 var qtyVal = row.find(".input-number").val();
-					 basketItems.push({ id: id, quantity: parseInt(qtyVal) || 1 });
-					
-				})
-				
-
-				$.ajax({
-					url: 'https://localhost:7177/api/v1/BasketItem/UpdateBasketItem',
-					type: 'PUT',
-					dataType: "json",
-					data: JSON.stringify(basketItems),
-					contentType: "application/json",
-					beforeSend: function (xhr) {
-						if (token) {
-							xhr.setRequestHeader("Authorization", "Bearer " + token);
-						}
-					},
-					success: function (response) {
-
-						if (response.isSuccess) {	
-							window.location.href = '/Order/Index';
-						} else {
-							alert(response.Message || "Sipariş oluşturma işlemi başarısız.");
-						}
-					},
-					error: function (xhr, status, error) {
-						var response = xhr.responseJSON;
-	alert(response?.Message || "Sipariş oluşturma işlemi başarısız.");
-						
-					}
-				})
-
-		});  
-		});
-	</script>
-
-
-
-
-

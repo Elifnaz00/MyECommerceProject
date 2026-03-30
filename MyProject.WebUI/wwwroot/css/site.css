@@ -20,3 +20,20 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.minus-btn,
+.plus-btn {
+    width: 28px !important;
+    height: 28px !important;
+    padding: 0 !important;
+    font-size: 10px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-input {
+    height: 28px !important;
+    font-size: 12px;
+    padding: 0;
+}

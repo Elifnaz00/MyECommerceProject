@@ -75,9 +75,13 @@ namespace MyProject.Bussines.Services
                 throw new ArgumentNullException();
            
             AppUser? user = await _userManager.FindByIdAsync(id);
+
             if (user is null)
                 throw new NotFoundException("Kullanıcı bulunamadı.");
 
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+      
             foreach (AdminRoleAssignViewModel role in adminRoleAssignViewModel)
             {
                 if (role.HasAssign)

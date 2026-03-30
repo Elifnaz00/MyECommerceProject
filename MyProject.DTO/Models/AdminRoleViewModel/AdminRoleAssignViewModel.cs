@@ -8,7 +8,6 @@ namespace MyProject.DTO.Models.AdminRoleViewModel
 {
     public class AdminRoleAssignViewModel
     {
-        public string Id { get; set; }
         public string Name { get; set; }
         public bool HasAssign { get; set; }
     }

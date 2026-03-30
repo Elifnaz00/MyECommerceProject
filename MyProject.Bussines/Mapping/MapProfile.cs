@@ -29,7 +29,6 @@ using MyProject.DTO.Models.BasketItemViewModel;
 using MyProject.DTO.Models.OrderStatusViewModel;
 using MyProject.Entity.Entities;
 using MyProject.TokenDTOs.DTOs.CategoryDTOs;
-using MyProject.TokenDTOs.DTOs.EntranceDTOs;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
@@ -80,6 +79,9 @@ namespace MyProject.Bussines.Mapping
             CreateMap<AppRole, AdminCreateRoleViewModel>().ReverseMap();      
             CreateMap<AdminCreateRoleViewModel, CreateRoleCommmandRequest>().ReverseMap();
             CreateMap<UpdateOrderStatusDto, OrderStatus>().ReverseMap();
+            CreateMap<UpdateRoleCommandRequest, AdminUpdateRoleViewModel>();
+          
+            
 
             CreateMap<UserListDto, AppUser>().ReverseMap();
            
@@ -113,12 +115,20 @@ namespace MyProject.Bussines.Mapping
 
             CreateMap<UpdateProductDto,Product>()
                 .ForMember(x => x.Size, opt=> opt.MapFrom(src => src.Bedenler.ToString()))
-                .ForMember(x => x.Color, opt=> opt.MapFrom(src => src.Renkler.ToString()));
+                .ForMember(x => x.Color, opt=> opt.MapFrom(src => src.Renkler.ToString()))
+                .ForAllMembers(opts =>
+        opts.Condition((src, dest, srcMember) => srcMember != null));
+
             CreateMap<OrderStatus, OrderStatusDto>();
             CreateMap<Order, OrderListDto>();
             CreateMap<Product, ProductEditDto>();
             CreateMap<Product, ProductDetailDto>();
-            CreateMap<AdminAddProductDto, Product>();
+
+            CreateMap<AdminAddProductDto, Product>()
+                .ForMember(x => x.Size, opt => opt.MapFrom(src => src.Bedenler.ToString()))
+                .ForMember(x => x.Color, opt => opt.MapFrom(src => src.Renkler.ToString()));
+
+
             CreateMap<Category, CategoryDto>();
             CreateMap<Category, CategoryTypesDto>();
             

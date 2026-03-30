@@ -5,7 +5,7 @@ namespace MyProject.WebUI.Models.ShoppingCartModel
 {
     public class ShoppingCartViewModel
     {
-        public IEnumerable<ShoppingCartGetItemsViewModel> BasketItems { get; set; }
+        public List<ShoppingCartGetItemsViewModel> BasketItems { get; set; } = new();
 
         public decimal TotalPrice { get; set; }
         public string Message { get; set; }
