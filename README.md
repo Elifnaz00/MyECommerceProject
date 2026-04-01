@@ -187,6 +187,42 @@ Repository --> Database[(SQL Server)]
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(216).png)
 
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(217).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(218).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(220).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(221).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(223).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(226).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(227).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(230).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(231).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(232).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(235).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(241).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(244).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(237).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(238).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(239).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(240).png)
+
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/b8ca673b89d30f14478ec4dc6a70f75c6ea26169/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(228).png)
+
 
 
 
