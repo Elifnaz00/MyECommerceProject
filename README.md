@@ -189,7 +189,7 @@ Repository --> Database[(SQL Server)]
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/c8d6c7a7a4cee30619c9e795590a626a92f96af9/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(218).png)
 
-[image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/c8d6c7a7a4cee30619c9e795590a626a92f96af9/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(219).png)
+![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/c8d6c7a7a4cee30619c9e795590a626a92f96af9/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(219).png)
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/c8d6c7a7a4cee30619c9e795590a626a92f96af9/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(220).png)
 
