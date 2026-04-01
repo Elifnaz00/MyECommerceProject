@@ -22,8 +22,7 @@ Amaç, modern yazılım geliştirme pratiklerini uygulayarak öğrenmek ve gerç
 - **Entity Framework Core (Code First)** → Veritabanı işlemleri yönetildi, entityler arasında ilişkiler (1-N, N-N) kuruldu ve LINQ ile sorgulamalar yapıldı.  
 - **Identity & JWT Authentication** → Kullanıcı giriş/çıkış süreçlerinde token tabanlı kimlik doğrulama yapıldı; ayrıca admin controller tarafında yetkilendirme ve sepet işlemlerinde güvenlik sağlandı.
   **JWT Token Konfigürasyonu** → API üzerinde gelen JWT token'ların doğrulanması sağlandı. 
-  Token’ın **issuer** ve **audience** değerleri kontrol edildi, **yaşam süresi (lifetime)** doğrulandı ve token’ın uygulamaya ait olduğu **security key ile garanti altına alındı**. 
-  Ayrıca, kullanıcı adı token içindeki **Name claim** üzerinden çekilerek **`User.Identity.Name`** ile erişim sağlandı. 
+  Kullanıcı adı token içindeki **Name claim** üzerinden çekilerek **`User.Identity.Name`** ile erişim sağlandı. 
   Bu sayede API endpoint’lerine güvenli erişim ve yetkilendirme gerçekleştirildi. 
 - **CQRS + MediatR** → Komut ve sorgu işlemleri ayrılarak temiz mimari sağlandı.  
 - **AutoMapper** → Entity ↔ DTO dönüşümleri kolaylaştırıldı.  
@@ -45,15 +44,6 @@ API katmanında kullanıcı doğrulaması **JWT token tabanlı** olarak gerçekl
 
 - Kullanıcı giriş yaptıktan sonra API tarafından bir **JWT Token** üretilmektedir.
 - Token içerisinde kullanıcı bilgileri **claim** olarak saklanmaktadır.
-
-JWT doğrulama sürecinde:
-
-- Token’ın **Issuer** ve **Audience** değerleri kontrol edilmiştir.
-- Token’ın **lifetime** süresi doğrulanmıştır.
-- Token’ın uygulamaya ait olduğu **Security Key** ile doğrulama yapılmıştır.
-
-Kullanıcı bilgisi token içindeki **Name claim** üzerinden alınarak aşağıdaki şekilde erişim sağlanmıştır:
-Bu sayede API endpoint’lerine **güvenli erişim ve yetkilendirme mekanizması** sağlanmıştır.
 
 ### Cookie Authentication (WebUI)
 
@@ -90,7 +80,9 @@ Projede uygulama ilk çalıştırıldığında **roller ve admin kullanıcı** o
 - **Model Binding** → HTTP isteklerindeki veriler otomatik olarak modellere bağlandı.  
 - **RESTful API** → Katmanlar arası iletişim sağlandı; WebUI ve API arasında JSON tabanlı veri alışverişi yapıldı, HTTP metotları (GET, POST, PUT, DELETE) kullanıldı ve stateless yapısıyla ölçeklenebilirlik sağlandı.
 - **Ajax & jQuery** → WebUI tarafında asenkron veri işlemleri yapıldı. (Sepet güncelleme işlemleri => ürün adeti arttırma/azaltma, toplam fiyat ; Ürün kategori seçimleri)
-- **View Components** → Sayfa üzerinde birden fazla entity veya bileşen dinamik olarak gösterildi.  
+- **View Components** → Sayfa üzerinde birden fazla entity veya bileşen dinamik olarak gösterildi.
+- **Partial View**
+- **Layout**  
 
 
 ## 🏗️ Project Architecture
@@ -137,109 +129,72 @@ API -->|Validate Token| JWT[JWT Middleware]
 JWT -->|Authorize Request| Controller
 ```
 
-
-## ⚡ CQRS & MediatR Flow
-
-```mermaid
-flowchart LR
-
-User[Client]
-
-User --> Controller[API Controller]
-
-Controller --> MediatR[MediatR]
-
-MediatR --> Query[Query]
-MediatR --> Command[Command]
-
-Query --> QueryHandler[Query Handler]
-Command --> CommandHandler[Command Handler]
-
-QueryHandler --> Repository[Repository Layer]
-CommandHandler --> Repository
-
-Repository --> Database[(SQL Server)]
-```
-
 ## 📸 Proje Görselleri
 
 ### Admin Paneli (Admin)
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/c8d6c7a7a4cee30619c9e795590a626a92f96af9/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(215).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/c8d6c7a7a4cee30619c9e795590a626a92f96af9/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(216).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/c8d6c7a7a4cee30619c9e795590a626a92f96af9/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(217).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/c8d6c7a7a4cee30619c9e795590a626a92f96af9/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(218).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/c8d6c7a7a4cee30619c9e795590a626a92f96af9/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(219).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/c8d6c7a7a4cee30619c9e795590a626a92f96af9/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(220).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/c8d6c7a7a4cee30619c9e795590a626a92f96af9/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(221).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/c8d6c7a7a4cee30619c9e795590a626a92f96af9/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(222).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/c8d6c7a7a4cee30619c9e795590a626a92f96af9/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(223).png)
-
+<br>
 
 ### Anasayfa (User)
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/c8d6c7a7a4cee30619c9e795590a626a92f96af9/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(226).png)
-
+<br>
 
 #### Anasayfa -> Kategoriler
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/c8d6c7a7a4cee30619c9e795590a626a92f96af9/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(227).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/6d9fe7008f0fa1ed85ce736b51c2e22c73981ebc/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(230).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/6d9fe7008f0fa1ed85ce736b51c2e22c73981ebc/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(231).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/6d9fe7008f0fa1ed85ce736b51c2e22c73981ebc/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(232).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/6d9fe7008f0fa1ed85ce736b51c2e22c73981ebc/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(235).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/6d9fe7008f0fa1ed85ce736b51c2e22c73981ebc/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(244).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/6d9fe7008f0fa1ed85ce736b51c2e22c73981ebc/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(237).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/6d9fe7008f0fa1ed85ce736b51c2e22c73981ebc/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(238).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/6d9fe7008f0fa1ed85ce736b51c2e22c73981ebc/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(239).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/6d9fe7008f0fa1ed85ce736b51c2e22c73981ebc/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(240).png)
-
+<br>
 
 ![image alt](https://github.com/Elifnaz00/MyECommerceProject/blob/6d9fe7008f0fa1ed85ce736b51c2e22c73981ebc/Ekran%20G%C3%B6r%C3%BCnt%C3%BCs%C3%BC%20(228).png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<br>
 
 
