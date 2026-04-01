@@ -15,18 +15,6 @@ Amaç, modern yazılım geliştirme pratiklerini uygulayarak öğrenmek ve gerç
 - Sipariş Durumu ve Ödeme Durumu Takibi yapılmaktadır.
 
 
-### 📊 Sipariş & Ödeme Durumları  
-
-| **Aksiyon**                  | **OrderStatus**        | **PaymentStatus**       |
-|-------------------------------|------------------------|--------------------------|
-| Kullanıcı siparişi tamamlar   | Await Payment (Ödeme Bekleniyor) | Pending (Bekleniyor)    |
-| Kullanıcı ödemeyi yapar       | Processing (İşleniyor) | Paid (Ödendi)           |
-| Admin siparişi kargolar       | Shipped (Kargolandı)   | Paid (Ödendi)           |
-| Sipariş teslim edilir         | Delivered (Teslim Edildi) | Paid (Ödendi)        |
-| Sipariş iptal edilir          | Cancelled (İptal Edildi) | Pending / Paid (Duruma göre) |
-| Admin ödeme iadesi yapar      | Cancelled / Delivered (Duruma göre) | Refunded (İade Edildi) |
-
-
 ## 🛠️ Kullanılan Teknolojiler
 
 ### 🔹 Ana Teknolojiler
@@ -104,15 +92,6 @@ Projede uygulama ilk çalıştırıldığında **roller ve admin kullanıcı** o
 - **Ajax & jQuery** → WebUI tarafında asenkron veri işlemleri yapıldı. (Sepet güncelleme işlemleri => ürün adeti arttırma/azaltma, toplam fiyat ; Ürün kategori seçimleri)
 - **View Components** → Sayfa üzerinde birden fazla entity veya bileşen dinamik olarak gösterildi.  
 
-## 📂 Katmanlar
-- `MyProject.Api` → Web API katmanı  
-- `MyProject.WebUI` → MVC/WebUI katmanı  
-- `MyProject.Business` → İş kuralları katmanı   → İdentity Error Costomization, CQRS, Exceptions, Mapping, Services Registration(DI Container), Services, TokenServices.
-- `MyProject.DataAccess` → Veri erişim katmanı → Abstract Repository, Concrate Repository, Context, UnıtOfWork.
-- `MyProject.Entity` → Entity sınıfları, StatusCode Enum, StatusBasket Enum.
-- `MyProject.DTO` → DTO sınıfları  
-
----
 
 ## 🏗️ Project Architecture
 
