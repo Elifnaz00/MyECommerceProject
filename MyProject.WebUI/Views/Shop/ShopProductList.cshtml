@@ -1,5 +1,5 @@
 ﻿@using MyProject.Entity.Enums
-@model ProductwithCategoryViewModel
+@model ProductListViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -192,6 +192,9 @@
                         success: function (response) {
 							if(response.success) {
 								// Sepete ekleme başarılıysa
+
+                                loadCartCount();
+
 								Swal.fire({
 									icon: 'success',
 									title: 'Başarılı!',

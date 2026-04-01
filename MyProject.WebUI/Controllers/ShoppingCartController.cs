@@ -57,5 +57,27 @@ namespace MyProject.WebUI.Controllers
             }
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> GetCartCount()
+        {
+            var token = Request.Cookies["ApiAccessToken"];
+
+            var client = _httpClientFactory.CreateClient("ApiService1");
+            client.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.GetAsync("Basket/GetBasket");
+
+            int count = 0;
+            if (response.IsSuccessStatusCode)
+            {
+                var basketItems = await response.Content.ReadFromJsonAsync<ShoppingCartViewModel>();
+                count = basketItems?.BasketItems.Count ?? 0;
+            }
+
+            return Ok(count);
+        }
+
     }
 }

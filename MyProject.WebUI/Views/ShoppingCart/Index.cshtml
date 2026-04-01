@@ -106,7 +106,8 @@
                     },
                     success: function(res){
                         if(res.isSuccess){
-                            
+                            loadCartCount(); 
+                            refreshPage();
                         } else {
                             alert(res.message || "Sepet güncellenemedi.");
                         }
@@ -154,6 +155,8 @@
                     },
                     success: function(res){
                         if(res.isSuccess){
+                            loadCartCount(); 
+                            refreshPage();
                             refreshPage();
                         } else {
                             alert(res.message || "Ürün silinemedi.");

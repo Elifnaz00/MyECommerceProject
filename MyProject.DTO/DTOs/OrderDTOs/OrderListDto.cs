@@ -10,6 +10,7 @@ namespace MyProject.DTO.DTOs.OrderDTOs
 {
     public class OrderListDto
     {
+        public string? AppUserId { get; set; }
         public Guid Id { get; set; }
         public decimal TotalAmount { get; set; }
         public DateTime CreateDate { get; set; }

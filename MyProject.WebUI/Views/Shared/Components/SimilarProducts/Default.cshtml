@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProductListViewModel>
+﻿@model ProductListViewModel
 
 <div style="height: 100px"> </div>
 <div class="container">
@@ -16,8 +16,8 @@
 					<div class="carousel-item active">
 
 						<div class="row">
-							
-									@foreach(var item in Model.Take(4))
+
+						@foreach (var item in Model.Products.Take(4))
 									{
 						
 							
@@ -44,7 +44,7 @@
 				    </div>
 					<div class="carousel-item">
 						<div class="row">
-							@foreach (var item in Model.TakeLast(4))
+						@foreach (var item in Model.Products.TakeLast(4))
 							{
 									
 												<div class="col-sm-3">

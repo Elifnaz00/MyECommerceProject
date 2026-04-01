@@ -23,12 +23,13 @@ namespace MyProject.WebUI.ViewComponents
             HttpResponseMessage httpResponseMessage = await client.GetAsync($"Product/Productbycategory/{categoryId}");
             httpResponseMessage.EnsureSuccessStatusCode();
 
-            var products = await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<ProductListViewModel>>()
-                           ?? new List<ProductListViewModel>();
-
-            var takeproducts = products.Take(8);
-           
-            return View(takeproducts); 
+            var products = await httpResponseMessage.Content.ReadFromJsonAsync<ProductListViewModel>();
+            if(products?.Products != null)
+            {
+                products.Products = products.Products.Take(8).ToList();
+            }
+            
+            return View(products); 
 
         }
     }

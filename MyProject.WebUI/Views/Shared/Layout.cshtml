@@ -112,7 +112,7 @@
                                         <li>
                                             <div class="card-stor">
                                                 <a asp-controller="ShoppingCart" asp-action="Index"><img src ="~/Themes/shionhouse-master/assets/img/gallery/card.svg" alt=""></a>
-                                                <span class="shopping-cart-item-count">0</span>
+                                                <span id="cart-count">0</span>
                                             </div>
                                         </li>
                                         <li>
@@ -128,35 +128,48 @@
                                                >Merhaba @User.Identity.Name!</a>
                                         </li>
                                       
-                                        <li class="nav-item dropdown">
-                                            <form class="form-inline" asp-controller="Login" asp-action="Logout" 
-                                                  method="post" style="margin: 0; padding: 0;">
-                                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                                                         style="
-                background: transparent;
-                border: 2px solid #800080;
-                border-radius: 50%;
-                width: 50px;
-                height: 50px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                cursor: pointer;
-                position: relative;
-                box-shadow: 0 0 10px #800080, 0 0 20px #800080;">
-                                                    <i class="fa-solid fa-user" style="font-size: 1.5rem; color: #000;"></i>
-                                                </button>
-                                                <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                                    <li><a asp-area="Products" asp-controller="Product" asp-action="Index" class="dropdown-item" >Profil Bilgileri</a></li>
-                                                    <li><a class="dropdown-item" asp-controller="Order" asp-action="Index" >Sipariş Bilgileri</a></li>
-                                                   
-                                                    <li>
-                                                        <button type="submit" class="dropdown-item text-danger">Çıkış Yap</button>
-                                                    </li>
-                                                </ul>
-                                            </form>
-                                        </li>
 
+
+                                        <li class="nav-item dropdown">
+
+                                            <a class="nav-link dropdown-toggle d-flex align-items-center justify-content-center p-0"
+                                               href="#"
+                                               id="userDropdown"
+                                               role="button"
+                                               data-toggle="dropdown"
+                                               style="
+        width: 50px;
+        height: 50px;
+        border: 2px solid #800080;
+        border-radius: 50%;
+    background-color: #800080;  
+    color: white;
+        box-shadow: 0 0 10px #800080, 0 0 20px #800080;">
+
+                                                <i class="fa-solid fa-user"></i>
+                                            </a>
+
+                                            <div class="dropdown-menu" aria-labelledby="userDropdown">
+
+                                                <a asp-area="Products" asp-controller="Product" asp-action="Index" class="dropdown-item">
+                                                    Profil
+                                                </a>
+
+                                                <a class="dropdown-item" asp-controller="Order" asp-action="Index">
+                                                    Siparişler
+                                                </a>
+
+                                                <div class="dropdown-divider"></div>
+
+                                                <form asp-controller="Login" asp-action="Logout" method="post" style="margin:0;">
+                                                    <button type="submit" class="dropdown-item text-danger">
+                                                        Çıkış Yap
+                                                    </button>
+                                                </form>
+
+                                            </div>
+                                        </li>
+                                        
                                       
                                     }
                                     else
@@ -341,10 +354,10 @@
     <!-- Jquery, Popper, Bootstrap -->
   
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="~/Themes/shionhouse-master/assets/js/bootstrap.min.js"></script>
+
     <script src="~/Themes/shionhouse-master/assets/js/vendor/modernizr-3.5.0.min.js"></script>
-    <script src="~/Themes/shionhouse-master/assets/js/vendor/jquery-1.12.4.min.js"></script>
     <script src="~/Themes/shionhouse-master/assets/js/popper.min.js"></script>
+    <script src="~/Themes/shionhouse-master/assets/js/bootstrap.min.js"></script>
 
 
     <!-- Slick-slider , Owl-Carousel ,slick-nav -->
@@ -380,7 +393,27 @@
     <script src="~/Themes/shionhouse-master/assets/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @await RenderSectionAsync("scripts", required: false)
-    
+
+
+
+    <script>
+        function loadCartCount() {
+            $.ajax({
+                url: '/ShoppingCart/GetCartCount',
+                type: 'GET',
+                success: function (count) {
+                    $('#cart-count').text(count);
+                },
+                error: function () {
+                    console.log("Sepet sayısı alınamadı");
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            loadCartCount();
+        });
+    </script>
 </body>
 </html>
 

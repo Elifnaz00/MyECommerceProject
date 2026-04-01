@@ -2,6 +2,7 @@
 {
     public class OrderListModel
     {
+        public Guid AppUserId { get; set; }
         public Guid Id { get; set; }
         public decimal TotalAmount { get; set; }
         public DateTime CreateDate { get; set; }

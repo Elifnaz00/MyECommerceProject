@@ -4,7 +4,7 @@ namespace MyProject.WebUI.Models.ProductModel
 {
     public class ProductwithCategoryViewModel
     {
-        public List<ProductListViewModel> Products { get; set; } = new List<ProductListViewModel>();
-        public List<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
+        public IEnumerable<ProductListViewModel> Products { get; set; } = new List<ProductListViewModel>();
+        public IEnumerable<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
     }
 }

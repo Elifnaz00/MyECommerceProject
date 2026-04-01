@@ -51,20 +51,9 @@ namespace MyProject.DataAccess.Concrate
 
         public async Task<List<Order>> GetActiveOrderListAsync()
         {
-            /*
-            var value = await _context.Orders.Include(b => b.OrderStatus).Select(a => new OrderListDto()
-            {
-                Id = a.Id,
-                TotalAmount = a.TotalAmount,
-                CreateDate = a.CreateDate,
-                StatusName = a.OrderStatus.Name,
-                IsDeleted = a.IsDeleted
-            }).Where(a=>a.IsDeleted== false).ToListAsync();
-
-            */
-
+           
             return await _context.Orders
-                .Select(u => new Order() { AppUser = u.AppUser, Id = u.Id, OrderStatusId= u.OrderStatusId, IsDeleted = u.IsDeleted, OrderStatus = u.OrderStatus, CreateDate= u.CreateDate , TotalAmount= u.TotalAmount})
+                .Select(u => new Order() { AppUser = u.AppUser, AppUserId = u.AppUserId, Id = u.Id, OrderStatusId= u.OrderStatusId, IsDeleted = u.IsDeleted, OrderStatus = u.OrderStatus, CreateDate= u.CreateDate , TotalAmount= u.TotalAmount})
                 .AsNoTracking().Where(a => a.IsDeleted == false).ToListAsync();
 
         }
@@ -72,7 +61,7 @@ namespace MyProject.DataAccess.Concrate
         public async Task<List<Order>> GetCanceledOrderListAsync()
         { 
             return await _context.Orders.Where(a => a.IsDeleted == true)
-                .Select(u => new Order() {AppUser= u.AppUser, Id = u.Id, IsDeleted = u.IsDeleted, OrderStatus = u.OrderStatus, CreateDate = u.CreateDate, TotalAmount = u.TotalAmount })
+                .Select(u => new Order() {AppUser= u.AppUser, AppUserId= u.AppUserId, Id = u.Id, IsDeleted = u.IsDeleted, OrderStatus = u.OrderStatus, CreateDate = u.CreateDate, TotalAmount = u.TotalAmount })
                 .AsNoTracking().ToListAsync();
         }
 
